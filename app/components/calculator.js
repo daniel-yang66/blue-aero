@@ -29,7 +29,7 @@ export default function FlightNav() {
   }
 
   function VWind(dir, head, speed) {
-    return Math.cos(((dir - head) * Math.PI) / 180) * speed > 0
+    return Math.cos(((dir - head) * Math.PI) / 180) * speed < 0
       ? 0 - Math.cos(((dir - head) * Math.PI) / 180) * speed
       : Math.cos(((dir - head) * Math.PI) / 180) * speed;
   }
