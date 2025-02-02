@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+.arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 24px solid orange;
+  border-radius: 12px;
+  top: -16%;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+}
+.arrow-rwy {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+
+  border-bottom: 7px solid transparent;
+  border-right: 25px solid orange;
+  border-radius: 6px;
+}
+
+.dashed-border {
+  border-image: repeating-linear-gradient(
+      60deg,
+      lightgrey 0%,
+      lightgrey 20px,
+      transparent 0px,
+      transparent 24px
+    )
+    1;
+  width: 80%;
+  border-bottom: dashed lightgrey 2px;
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.marker {
+  background-image: url("/icon.png");
+  background-size: cover;
+  width: 38px;
+  height: 38px;
+}
+.popup {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+#map-container {
+  height: 100%;
+  width: 100%;
+  background-color: lightgrey;
+}
+
+.clock {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 30px;
+  border-radius: 50%;
+  background-color: rgb(53, 61, 69);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.1),
+    inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: perspective(1000px) rotateX(10deg);
+}
+
+.hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 45%;
+  left: 44.5%;
+  transform-origin: bottom center;
+  background-color: rgb(32, 157, 236);
+  z-index: 20;
+}
+
+.hour-hand {
+  width: 4px;
+  height: 45px;
+  margin-left: -4px;
+  background-color: rgb(42, 128, 249);
+}
+
+.minute-hand {
+  width: 4px;
+  height: 60px;
+  margin-left: -3px;
+  background-color: rgb(42, 128, 249);
+  z-index: 9;
+}
+
+.second-hand {
+  width: 2px;
+  height: 70px;
+  margin-left: -1px;
+  background-color: orange;
+  z-index: 8;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 5px;
+  width: 2px;
+  background: rgb(32, 157, 236);
+  transform-origin: center 70px;
+}
+
+.tick.hour {
+  height: 10px;
+  width: 3px;
+  background: rgb(32, 157, 236);
+}
+
+.info-text {
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.green-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgb(10, 163, 10);
+}
+.yellow-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: yellow;
+}
+.red-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: red;
+}
+.purple-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: purple;
+}
+
+.mapboxgl-popup-content {
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none;
+  color: rgb(153, 213, 251);
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mapboxgl-popup-tip {
+  display: none;
+}
