@@ -26,6 +26,12 @@ export default async function Home({ searchParams }) {
         >
           AirTime
         </Link>
+        <Link
+          className=" flex gap-2 font-semibold text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
+          href={`/e6b`}
+        >
+          E6B
+        </Link>
       </div>
 
       <Suspense fallback={<Loading />}>
