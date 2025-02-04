@@ -32,23 +32,23 @@ export default function WB({ status }) {
     >
       <div className="flex gap-4 items-end">
         <div className="grid gap-4 items-center justify-items-end">
-          <p className="font-semibold text-orange-300">Basic Empty Wt</p>
+          <p className="font-semibold text-blue-400">Empty Wt</p>
           <p className="font-semibold text-neutral-300">+Front seats</p>
           <p className="font-semibold text-neutral-300">+Rear seats</p>
           <p className="font-semibold text-neutral-300">+Baggage</p>
-          <p className="font-semibold text-orange-300">ZFW</p>
+          <p className="font-semibold text-blue-400">ZFW</p>
           <p className="font-semibold text-neutral-300">+Fuel</p>
-          <p className="font-semibold text-orange-300">Ramp Wt</p>
-          <p className="font-semibold text-neutral-300">-Start/Taxi/Runup</p>
-          <p className="font-semibold text-orange-300">TOW</p>
+          <p className="font-semibold text-blue-400">Ramp Wt</p>
+          <p className="font-semibold text-neutral-300">-Taxi</p>
+          <p className="font-semibold text-blue-400">TOW</p>
           <p className="font-semibold text-neutral-300">-Fuel Burn</p>
-          <p className="font-semibold text-orange-300">Landing Wt</p>
+          <p className="font-semibold text-blue-400">Landing Wt</p>
         </div>
         <div className="grid gap-4">
           <div className="flex gap-4">
             <div className="grid gap-2 items-center">
-              <p className="font-bold text-blue-300 text-md md:text-lg">
-                Weight
+              <p className="font-bold text-orange-300 text-md md:text-lg">
+                Wt (lb)
               </p>
               <input
                 onChange={(e) => setEmptywt(+e.target.value)}
@@ -56,14 +56,16 @@ export default function WB({ status }) {
               />
             </div>
             <div className="grid gap-2 items-center">
-              <p className="font-bold text-blue-300 text-md md:text-lg">Arm</p>
+              <p className="font-bold text-orange-300 text-md md:text-lg">
+                Arm (in)
+              </p>
               <input
                 onChange={(e) => setEmptyWtArm(+e.target.value)}
                 className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
               />
             </div>
             <div className="grid gap-2 items-center">
-              <p className="font-bold text-blue-300 text-md md:text-lg">
+              <p className="font-bold text-orange-300 text-md md:text-lg">
                 Moment
               </p>
               <p className="w-[15vw] h-6 font-semibold text-green-400">

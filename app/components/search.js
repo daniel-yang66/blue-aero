@@ -39,6 +39,7 @@ export default function Search() {
           setDropdownClose(false);
         }}
         onChange={async (e) => {
+          if (e.target.value === 'Searching...') return;
           setText(e.target.value);
           e.target.value.length > 2 ? debounce(e.target.value) : setOptions([]);
         }}

@@ -11,10 +11,10 @@ export default function AllCalc() {
 
   return (
     <div className="grid justify-items-center">
-      <div className="flex gap-2 items-center justify-content-center mt-4 mb-2">
+      <div className="flex gap-2 items-center justify-content-center mt-4 mb-4">
         <button
           className={clsx(
-            "w-20 h-6 rounded-lg grid items-center p-x-2 font-semibold",
+            "w-20 h-6 rounded-xl grid items-center p-x-2 font-semibold",
             {
               "bg-blue-800 text-neutral-300": navShow,
               "bg-blue-400 text-neutral-900": !navShow,
@@ -29,7 +29,7 @@ export default function AllCalc() {
         </button>
         <button
           className={clsx(
-            "w-20 h-6 rounded-lg grid items-center p-x-2 font-semibold",
+            "w-20 h-6 rounded-xl grid items-center p-x-2 font-semibold",
             {
               "bg-blue-800 text-neutral-300": wbShow,
               "bg-blue-400 text-neutral-900": !wbShow,

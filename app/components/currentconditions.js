@@ -423,7 +423,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 setOpenTaf(false);
                 setOpenMap(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1"
+              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md ml-4"
             >
               Wx Map
             </button>
