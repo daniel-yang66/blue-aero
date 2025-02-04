@@ -1,7 +1,6 @@
-import FlightNav from "../components/calculator";
-
+import AllCalc from "../components/allCalc";
 export default function Calculator() {
-  return <FlightNav />;
+  return <AllCalc />;
 }
 
 export const generateMetadata = async () => {

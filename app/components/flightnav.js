@@ -1,7 +1,8 @@
 "use client";
+import clsx from "clsx";
 import { useState } from "react";
 
-export default function FlightNav() {
+export default function FlightNav({ status }) {
   const [tc, setTc] = useState("");
   const [tas, setTas] = useState("");
   const [wd, setWd] = useState("");
@@ -78,8 +79,16 @@ export default function FlightNav() {
   }
 
   return (
-    <div className="mt-4">
-      <div className="text-sm md:text-md grid grid-cols-2 items-start justify-items-center md:gap-x-4">
+    <div
+      className={clsx("mt-4", {
+        hidden: !status,
+      })}
+    >
+      <div
+        className={
+          "text-sm md:text-md grid grid-cols-2 items-start justify-items-center md:gap-x-4"
+        }
+      >
         <div>
           <div className="grid gap-1 items-center mb-4">
             <p className="font-bold text-neutral-300">True Course {`(\xB0)`}</p>
