@@ -30,9 +30,13 @@ export default function FlightNav({ status }) {
   }
 
   function VWind(dir, head, speed) {
-    return Math.cos(((dir - head) * Math.PI) / 180) * speed < 0
-      ? 0 - Math.cos(((dir - head) * Math.PI) / 180) * speed
-      : Math.cos(((dir - head) * Math.PI) / 180) * speed;
+    let windComp = Math.cos(((head - dir) * Math.PI) / 180) * speed;
+
+    Math.cos(((head - dir) * Math.PI) / 180) * speed > 0
+      ? (windComp = 0 - Math.cos(((head - dir) * Math.PI) / 180) * speed)
+      : (windComp = Math.abs(Math.cos(((head - dir) * Math.PI) / 180) * speed));
+
+    return windComp;
   }
 
   function GS(airspeed, vwind) {
