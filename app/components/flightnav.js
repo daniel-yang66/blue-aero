@@ -46,7 +46,7 @@ export default function FlightNav({ status }) {
     if (!distance || distance === "") return undefined;
     let time = distance / gspeed;
     const hours = Math.floor(time);
-    const min = Math.round((time - hours) * 60);
+    const min = Math.floor((time - hours) * 60);
     return `${hours}h ${min}m,${time}`;
   }
   function FuelReq(flow, time) {
@@ -64,9 +64,19 @@ export default function FlightNav({ status }) {
       wspeed === "" ||
       !wspeed ||
       truespeed === "" ||
-      !truespeed
-    )
+      !truespeed ||
+      truespeed < 0 ||
+      course < 0 ||
+      course > 360 ||
+      wdir < 0 ||
+      wdir > 360 ||
+      wspeed < 0 ||
+      dis < 0 ||
+      flow < 0
+    ) {
+      alert("Please enter realistic values");
       return;
+    }
     const crosswind = XW(wdir, course, wspeed);
     const correction = WCA(crosswind, truespeed);
     const heading = Heading(course, correction);
@@ -155,7 +165,7 @@ export default function FlightNav({ status }) {
           Calculate
         </button>
 
-        <div className="flex gap-2 text-md md:text-lg">
+        <div className="flex gap-2 text-sm md:text-lg">
           <p className="font-bold text-blue-300">WCA:</p>
           <p className="font-bold text-orange-300">
             {wca ? Math.round(wca) + "\xB0" : "--"}

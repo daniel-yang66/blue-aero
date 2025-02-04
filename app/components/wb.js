@@ -30,6 +30,50 @@ export default function WB({ status }) {
         hidden: !status,
       })}
     >
+      <p
+        className={clsx("text-red-500 text-md md:text-lg font-semibold", {
+          hidden:
+            emptyWt >= 0 &&
+            emptyWtArm >= 0 &&
+            front >= 0 &&
+            frontArm >= 0 &&
+            rear >= 0 &&
+            rearArm >= 0 &&
+            bag >= 0 &&
+            bagArm >= 0 &&
+            zfwArm >= 0 &&
+            fuel >= 0 &&
+            fuelArm >= 0 &&
+            rampArm >= 0 &&
+            start >= 0 &&
+            startArm >= 0 &&
+            towArm >= 0 &&
+            burn >= 0 &&
+            burnArm >= 0 &&
+            ldwArm >= 0,
+          grid:
+            emptyWt < 0 ||
+            emptyWtArm < 0 ||
+            front < 0 ||
+            frontArm < 0 ||
+            rear < 0 ||
+            rearArm < 0 ||
+            bag < 0 ||
+            bagArm < 0 ||
+            zfwArm < 0 ||
+            fuel < 0 ||
+            fuelArm < 0 ||
+            rampArm < 0 ||
+            start < 0 ||
+            startArm < 0 ||
+            towArm < 0 ||
+            burn < 0 ||
+            burnArm < 0 ||
+            ldwArm < 0,
+        })}
+      >
+        No negative numbers!
+      </p>
       <div className="flex gap-4 items-end">
         <div className="grid gap-4 items-center justify-items-end">
           <p className="font-semibold text-blue-400">Empty Wt</p>
