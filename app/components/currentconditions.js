@@ -11,8 +11,9 @@ import AirportWeather from "../api/airportWeather";
 import Forecast from "./forecast";
 import Map from "./wxmap";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
-export default function CurrentConditions({ airportCode, stored }) {
+export default function CurrentConditions({ airportCode, stored, chart }) {
   const [weather, setWeather] = useState(undefined);
   const [time, setTime] = useState("--:--, --- --");
   const [timezone, setTimezone] = useState(undefined);
@@ -268,7 +269,7 @@ export default function CurrentConditions({ airportCode, stored }) {
     return (
       <>
         <div className="w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
-          <div className="absolute top-1 left-2 md:left-4 grid items-center">
+          <div className="absolute top-1 left-2 md:left-4 grid items-center gap-1 md:gap-0">
             <div className="flex items-center gap-2 mb-[5px]">
               <img src="/icon.png" width={25} height={25} alt="plane" />
 
@@ -314,6 +315,16 @@ export default function CurrentConditions({ airportCode, stored }) {
                 </p>
               </div>
             </div>
+            {chart ? (
+              <Link
+                className="text-xs md:text-md font-semibold text-blue-400 rounded-md"
+                href={chart}
+              >
+                View Diagram
+              </Link>
+            ) : (
+              ""
+            )}
             <p className="text-sm md:text-md font-semibold text-yellow-400">
               {phenom.join(", ")}
             </p>
@@ -408,13 +419,14 @@ export default function CurrentConditions({ airportCode, stored }) {
                 : "--kt"}
             </p>
           </div>
+
           <div className="absolute w-[40%] top-[3%] md:top-[75%] left-[30%] flex gap-2 justify-content-center">
             <button
               onClick={() => {
                 setOpenMap(false);
                 setOpenTaf(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1"
+              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
             >
               Forecast
             </button>
@@ -424,11 +436,12 @@ export default function CurrentConditions({ airportCode, stored }) {
                 setOpenTaf(false);
                 setOpenMap(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md ml-4"
+              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md ml-2 p-x-2"
             >
               Wx Map
             </button>
           </div>
+
           {weather ? (
             <button
               onClick={() => {
