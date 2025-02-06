@@ -20,7 +20,6 @@ export default function CurrentConditions({ airportCode, stored }) {
   const [icon, setIcon] = useState("");
   const [phenom, setPhenom] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [openDia, setOpenDia] = useState(false);
   const [openTaf, setOpenTaf] = useState(false);
   const [openMap, setOpenMap] = useState(false);
   const [timeSince, setTimeSince] = useState("-- min old");
@@ -419,15 +418,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             >
               Forecast
             </button>
-            <button
-              onClick={() => {
-                setOpenDia(false);
-                setOpenDia(true);
-              }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1"
-            >
-              Diagrams
-            </button>
+
             <button
               onClick={() => {
                 setOpenTaf(false);
