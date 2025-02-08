@@ -13,7 +13,7 @@ import Map from "./wxmap";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function CurrentConditions({ airportCode, stored, chart }) {
+export default function CurrentConditions({ airportCode, stored }) {
   const [weather, setWeather] = useState(undefined);
   const [time, setTime] = useState("--:--, --- --");
   const [timezone, setTimezone] = useState(undefined);
@@ -315,16 +315,7 @@ export default function CurrentConditions({ airportCode, stored, chart }) {
                 </p>
               </div>
             </div>
-            {chart ? (
-              <Link
-                className="text-xs md:text-md font-semibold text-blue-400 rounded-md"
-                href={chart}
-              >
-                View Diagram
-              </Link>
-            ) : (
-              ""
-            )}
+            
             <p className="text-sm md:text-md font-semibold text-yellow-400">
               {phenom.join(", ")}
             </p>

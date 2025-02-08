@@ -307,7 +307,24 @@ export default function WB({ status }) {
             <p className="w-[20vw] h-6 font-semibold text-green-400">
               {Math.round(emptyWt + front + rear + bag + bag2 + other + other2)}
             </p>
-            <div className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-900" />
+            <p className="w-[20vw] h-6 font-semibold text-green-400">
+              {Math.round(emptyWt + front + rear + bag + bag2 + other + other2)
+                ? (
+                    Math.round(
+                      bag * bagArm +
+                        bag2 * bagArm2 +
+                        other * otherArm +
+                        other2 * otherArm2 +
+                        rear * rearArm +
+                        front * frontArm +
+                        emptyWt * emptyWtArm
+                    ) /
+                    Math.round(
+                      emptyWt + front + rear + bag + bag2 + other + other2
+                    )
+                  ).toFixed(2)
+                : ""}
+            </p>
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(
                 bag * bagArm +
@@ -384,7 +401,44 @@ export default function WB({ status }) {
                   fuel2
               )}
             </p>
-            <div className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-900" />
+            <p className="w-[20vw] h-6 font-semibold text-green-400">
+              {Math.round(
+                emptyWt +
+                  front +
+                  rear +
+                  bag +
+                  bag2 +
+                  other +
+                  other2 +
+                  fuel +
+                  fuel2
+              )
+                ? (
+                    Math.round(
+                      bag * bagArm +
+                        bag2 * bagArm2 +
+                        other * otherArm +
+                        other2 * otherArm2 +
+                        rear * rearArm +
+                        front * frontArm +
+                        emptyWt * emptyWtArm +
+                        fuel * fuelArm +
+                        fuel2 * fuelArm2
+                    ) /
+                    Math.round(
+                      emptyWt +
+                        front +
+                        rear +
+                        bag +
+                        bag2 +
+                        other +
+                        other2 +
+                        fuel +
+                        fuel2
+                    )
+                  ).toFixed(2)
+                : ""}
+            </p>
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(
                 Math.round(
@@ -442,7 +496,45 @@ export default function WB({ status }) {
                   start
               )}
             </p>
-            <div className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-900" />
+            <p className="w-[20vw] h-6 font-semibold text-green-400">
+              {emptyWt +
+              front +
+              rear +
+              bag +
+              bag2 +
+              other +
+              other2 +
+              fuel +
+              fuel2 -
+              start
+                ? (
+                    Math.round(
+                      bag * bagArm +
+                        bag2 * bagArm2 +
+                        other * otherArm +
+                        other2 * otherArm2 +
+                        rear * rearArm +
+                        front * frontArm +
+                        emptyWt * emptyWtArm +
+                        fuel * fuelArm +
+                        fuel2 * fuelArm2 -
+                        start * startArm
+                    ) /
+                    Math.round(
+                      emptyWt +
+                        front +
+                        rear +
+                        bag +
+                        bag2 +
+                        other +
+                        other2 +
+                        fuel +
+                        fuel2 -
+                        start
+                    )
+                  ).toFixed(2)
+                : ""}
+            </p>
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(
                 Math.round(
@@ -501,7 +593,50 @@ export default function WB({ status }) {
                   burn
               )}
             </p>
-            <div className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-900" />
+            <p className="w-[20vw] h-6 font-semibold text-green-400">
+              {Math.round(
+                emptyWt +
+                  front +
+                  rear +
+                  bag +
+                  bag2 +
+                  other +
+                  other2 +
+                  fuel +
+                  fuel2 -
+                  start -
+                  burn
+              )
+                ? (
+                    Math.round(
+                      bag * bagArm +
+                        bag2 * bagArm2 +
+                        other * otherArm +
+                        other2 * otherArm2 +
+                        rear * rearArm +
+                        front * frontArm +
+                        emptyWt * emptyWtArm +
+                        fuel * fuelArm +
+                        fuel2 * fuelArm2 -
+                        start * startArm -
+                        burn * burnArm
+                    ) /
+                    Math.round(
+                      emptyWt +
+                        front +
+                        rear +
+                        bag +
+                        bag2 +
+                        other +
+                        other2 +
+                        fuel +
+                        fuel2 -
+                        start -
+                        burn
+                    )
+                  ).toFixed(2)
+                : ""}
+            </p>
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(
                 Math.round(

@@ -16,11 +16,7 @@ export default async function Home({ searchParams }) {
   return (
     <div className=" mt-[1vh] max-h-[80vh] w-full grid grid-rows-[30vh_3vh_1fr] md:grid-rows-[33vh_4vh_auto] gap-[1vh] justify-items-center">
       <Suspense fallback={<Loading />}>
-        <CurrentConditions
-          airportCode={airportCode}
-          stored={stored}
-          chart={diagram}
-        />
+        <CurrentConditions airportCode={airportCode} stored={stored} />
       </Suspense>
       <div className="flex gap-2">
         <Link
@@ -42,6 +38,16 @@ export default async function Home({ searchParams }) {
         >
           E6B
         </Link>
+        {diagram ? (
+          <Link
+            className=" flex gap-2 font-semibold text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
+            href={diagram}
+          >
+            Diagram
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
 
       <Suspense fallback={<Loading />}>
