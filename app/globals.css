@@ -44,6 +44,22 @@
   border-radius: 6px;
 }
 
+.arrow-wind {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+
+  border-bottom: 3px solid transparent;
+  border-right: 18px solid lightseagreen;
+  border-radius: 2px;
+}
+.no-wind {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: white;
+}
+
 .dashed-border {
   border-image: repeating-linear-gradient(
       60deg,
@@ -185,15 +201,3 @@
   border-radius: 50%;
   background-color: purple;
 }
-
-.popup-content {
-  background-color: transparent !important;
-  border: none;
-  box-shadow: none;
-  color: rgb(153, 213, 251);
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-

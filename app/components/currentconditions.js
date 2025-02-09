@@ -436,7 +436,13 @@ export default function CurrentConditions({ airportCode, stored }) {
               onClick={() => {
                 HandleFaves();
               }}
-              className="absolute top-[86%] h-[20px] md:h-[24px] bg-none text-sm md:text-md font-semibold grid justify-items-center items-center text-blue-400 rounded-xl mr-1"
+              className={clsx(
+                "absolute top-[86%] h-[20px] md:h-[20px] bg-none text-sm md:text-md font-semibold grid justify-items-center items-end rounded-xl mr-1",
+                {
+                  "text-yellow-300": faveStatus,
+                  "text-green-400": !faveStatus,
+                }
+              )}
             >
               {faveStatus ? "Remove from Map" : "Add to Map"}
             </button>

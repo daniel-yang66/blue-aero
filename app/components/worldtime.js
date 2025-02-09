@@ -11,6 +11,7 @@ export default function WorldTimes({ wind }) {
   const [airports, setAirports] = useState([]);
   const [trigger, setTrigger] = useState(false);
   const [winds, setWinds] = useState([]);
+  const [text, setText] = useState("");
   const lastUpdate = useRef(Date.now());
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function WorldTimes({ wind }) {
     let wAloft;
     let wAloftParsed = [];
     wAloft = wind[0].split("\n");
+    setText(wAloft);
     const coords = wind[1];
     wAloft = wAloft.filter((item) => item.length > 0);
     wAloft = wAloft.forEach((item) => {
@@ -95,7 +97,7 @@ export default function WorldTimes({ wind }) {
     <Suspense fallback={<Loading />}>
       <div className="w-screen h-[85vh] grid justify-items-center">
         <div className="rounded-md h-[35vh] md:h-[35vh] w-[95%] md:w-[80%]">
-          <WorldView airports={data} wind={winds} />
+          <WorldView airports={data} wind={winds} text={text} />
         </div>
         <div className="flex gap-2 overflow-auto h-[45vh] md:h-[50vh] w-[95vw] md:w-[80%]">
           {data.length > 0 ? (

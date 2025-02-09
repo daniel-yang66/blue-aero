@@ -4,6 +4,7 @@ export default function Clouds({ weather, onSetOpen, open }) {
   const cloudData = weather
     ? weather["clouds"].sort((a, b) => b.altitude - a.altitude)
     : [];
+
   return (
     <div
       className={clsx(
@@ -33,8 +34,7 @@ export default function Clouds({ weather, onSetOpen, open }) {
         }
         if (layer["type"] === "SCT") {
           cloudImg = (
-            <div className="flex gap-4 items-center justify-content-center">
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
+            <div className="flex gap-6 items-center justify-content-center">
               <img src="cbase.png" width={25} height={25} alt="cloud" />
               <img src="cbase.png" width={25} height={25} alt="cloud" />
               <img src="cbase.png" width={25} height={25} alt="cloud" />
@@ -56,7 +56,7 @@ export default function Clouds({ weather, onSetOpen, open }) {
         }
         if (layer["type"] === "OVC" || layer["type"] === "VV") {
           cloudImg = (
-            <div className="flex -gap-1 items-center justify-content-center">
+            <div className="flex items-center justify-content-center">
               <img src="cbase.png" width={25} height={25} alt="cloud" />
               <img src="cbase.png" width={25} height={25} alt="cloud" />
               <img src="cbase.png" width={25} height={25} alt="cloud" />
