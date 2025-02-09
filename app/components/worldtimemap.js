@@ -53,21 +53,33 @@ export default function Map({ airports, wind, text }) {
         item[alt - (9 - (item.length - 3))] &&
         alt - (9 - (item.length - 3)) > 0
       ) {
-        let windDir;
-        if (+item[alt - (9 - (item.length - 3))].slice(2, 4) > 100) {
+        let windDir, windVel;
+        if (+item[alt - (9 - (item.length - 3))][0] > 3) {
           windDir = +item[alt - (9 - (item.length - 3))].slice(0, 2) - 50;
-        } else if (+item[alt - (9 - (item.length - 3))].slice(0, 2) === 99) {
+          windVel = 100 + +item[alt - (9 - (item.length - 3))].slice(2, 4);
+        } else if (+item[alt - (9 - (item.length - 3))].slice(2, 4) === 0) {
           windDir = 0;
+          windVel = 0;
         } else {
           windDir = +item[alt - (9 - (item.length - 3))].slice(0, 2);
+          windVel = +item[alt - (9 - (item.length - 3))].slice(2, 4);
         }
+        const popup = new maptilersdk.Popup({
+          closeButton: false,
+          closeOnMove: false,
+        }).setHTML(`<div>${windDir * 10}\xB0 | ${windVel}kt</div>`);
         const marker1 =
           windDir !== 0
             ? new maptilersdk.Marker({ element: pin })
                 .setLngLat([item[item.length - 1], item[item.length - 2]])
                 .setRotation(windDir * 10 + 90)
                 .addTo(map.current)
-            : new maptilersdk.Marker({ element: pinNoWind });
+                .setPopup(popup)
+            : new maptilersdk.Marker({ element: pinNoWind })
+                .setLngLat([item[item.length - 1], item[item.length - 2]])
+                .setRotation(windDir * 10 + 90)
+                .addTo(map.current)
+                .setPopup(popup);
         windMarkers.current = [...windMarkers.current, marker1];
       }
     });
@@ -78,9 +90,7 @@ export default function Map({ airports, wind, text }) {
       const popup = new maptilersdk.Popup({
         closeButton: false,
         closeOnMove: false,
-      }).setHTML(
-        `<div className="popup-content">${airp.name} | ${airp.temp}\xB0${airp.units}</div>`
-      );
+      }).setHTML(`<div>${airp.name} | ${airp.temp}\xB0${airp.units}</div>`);
 
       const pin = document.createElement("div");
       if (airp.rules === "VFR") {
