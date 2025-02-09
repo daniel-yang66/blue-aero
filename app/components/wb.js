@@ -131,6 +131,7 @@ export default function WB({ status }) {
                 Arm (in)
               </p>
               <input
+                inputMode="numeric"
                 onChange={(e) => {
                   if (+e.target.value || e.target.value === "0") {
                     setEmptyWtArm(+e.target.value);
@@ -153,6 +154,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0") {
                   setFront(+e.target.value);
@@ -164,6 +166,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0") {
                   setFrontArm(+e.target.value);
@@ -180,6 +183,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setRear(+e.target.value);
@@ -190,6 +194,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setRearArm(+e.target.value);
@@ -205,6 +210,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setBag(+e.target.value);
@@ -215,6 +221,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setBagArm(+e.target.value);
@@ -230,6 +237,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setBag2(+e.target.value);
@@ -240,6 +248,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setBagArm2(+e.target.value);
@@ -255,6 +264,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setOther(+e.target.value);
@@ -265,6 +275,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setOtherArm(+e.target.value);
@@ -280,6 +291,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setOther2(+e.target.value);
@@ -290,6 +302,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setOtherArm2(+e.target.value);
@@ -339,6 +352,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setFuel(+e.target.value);
@@ -349,6 +363,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setFuelArm(+e.target.value);
@@ -364,6 +379,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setFuel2(+e.target.value);
@@ -374,6 +390,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setFuelArm2(+e.target.value);
@@ -457,6 +474,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0") {
                   setStart(+e.target.value);
@@ -468,6 +486,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setStartArm(+e.target.value);
@@ -554,6 +573,7 @@ export default function WB({ status }) {
           </div>
           <div className="flex gap-4">
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setBurn(+e.target.value);
@@ -564,6 +584,7 @@ export default function WB({ status }) {
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
             <input
+              inputMode="numeric"
               onChange={(e) => {
                 if (+e.target.value || e.target.value === "0")
                   setBurnArm(+e.target.value);

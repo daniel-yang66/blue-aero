@@ -107,6 +107,7 @@ export default function FlightNav({ status }) {
           <div className="grid gap-1 items-center mb-4">
             <p className="font-bold text-neutral-300">True Course {`(\xB0)`}</p>
             <input
+              inputMode="numeric"
               onChange={(e) => setTc(+e.target.value)}
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
@@ -115,6 +116,7 @@ export default function FlightNav({ status }) {
           <div className="grid gap-1 items-center mb-4">
             <p className="font-bold text-neutral-300">True Airspeed</p>
             <input
+              inputMode="numeric"
               onChange={(e) => setTas(+e.target.value)}
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
@@ -125,6 +127,7 @@ export default function FlightNav({ status }) {
               Wind Direction {`(\xB0)`}
             </p>
             <input
+              inputMode="numeric"
               onChange={(e) => setWd(+e.target.value)}
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
@@ -133,6 +136,7 @@ export default function FlightNav({ status }) {
           <div className="grid gap-1 items-center mb-4">
             <p className="font-bold text-neutral-300">Wind Speed</p>
             <input
+              inputMode="numeric"
               onChange={(e) => setWs(+e.target.value)}
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
             />
@@ -142,6 +146,7 @@ export default function FlightNav({ status }) {
           <div className="grid gap-1 items-center mb-4">
             <p className="font-bold text-neutral-300">Distance</p>
             <input
+              inputMode="numeric"
               onChange={(e) => setDis(+e.target.value)}
               placeholder="For ETE Calc"
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
@@ -150,6 +155,7 @@ export default function FlightNav({ status }) {
           <div className="grid gap-1 items-center mb-4">
             <p className="font-bold text-neutral-300">Fuel (gal/h)</p>
             <input
+              inputMode="numeric"
               onChange={(e) => setFlow(+e.target.value)}
               placeholder="For Fuel Calc"
               className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
