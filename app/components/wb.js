@@ -115,6 +115,8 @@ export default function WB({ status }) {
                 Wt (lb)
               </p>
               <input
+                            inputMode="numeric"
+
                 onChange={(e) => {
                   if (+e.target.value || e.target.value === "0") {
                     setEmptywt(+e.target.value);
