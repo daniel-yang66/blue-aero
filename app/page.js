@@ -20,27 +20,27 @@ export default async function Home({ searchParams }) {
       </Suspense>
       <div className="flex gap-2">
         <Link
-          className=" flex gap-2 font-semibold text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
+          className=" flex gap-2 font-semibold text-sm md:text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
           href={`/flights${airportCode ? `?airportCode=${airportCode}` : ""}`}
         >
           {airportCode} Flights
         </Link>
 
         <Link
-          className=" flex gap-2 font-semibold text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
+          className=" flex gap-2 font-semibold text-sm md:text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
           href={`/world`}
         >
-          AirTime
+          Map
         </Link>
         <Link
-          className=" flex gap-2 font-semibold text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
+          className=" flex gap-2 font-semibold text-sm md:text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
           href={`/e6b`}
         >
           E6B
         </Link>
         {diagram ? (
           <Link
-            className=" flex gap-2 font-semibold text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
+            className=" flex gap-2 font-semibold text-sm md:text-md text-neutral-800 items-center mt-[0.5vh] bg-blue-400 rounded-md p-2"
             href={diagram}
           >
             Diagram

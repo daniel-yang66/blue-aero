@@ -6,10 +6,11 @@ import Clock from "./clock";
 import { useState, useEffect, useRef, Suspense } from "react";
 import Loading from "./loading";
 
-export default function WorldTimes() {
+export default function WorldTimes({ wind }) {
   const [data, setData] = useState([]);
   const [airports, setAirports] = useState([]);
   const [trigger, setTrigger] = useState(false);
+  const [winds, setWinds] = useState([]);
   const lastUpdate = useRef(Date.now());
 
   useEffect(() => {
@@ -17,6 +18,34 @@ export default function WorldTimes() {
       ? JSON.parse(localStorage.getItem("blueaero-airports"))
       : [];
     setAirports(favorites);
+  }, []);
+  useEffect(() => {
+    let wAloft;
+    let wAloftParsed = [];
+    wAloft = wind[0].split("\n");
+    const coords = wind[1];
+    wAloft = wAloft.filter((item) => item.length > 0);
+    wAloft = wAloft.forEach((item) => {
+      let newArr = [];
+      item = item.split(" ");
+      item.forEach((str) => {
+        if (str.length > 0) {
+          newArr.push(str);
+        }
+      });
+      wAloftParsed.push(newArr);
+    });
+    wAloftParsed.forEach((info) => {
+      const point = coords.filter((coord) => {
+        return coord.id === info[0];
+      });
+      point[0] ? info.push(point[0].lat) : "";
+      point[0] ? info.push(point[0].lon) : "";
+    });
+    wAloftParsed = wAloftParsed.filter((arr) => {
+      return arr.length >= 7 && arr[0] !== "FT" && arr[0] !== "VALID";
+    });
+    setWinds(wAloftParsed);
   }, []);
 
   useEffect(() => {
@@ -66,7 +95,7 @@ export default function WorldTimes() {
     <Suspense fallback={<Loading />}>
       <div className="w-screen h-[85vh] grid justify-items-center">
         <div className="rounded-md h-[35vh] md:h-[35vh] w-[95%] md:w-[80%]">
-          <WorldView airports={data} />
+          <WorldView airports={data} wind={winds} />
         </div>
         <div className="flex gap-2 overflow-auto h-[45vh] md:h-[50vh] w-[95vw] md:w-[80%]">
           {data.length > 0 ? (

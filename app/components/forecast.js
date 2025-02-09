@@ -189,7 +189,7 @@ export default function Forecast({
     return (
       <div
         className={clsx(
-          " grid-rows-[30px_auto] justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
+          "grid-rows-[30px_auto] justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
           {
             grid: open,
             hidden: !open,
@@ -383,9 +383,14 @@ export default function Forecast({
                         height={40}
                         alt="weather icon"
                       />
-                      <p>{`${Math.round(
-                        (data.values.temperature - 32) * (5 / 9)
-                      )}\xB0C`}</p>
+                      <p>
+                        {`${Math.round(
+                          (data.values.temperature - 32) * (5 / 9)
+                        )}\xB0C`}{" "}
+                        <sub>{`${Math.round(
+                          data.values.temperature
+                        )}\xB0F`}</sub>
+                      </p>
                     </div>
                     <div className="grid grid-cols-2 grid-rows-2 gap-2 justify-items-center">
                       <div className="flex gap-1">

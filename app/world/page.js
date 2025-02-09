@@ -1,11 +1,13 @@
 import WorldTimes from "../components/worldtime";
+import WindsAloft from "../api/winds";
 
-export default function WorldTime() {
-  return <WorldTimes />;
+export default async function WorldTime() {
+  const winds = await WindsAloft();
+  return <WorldTimes wind={winds} />;
 }
 
 export const generateMetadata = async () => {
   return {
-    title: "AirTime | BlueAero",
+    title: "Map | BlueAero",
   };
 };

@@ -9,12 +9,9 @@ export default function Zulu() {
     setTime(
       `${String(new Date().getUTCHours()).padStart(2, "0")}:${String(
         new Date().getUTCMinutes()
-      ).padStart(2, "0")} | ${String(new Date().getUTCMonth() + 1).padStart(
-        2,
-        "0"
-      )}/${String(new Date().getUTCDate()).padStart(2, "0")} (${
-        days[new Date().getUTCDay()]
-      })`
+      ).padStart(2, "0")} | ${String(new Date().getUTCMonth() + 1)}/${String(
+        new Date().getUTCDate()
+      )} (${days[new Date().getUTCDay()]})`
     );
   };
   useEffect(() => {

@@ -9,9 +9,8 @@ import { getSunrise, getSunset } from "sunrise-sunset-js";
 import Loading from "./loading";
 import AirportWeather from "../api/airportWeather";
 import Forecast from "./forecast";
-import Map from "./wxmap";
+import Clouds from "./cloud";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 export default function CurrentConditions({ airportCode, stored }) {
   const [weather, setWeather] = useState(undefined);
@@ -22,7 +21,7 @@ export default function CurrentConditions({ airportCode, stored }) {
   const [phenom, setPhenom] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openTaf, setOpenTaf] = useState(false);
-  const [openMap, setOpenMap] = useState(false);
+  const [openCloud, setOpenCloud] = useState(false);
   const [timeSince, setTimeSince] = useState("-- min old");
   const [ceiling, setCeiling] = useState("--ft");
   const [coords, setCoords] = useState([]);
@@ -315,7 +314,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 </p>
               </div>
             </div>
-            
+
             <p className="text-sm md:text-md font-semibold text-yellow-400">
               {phenom.join(", ")}
             </p>
@@ -323,7 +322,7 @@ export default function CurrentConditions({ airportCode, stored }) {
           <div className="absolute top-0 right-0 grid gap-2 items-center">
             <div
               className={clsx(
-                `w-20 h-[20px] grid items-center justify-items-center font-semibold rounded-bl-xl text-sm md:text-md text-neutral-800`,
+                `w-16 md:w-20 h-[20px] grid items-center justify-items-center font-semibold rounded-bl-xl text-sm md:text-md text-neutral-800`,
                 {
                   "bg-green-400": flightColor === "green",
                   "bg-yellow-400": flightColor === "yellow",
@@ -336,7 +335,7 @@ export default function CurrentConditions({ airportCode, stored }) {
               {weather ? weather["flight_rules"] : "---"}
             </div>
           </div>
-          <div className="absolute top-[66%] md:top-[50%] left-2 md:left-4 flex gap-0 md:gap-2">
+          <div className="absolute bottom-2 left-2 md:left-4 flex gap-0 md:gap-2">
             {icon ? (
               <img
                 src={`/${icon}.png`}
@@ -367,7 +366,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             </p>
 
             <div
-              className={`w-16 h-16 md:h-20 md:w-20 grid items-center justify-items-center relative rounded-full border-slate-100 border-solid border-4`}
+              className={`w-16 h-16 md:h-20 md:w-20 grid items-center justify-items-center relative rounded-full border-slate-100 border-solid border-2 md:border-4`}
               style={{
                 transform: `rotate(${
                   weather
@@ -414,22 +413,21 @@ export default function CurrentConditions({ airportCode, stored }) {
           <div className="absolute w-[40%] top-[3%] md:top-[75%] left-[30%] flex gap-2 justify-content-center">
             <button
               onClick={() => {
-                setOpenMap(false);
+                setOpenCloud(false);
                 setOpenTaf(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-[45%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
             >
               Forecast
             </button>
-
             <button
               onClick={() => {
                 setOpenTaf(false);
-                setOpenMap(true);
+                setOpenCloud(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-sky-300 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md ml-2 p-x-2"
+              className="w-[45%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
             >
-              Wx Map
+              Clouds
             </button>
           </div>
 
@@ -438,16 +436,16 @@ export default function CurrentConditions({ airportCode, stored }) {
               onClick={() => {
                 HandleFaves();
               }}
-              className="absolute top-[86%] h-[20px] md:h-[24px] bg-none text-sm md:text-md font-semibold grid justify-items-center items-center text-red-300 rounded-xl mr-1"
+              className="absolute top-[86%] h-[20px] md:h-[24px] bg-none text-sm md:text-md font-semibold grid justify-items-center items-center text-blue-400 rounded-xl mr-1"
             >
-              {faveStatus ? "Remove from AirTime" : "Add to AirTime"}
+              {faveStatus ? "Remove from Map" : "Add to Map"}
             </button>
           ) : (
             <></>
           )}
           <div className="absolute bottom-1 right-2 md:right-4 grid items-center justify-items-center">
             <p className="text-sm md:text-lg font-semibold">
-              &#9651;T/D:{" "}
+              T/D Spr:{" "}
               {weather
                 ? weather["temperature"]
                   ? weather["temperature"]["value"] -
@@ -483,13 +481,8 @@ export default function CurrentConditions({ airportCode, stored }) {
             onSetOpen={setOpenTaf}
             sun={sunTimes}
           />
+          <Clouds weather={weather} onSetOpen={setOpenCloud} open={openCloud} />
         </div>
-        <Map
-          open={openMap}
-          onSetOpen={setOpenMap}
-          coords={coords}
-          code={airportCode}
-        />
       </>
     );
   } else {

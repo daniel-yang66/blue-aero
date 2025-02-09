@@ -186,7 +186,7 @@
   background-color: purple;
 }
 
-.mapboxgl-popup-content {
+.popup-content {
   background-color: transparent !important;
   border: none;
   box-shadow: none;
@@ -196,6 +196,4 @@
   font-weight: 600;
 }
 
-.mapboxgl-popup-tip {
-  display: none;
-}
+
