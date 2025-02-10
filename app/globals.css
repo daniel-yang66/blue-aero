@@ -85,6 +85,11 @@
   width: 38px;
   height: 38px;
 }
+.asig {
+  height: 16px;
+  width: 16px;
+  background-color: orange;
+}
 .popup {
   font-family: sans-serif;
   font-weight: bold;

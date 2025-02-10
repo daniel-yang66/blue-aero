@@ -6,7 +6,7 @@ import Clock from "./clock";
 import { useState, useEffect, useRef, Suspense } from "react";
 import Loading from "./loading";
 
-export default function WorldTimes({ wind }) {
+export default function WorldTimes({ wind, as }) {
   const [data, setData] = useState([]);
   const [airports, setAirports] = useState([]);
   const [trigger, setTrigger] = useState(false);
@@ -97,7 +97,7 @@ export default function WorldTimes({ wind }) {
     <Suspense fallback={<Loading />}>
       <div className="w-screen h-[85vh] grid justify-items-center">
         <div className="rounded-md h-[35vh] md:h-[35vh] w-[95%] md:w-[80%]">
-          <WorldView airports={data} wind={winds} text={text} />
+          <WorldView airports={data} wind={winds} text={text} asig={as} />
         </div>
         <div className="flex gap-2 overflow-auto h-[45vh] md:h-[50vh] w-[95vw] md:w-[80%]">
           {data.length > 0 ? (

@@ -5,16 +5,19 @@ import React, { useRef, useEffect, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
+import { DateTime } from "luxon";
 
-export default function Map({ airports, wind, text }) {
+export default function Map({ airports, wind, text, asig }) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
-
+  const [asOpen, setAsOpen] = useState("off");
   const mapContainer = useRef(null);
   const map = useRef(null);
   const center = { lng: -114, lat: 33 };
   const markers = useRef([]);
   const windMarkers = useRef([]);
+  const asLayers = useRef([]);
+  const asMarkers = useRef([]);
   const [openText, setOpenText] = useState(false);
   const zoom = 1.2;
   maptilersdk.config.apiKey = process.env.NEXT_PUBLIC_MAP_TOKEN;
@@ -54,7 +57,10 @@ export default function Map({ airports, wind, text }) {
         alt - (9 - (item.length - 3)) > 0
       ) {
         let windDir, windVel;
-        if (+item[alt - (9 - (item.length - 3))][0] > 3) {
+        if (
+          +item[alt - (9 - (item.length - 3))][0] > 3 &&
+          +item[alt - (9 - (item.length - 3))].slice(0, 2) !== 99
+        ) {
           windDir = +item[alt - (9 - (item.length - 3))].slice(0, 2) - 50;
           windVel = 100 + +item[alt - (9 - (item.length - 3))].slice(2, 4);
         } else if (+item[alt - (9 - (item.length - 3))].slice(2, 4) === 0) {
@@ -84,6 +90,174 @@ export default function Map({ airports, wind, text }) {
       }
     });
   }, [wind, alt]);
+
+  useEffect(() => {
+    asMarkers.current.forEach((marker) => {
+      marker.remove();
+    });
+    if (asLayers.current.length > 0) {
+      asLayers.current.forEach((layer) => {
+        if (map.current.getLayer(layer)) map.current.removeLayer(layer);
+
+        if (map.current.getSource(layer)) map.current.removeSource(layer);
+      });
+    }
+    if (!map.current || asOpen === "off") return;
+
+    const filtered =
+      asOpen !== "sig"
+        ? asig[0].filter((item) => {
+            return item.product === asOpen;
+          })
+        : asig[1];
+
+    asOpen !== "sig"
+      ? filtered.forEach((item, i) => {
+          let coordsParsed = [];
+          let color;
+          if (item.product === "TANGO") {
+            color = "yellow";
+          } else if (item.product === "SIERRA") {
+            color = "red";
+          }
+          if (item.product === "ZULU") {
+            color = "lightblue";
+          }
+          item.coords.forEach((coord) => {
+            let arr = [];
+            arr.push(coord.lon);
+            arr.push(coord.lat);
+            coordsParsed.push(arr);
+          });
+          map.current.addSource(`as${i}`, {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  properties: {},
+                  geometry: {
+                    type: "Polygon",
+                    coordinates: [coordsParsed],
+                  },
+                },
+              ],
+            },
+          });
+
+          map.current.addLayer({
+            id: `as${i}`,
+            type: "fill",
+            source: `as${i}`,
+            layout: {},
+            paint: {
+              "fill-color": color,
+              "fill-opacity": 0.6,
+            },
+          });
+
+          const pin = document.createElement("div");
+          pin.className = "asig";
+
+          const popup = new maptilersdk.Popup({
+            closeButton: false,
+            closeOnMove: false,
+          }).setHTML(
+            `<div><p>${item.hazard} (${
+              item.base ? item.base.toLocaleString() : "N/A"
+            } - ${item.top ? item.top.toLocaleString() : "N/A ft"})</p>
+        <p>From  ${
+          DateTime.fromSeconds(item.issueTime, { zone: "UTC" }).hour
+        }:${String(
+              DateTime.fromSeconds(item.issueTime, { zone: "UTC" }).minute
+            ).padStart(2, "0")}Z to ${
+              DateTime.fromSeconds(item.expireTime, { zone: "UTC" }).hour
+            }:${String(
+              DateTime.fromSeconds(item.expireTime, { zone: "UTC" }).minute
+            ).padStart(2, "0")}Z</p>
+        </div>`
+          );
+
+          const asmarker = new maptilersdk.Marker({ element: pin })
+            .setLngLat(coordsParsed[0])
+            .setPopup(popup)
+            .addTo(map.current);
+
+          asLayers.current.push(`as${i}`);
+          asMarkers.current.push(asmarker);
+        })
+      : filtered.forEach((item, i) => {
+          let coordsParsed = [];
+          if (item.severity === 0) return;
+
+          item.coords.forEach((coord) => {
+            let arr = [];
+            arr.push(coord.lon);
+            arr.push(coord.lat);
+            coordsParsed.push(arr);
+          });
+          map.current.addSource(`as${i}`, {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  properties: {},
+                  geometry: {
+                    type: "Polygon",
+                    coordinates: [coordsParsed],
+                  },
+                },
+              ],
+            },
+          });
+
+          map.current.addLayer({
+            id: `as${i}`,
+            type: "fill",
+            source: `as${i}`,
+            layout: {},
+            paint: {
+              "fill-color": "pink",
+              "fill-opacity": 0.6,
+            },
+          });
+
+          const pin = document.createElement("div");
+          pin.className = "asig";
+
+          const popup = new maptilersdk.Popup({
+            closeButton: false,
+            closeOnMove: false,
+          }).setHTML(
+            `<div><p>${item.hazard}${item.hazard} (${
+              item.altitudeLow1 ? item.altitudeLow1.toLocaleString() : "N/A"
+            } - ${
+              item.altitudeHi2 ? item.altitudeHi2.toLocaleString() : "N/A ft"
+            })
+        </p><p> From  ${
+          DateTime.fromSeconds(item.validTimeFrom, { zone: "UTC" }).hour
+        }:${String(
+              DateTime.fromSeconds(item.validTimeFrom, { zone: "UTC" }).minute
+            ).padStart(2, "0")}Z to ${
+              DateTime.fromSeconds(item.validTimeTo, { zone: "UTC" }).hour
+            }:${String(
+              DateTime.fromSeconds(item.validTimeTo, { zone: "UTC" }).minute
+            ).padStart(2, "0")}Z</p>
+        </div>`
+          );
+
+          const asmarker = new maptilersdk.Marker({ element: pin })
+            .setLngLat(coordsParsed[0])
+            .setPopup(popup)
+            .addTo(map.current);
+
+          asLayers.current.push(`as${i}`);
+          asMarkers.current.push(asmarker);
+        });
+  }, [asig, asOpen]);
 
   useEffect(() => {
     airports.forEach((airp) => {
@@ -182,7 +356,7 @@ export default function Map({ airports, wind, text }) {
           className="bg-blue-400 w-[33%] h-[25px] grid items-center p-x-2 text-neutral-900 rounded-lg"
           onClick={() => setOpenText(true)}
         >
-          Wind Report
+          W&T Raw
         </button>
 
         <select
@@ -200,6 +374,16 @@ export default function Map({ airports, wind, text }) {
           <option value={7}>FL300 (Cont. US)</option>
           <option value={8}>FL340 (Cont. US)</option>
           <option value={9}>FL390 (Cont. US)</option>
+        </select>
+        <select
+          onChange={(e) => setAsOpen(e.target.value)}
+          className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
+        >
+          <option value={"off"}>Air/Sig (Off)</option>
+          <option value={"TANGO"}>Tango (US)</option>
+          <option value={"SIERRA"}>Sierra (US)</option>
+          <option value={"ZULU"}>Zulu (US)</option>
+          <option value={"sig"}>Sigmet (US)</option>
         </select>
         <select
           onChange={(e) => setRadar(e.target.value)}
