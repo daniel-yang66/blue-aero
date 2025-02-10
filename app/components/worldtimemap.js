@@ -291,6 +291,7 @@ export default function Map({ airports, wind, text, asig }) {
   useEffect(() => {
     if (!map.current) return;
     let windLayer, radarLayer;
+
     if (alt === "sfc") {
       if (map.current.getLayer("wind")) {
         map.current.setLayoutProperty("wind", "visibility", "visible");
@@ -303,7 +304,12 @@ export default function Map({ airports, wind, text, asig }) {
         );
         map.current.addLayer(windLayer, "Water");
       }
+    } else {
+      if (!map.current.getLayer("wind")) return;
+
+      map.current.setLayoutProperty("wind", "visibility", "none");
     }
+
     if (radar === "on") {
       if (map.current.getLayer("radar")) {
         map.current.setLayoutProperty("radar", "visibility", "visible");
@@ -316,15 +322,9 @@ export default function Map({ airports, wind, text, asig }) {
         );
         map.current.addLayer(radarLayer);
       }
-    }
-    if (radar === "off") {
+    } else {
       if (!map.current.getLayer("radar")) return;
       map.current.setLayoutProperty("radar", "visibility", "none");
-    }
-    if (alt === "off") {
-      if (!map.current.getLayer("wind")) return;
-
-      map.current.setLayoutProperty("wind", "visibility", "none");
     }
   }, [radar, alt]);
 
