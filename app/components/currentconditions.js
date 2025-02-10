@@ -280,7 +280,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 {weather
                   ? `${
                       weather["info"]["iata"]
-                        ? weather["info"]["iata"]
+                        ? `${weather["info"]["icao"]}/${weather["info"]["iata"]}`
                         : weather["info"]["icao"]
                     }`
                   : "----"}
@@ -302,13 +302,13 @@ export default function CurrentConditions({ airportCode, stored }) {
             </p>
             <div className="flex gap-2">
               <div className="flex gap-1 items-center justify-content-center">
-                <img src="/sunrise.png" width={25} height={25} alt="sunrise" />
+                <img src="/sunrise.png" width={27} height={27} alt="sunrise" />
                 <p className="text-xs md:text-md text-neutral-300 font-semibold">
                   {sunTimes[0]}
                 </p>
               </div>
               <div className="flex gap-1 items-center justify-content-center">
-                <img src="/sunset.png" width={25} height={25} alt="sunset" />
+                <img src="/sunset.png" width={27} height={27} alt="sunset" />
                 <p className="text-xs md:text-md text-neutral-300 font-semibold">
                   {sunTimes[1]}
                 </p>

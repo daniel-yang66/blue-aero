@@ -4,7 +4,7 @@ export default async function AirportDiagram(airport) {
     `https://api.aviationapi.com/v1/charts?apt=${airport}&group=2`
   );
   data = await res.json();
-  data = data[`K${airport}`][0] ? data[`K${airport}`][0]["pdf_path"] : null;
+  data = data[`${airport}`][0] ? data[`${airport}`][0]["pdf_path"] : null;
 
   return data;
 }

@@ -20,7 +20,7 @@ export default function Search() {
   }
 
   const handleSearch = async (text) => {
-    setOptions([{ iata: "Searching...", name: "" }]);
+    setOptions([{ icao: "Searching...", name: "" }]);
     try {
       setOptions(await AirportData(text));
     } catch {
@@ -55,30 +55,28 @@ export default function Search() {
         {options.map((opt) => {
           return (
             <div
-              key={opt.iata ? opt.iata : opt.icao}
+              key={opt.icao}
               onClick={async () => {
                 setDropdownClose(true);
-                HandleClick(opt.iata ? opt.iata : opt.icao);
-                setText(opt.iata ? opt.iata : opt.icao);
+                HandleClick(opt.icao);
+                setText(opt.icao);
                 if (
                   sessionStorage.getItem(
-                    `${opt.iata ? opt.iata : opt.icao}-runways`
+                    `${opt.icao}-runways`
                   )
                 )
                   sessionStorage.removeItem(
-                    `${opt.iata ? opt.iata : opt.icao}-runways`
+                    `${opt.icao}-runways`
                   );
                 sessionStorage.setItem(
-                  `${opt.iata ? opt.iata : opt.icao}-runways`,
+                  `${opt.icao}-runways`,
                   JSON.stringify(opt.runways)
                 );
               }}
               className="grid items-center w-full text-md font-semibold bg-neutral-200 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-neutral-300 border-b-2 border-neutral-500 border-solid"
             >{`${
-              opt.iata
-                ? opt.iata === "Searching..."
+              opt.iata === "Searching..."
                   ? "Searching..."
-                  : `(${opt.iata})`
                 : `(${opt.icao})`
             } ${opt.name}`}</div>
           );

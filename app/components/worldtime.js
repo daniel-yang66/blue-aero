@@ -60,13 +60,16 @@ export default function WorldTimes({ wind, as }) {
           const tz = tz_lookup(lat, lon);
           const rules = info["flight_rules"];
           const temp = info["temperature"];
+          const name = info["info"]["iata"]
+            ? `${info["info"]["icao"]}/${info["info"]["iata"]}`
+            : info["info"]["icao"];
           const city = info["info"]["city"];
           const units = info["units"]["temperature"];
 
           return {
             lat: lat,
             lon: lon,
-            name: airp,
+            name: name,
             tz: tz,
             rules: rules,
             temp: temp["value"],

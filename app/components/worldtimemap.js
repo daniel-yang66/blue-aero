@@ -232,7 +232,7 @@ export default function Map({ airports, wind, text, asig }) {
             closeButton: false,
             closeOnMove: false,
           }).setHTML(
-            `<div><p>${item.hazard}${item.hazard} (${
+            `<div><p>${item.hazard} (${
               item.altitudeLow1 ? item.altitudeLow1.toLocaleString() : "N/A"
             } - ${
               item.altitudeHi2 ? item.altitudeHi2.toLocaleString() : "N/A ft"
@@ -331,18 +331,38 @@ export default function Map({ airports, wind, text, asig }) {
   return (
     <div className="grid items-center justify-items-center">
       {openText ? (
-        <div className="z-10 w-[90vw] md:w-[60vw] h-[40vh] overflow-auto absolute grid items-center justify-items-center text-yellow-400 bg-neutral-700 text-sm md:text-md">
+        <div className="z-10 w-[90vw] md:w-[70vw] h-[45vh] left-[5vw] md:left-[15vw] overflow-auto absolute grid items-center justify-items-center text-yellow-400 bg-neutral-700 text-sm md:text-md">
           <p
             onClick={() => setOpenText(false)}
             className="text-red-500 text-lg absolute top-2 right-2 font-bold"
           >
             X
           </p>
-          <div className="grid gap-4 overflow-auto h-[80%] w-[98%] md:w-[80%]">
+          <div className="grid gap-4 overflow-auto h-[90%] w-[85%]">
             {text.map((line, i) => {
+              let newLine = [];
+              let num;
+              line.split(" ").forEach((str) => {
+                if (str.length === 0) {
+                  num += 1;
+                } else return;
+              });
+              if (line.slice(0, 2) !== "FT") {
+                line.split(" ").forEach((str, i) => {
+                  if (str.length === 0 && i < num + 1) {
+                    newLine.push(str);
+                  } else {
+                    newLine.push(str + " ");
+                  }
+                });
+              } else {
+                line.split(" ").forEach((str) => {
+                  newLine.push(str + " ");
+                });
+              }
               return (
                 <p style={{ whiteSpace: "pre-wrap" }} key={i}>
-                  {line}
+                  {newLine.join(" ")}
                 </p>
               );
             })}

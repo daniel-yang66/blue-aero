@@ -9,14 +9,6 @@ export default async function Home({ searchParams }) {
 
   return (
     <div className="w-screen h-[85vh] grid grid-rows-[30px_auto] justify-items-center relative">
-      <div className="grid gap-2 text-neutral-300 absolute -top-4 left-1 text-sm md:text-md font-semibold">
-        <Link
-          className="bg-blue-500 p-1 rounded-lg text-center"
-          href={`${airportCode ? `/?airportCode=${airportCode}` : "/"}`}
-        >
-          {airportCode ? `${airportCode} Info` : "Info"}
-        </Link>
-      </div>
       <p className="font-bold text-neutral-300 text-xl mt-[0.5vh]">
         {airportCode} Flight Outlook (6H)
       </p>
