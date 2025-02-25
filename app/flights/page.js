@@ -1,7 +1,6 @@
 import Flights from "../components/flights";
 import { Suspense } from "react";
 import Loading from "../components/loading";
-import Link from "next/link";
 
 export default async function Home({ searchParams }) {
   const params = await searchParams;

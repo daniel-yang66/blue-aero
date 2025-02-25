@@ -6,8 +6,9 @@ import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
-export default function Map({ airports, wind, text, asig }) {
+export default function Map({ airports, wind, text, asig, status, key }) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");
@@ -21,6 +22,21 @@ export default function Map({ airports, wind, text, asig }) {
   const [openText, setOpenText] = useState(false);
   const zoom = 1.2;
   maptilersdk.config.apiKey = process.env.NEXT_PUBLIC_MAP_TOKEN;
+
+  const { replace } = useRouter();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+
+  function HandleClick() {
+    const params = new URLSearchParams(searchParams);
+    params.set("status", status === "1" ? "6" : "1");
+    replace(`${pathName}?${params.toString()}`);
+  }
+
+  useEffect(() => {
+    console.log("hello");
+  }, [status]);
+  console.log(status);
 
   useEffect(() => {
     if (map.current) return;
@@ -47,6 +63,7 @@ export default function Map({ airports, wind, text, asig }) {
     windMarkers.current = [];
 
     wind.forEach((item) => {
+      console.log(2);
       const pin = document.createElement("div");
       pin.className = "arrow-wind";
       const pinNoWind = document.createElement("div");
@@ -89,7 +106,7 @@ export default function Map({ airports, wind, text, asig }) {
         windMarkers.current = [...windMarkers.current, marker1];
       }
     });
-  }, [wind, alt]);
+  }, [wind, alt, status]);
 
   useEffect(() => {
     asMarkers.current.forEach((marker) => {
@@ -374,7 +391,10 @@ export default function Map({ airports, wind, text, asig }) {
       <div className="flex gap-[10%] absolute top-[13%] left-[5%] md:left-[15%] w-[90%] md:w-[70%] justify-content-center">
         <button
           className="bg-blue-400 w-[33%] h-[25px] grid items-center p-x-2 text-neutral-900 rounded-lg"
-          onClick={() => setOpenText(true)}
+          onClick={() => {
+            HandleClick();
+            setOpenText(true);
+          }}
         >
           W&T Raw
         </button>

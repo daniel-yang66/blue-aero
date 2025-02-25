@@ -39,7 +39,7 @@ export default function Search() {
           setDropdownClose(false);
         }}
         onChange={async (e) => {
-          if (e.target.value === 'Searching...') return;
+          if (e.target.value === "Searching...") return;
           setText(e.target.value);
           e.target.value.length > 2 ? debounce(e.target.value) : setOptions([]);
         }}
@@ -60,14 +60,8 @@ export default function Search() {
                 setDropdownClose(true);
                 HandleClick(opt.icao);
                 setText(opt.icao);
-                if (
-                  sessionStorage.getItem(
-                    `${opt.icao}-runways`
-                  )
-                )
-                  sessionStorage.removeItem(
-                    `${opt.icao}-runways`
-                  );
+                if (sessionStorage.getItem(`${opt.icao}-runways`))
+                  sessionStorage.removeItem(`${opt.icao}-runways`);
                 sessionStorage.setItem(
                   `${opt.icao}-runways`,
                   JSON.stringify(opt.runways)
@@ -75,9 +69,7 @@ export default function Search() {
               }}
               className="grid items-center w-full text-md font-semibold bg-neutral-200 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-neutral-300 border-b-2 border-neutral-500 border-solid"
             >{`${
-              opt.iata === "Searching..."
-                  ? "Searching..."
-                : `(${opt.icao})`
+              opt.iata === "Searching..." ? "Searching..." : `(${opt.icao})`
             } ${opt.name}`}</div>
           );
         })}

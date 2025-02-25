@@ -6,14 +6,13 @@ import Clock from "./clock";
 import { useState, useEffect, useRef, Suspense } from "react";
 import Loading from "./loading";
 
-export default function WorldTimes({ wind, as }) {
+export default function WorldTimes({ wind, as, status }) {
   const [data, setData] = useState([]);
   const [airports, setAirports] = useState([]);
   const [trigger, setTrigger] = useState(false);
   const [winds, setWinds] = useState([]);
   const [text, setText] = useState("");
   const lastUpdate = useRef(Date.now());
-
   useEffect(() => {
     const favorites = localStorage.getItem("blueaero-airports")
       ? JSON.parse(localStorage.getItem("blueaero-airports"))
@@ -100,7 +99,13 @@ export default function WorldTimes({ wind, as }) {
     <Suspense fallback={<Loading />}>
       <div className="w-screen h-[85vh] grid justify-items-center">
         <div className="rounded-md h-[35vh] md:h-[35vh] w-[95%] md:w-[80%]">
-          <WorldView airports={data} wind={winds} text={text} asig={as} />
+          <WorldView
+            airports={data}
+            wind={winds}
+            text={text}
+            asig={as}
+            status={status}
+          />
         </div>
         <div className="flex gap-2 overflow-auto h-[45vh] md:h-[50vh] w-[95vw] md:w-[80%]">
           {data.length > 0 ? (
