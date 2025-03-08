@@ -1,4 +1,4 @@
-export default async function AirportStats(text, p) {
+export default async function AirportStats(text) {
   const { FlightRadar24API } = require("flightradarapi");
   const frApi = new FlightRadar24API();
 

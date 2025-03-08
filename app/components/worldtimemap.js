@@ -33,10 +33,7 @@ export default function Map({ airports, wind, text, asig, status, key }) {
     replace(`${pathName}?${params.toString()}`);
   }
 
-  useEffect(() => {
-    console.log("hello");
-  }, [status]);
-  console.log(status);
+  useEffect(() => {}, [status]);
 
   useEffect(() => {
     if (map.current) return;
@@ -63,7 +60,6 @@ export default function Map({ airports, wind, text, asig, status, key }) {
     windMarkers.current = [];
 
     wind.forEach((item) => {
-      console.log(2);
       const pin = document.createElement("div");
       pin.className = "arrow-wind";
       const pinNoWind = document.createElement("div");
