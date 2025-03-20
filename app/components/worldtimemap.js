@@ -8,7 +8,7 @@ import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
-export default function Map({ airports, wind, text, asig, status, key }) {
+export default function Map({ airports, wind, text, asig, status }) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");

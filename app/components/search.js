@@ -12,6 +12,12 @@ export default function Search() {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
 
+  useEffect(() => {
+    document.body.addEventListener("click", () => {
+      setDropdownClose(true);
+    });
+  }, []);
+
   function HandleClick(text) {
     const params = new URLSearchParams(searchParams);
     text ? params.set("airportCode", text) : params.delete("airportCode");
