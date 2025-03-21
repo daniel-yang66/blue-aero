@@ -1,4 +1,4 @@
-export default async function AirportStats(text) {
+export default async function AirportStats(text, p) {
   const { FlightRadar24API } = require("flightradarapi");
   const frApi = new FlightRadar24API();
 
@@ -7,8 +7,7 @@ export default async function AirportStats(text) {
   if (text && p) {
     airportData = frApi.getAirportDetails(text, 100, p);
   } else {
-    airportData = frApi.getAirportDetails(text);
+    airportData = frApi.getAirportDetails(text, 100, 1);
   }
-
   return airportData;
 }

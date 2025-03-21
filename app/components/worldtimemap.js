@@ -305,6 +305,17 @@ export default function Map({ airports, wind, text, asig, status }) {
     if (!map.current) return;
     let windLayer, radarLayer;
 
+    if (radar === "on") {
+      if (map.current.getLayer("radar")) {
+        map.current.setLayoutProperty("radar", "visibility", "visible");
+      } else {
+        radarLayer = new maptilerweather.RadarLayer({ id: "radar" });
+        map.current.addLayer(radarLayer);
+      }
+    } else {
+      if (!map.current.getLayer("radar")) return;
+      map.current.setLayoutProperty("radar", "visibility", "none");
+    }
     if (alt === "sfc") {
       if (map.current.getLayer("wind")) {
         map.current.setLayoutProperty("wind", "visibility", "visible");
@@ -319,25 +330,7 @@ export default function Map({ airports, wind, text, asig, status }) {
       }
     } else {
       if (!map.current.getLayer("wind")) return;
-
       map.current.setLayoutProperty("wind", "visibility", "none");
-    }
-
-    if (radar === "on") {
-      if (map.current.getLayer("radar")) {
-        map.current.setLayoutProperty("radar", "visibility", "visible");
-      } else {
-        radarLayer = new maptilerweather.RadarLayer({ id: "radar" });
-        map.current.setPaintProperty(
-          "Water",
-          "fill-color",
-          "rgba(0, 0, 0, 0.4)"
-        );
-        map.current.addLayer(radarLayer);
-      }
-    } else {
-      if (!map.current.getLayer("radar")) return;
-      map.current.setLayoutProperty("radar", "visibility", "none");
     }
   }, [radar, alt]);
 

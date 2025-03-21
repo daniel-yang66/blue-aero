@@ -10,27 +10,25 @@ export default async function Flights({ air }) {
   let data, depPages, arrPages, country;
 
   try {
-    if (air) {
-      data = await AirportStats(air, false);
-      const dep1 = data.airport.pluginData.schedule.departures.data;
-      const arr1 = data.airport.pluginData.schedule.arrivals.data;
-      country = data.airport.pluginData.details.position.country.id;
+    data = await AirportStats(air, false);
+    const dep1 = data.airport.pluginData.schedule.departures.data;
+    const arr1 = data.airport.pluginData.schedule.arrivals.data;
+    country = data.airport.pluginData.details.position.country.id;
 
-      data.aircraftImages.forEach((img) => {
-        if (!img.images) return;
-        let obj = {};
-        const reg = img.registration;
-        const src = img.images.thumbnails[0].src;
-        const copy = img.images.thumbnails[0].copyright;
-        obj.reg = reg;
-        obj.src = src;
-        obj.copy = copy;
-        imageData.push(obj);
-      });
+    data.aircraftImages.forEach((img) => {
+      if (!img.images) return;
+      let obj = {};
+      const reg = img.registration;
+      const src = img.images.thumbnails[0].src;
+      const copy = img.images.thumbnails[0].copyright;
+      obj.reg = reg;
+      obj.src = src;
+      obj.copy = copy;
+      imageData.push(obj);
+    });
 
-      departures = [...dep1];
-      arrivals = [...arr1];
-    }
+    departures = [...dep1];
+    arrivals = [...arr1];
   } catch {
     data = false;
   }
@@ -52,6 +50,18 @@ export default async function Flights({ air }) {
 
       const pageArrivals = pageData.airport.pluginData.schedule.arrivals.data;
       arrivals = [...pageArrivals, ...arrivals];
+
+      pageData.aircraftImages.forEach((img) => {
+        if (!img.images) return;
+        let obj = {};
+        const reg = img.registration;
+        const src = img.images.thumbnails[0].src;
+        const copy = img.images.thumbnails[0].copyright;
+        obj.reg = reg;
+        obj.src = src;
+        obj.copy = copy;
+        imageData.push(obj);
+      });
     }
   }
 

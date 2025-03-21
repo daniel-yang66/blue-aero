@@ -63,7 +63,7 @@ export default function Forecast({
 
           const rules = time["flight_rules"];
           if (rules === "VFR") color = "green";
-          else if (rules === "MVFR") color = "yellow";
+          else if (rules === "MVFR") color = "blue";
           else if (rules === "IFR") color = "red";
           else if (rules === "LIFR") color = "purple";
 
@@ -272,7 +272,7 @@ export default function Forecast({
                         "absolute top-0 right-0 w-14 h-6 text-sm md:text-md grid items-center justify-items-center rounded-bl-xl text-neutral-800 text-sm md:text-md",
                         {
                           "bg-green-400": info["col"] === "green",
-                          "bg-yellow-400": info["col"] === "yellow",
+                          "bg-blue-400": info["col"] === "blue",
                           "bg-red-400": info["col"] === "red",
                           "bg-purple-400": info["col"] === "purple",
                           "bg-slate-400": info["col"] === "slate",

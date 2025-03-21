@@ -8,7 +8,6 @@ export default async function WorldTime({ searchParams }) {
   const winds = await WindsAloft();
   const asData = await AirSig();
   const windStatus = await params.status;
-  console.log(windStatus);
 
   return <WorldTimes wind={winds} as={asData} status={windStatus} />;
 }

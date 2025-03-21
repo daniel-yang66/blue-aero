@@ -115,7 +115,7 @@ export default function CurrentConditions({ airportCode, stored }) {
         setCoords([lon, lat]);
 
         if (data["flight_rules"] === "VFR") setFlightColor("green");
-        else if (data["flight_rules"] === "MVFR") setFlightColor("yellow");
+        else if (data["flight_rules"] === "MVFR") setFlightColor("blue");
         else if (data["flight_rules"] === "IFR") setFlightColor("red");
         else if (data["flight_rules"] === "LIFR") setFlightColor("purple");
 
@@ -325,7 +325,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 `w-16 md:w-20 h-[20px] grid items-center justify-items-center font-semibold rounded-bl-xl text-sm md:text-md text-neutral-800`,
                 {
                   "bg-green-400": flightColor === "green",
-                  "bg-yellow-400": flightColor === "yellow",
+                  "bg-blue-400": flightColor === "blue",
                   "bg-red-400": flightColor === "red",
                   "bg-purple-400": flightColor === "purple",
                   "bg-slate-400": flightColor === "slate",

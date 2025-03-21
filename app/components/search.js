@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AirportData from "../api/airportList";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
@@ -63,6 +63,7 @@ export default function Search() {
             <div
               key={opt.icao}
               onClick={async () => {
+                if (opt.icao === "Searching...") return;
                 setDropdownClose(true);
                 HandleClick(opt.icao);
                 setText(opt.icao);
@@ -75,7 +76,7 @@ export default function Search() {
               }}
               className="grid items-center w-full text-md font-semibold bg-neutral-200 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-neutral-300 border-b-2 border-neutral-500 border-solid"
             >{`${
-              opt.iata === "Searching..." ? "Searching..." : `(${opt.icao})`
+              opt.icao === "Searching..." ? "Searching..." : `(${opt.icao})`
             } ${opt.name}`}</div>
           );
         })}
