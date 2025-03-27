@@ -103,8 +103,8 @@
 
 .clock {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 127px;
+  height: 127px;
   margin: 30px;
   border-radius: 50%;
   background-color: rgb(53, 61, 69);
@@ -154,7 +154,7 @@
 
 .second-hand {
   width: 2px;
-  height: 70px;
+  height: 60px;
   margin-left: -1px;
   background-color: orange;
   z-index: 8;
@@ -167,7 +167,7 @@
   height: 5px;
   width: 2px;
   background: rgb(32, 157, 236);
-  transform-origin: center 70px;
+  transform-origin: center 64px;
 }
 
 .tick.hour {
@@ -188,11 +188,11 @@
   border-radius: 50%;
   background-color: rgb(10, 163, 10);
 }
-.yellow-marker {
+.blue-marker {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: yellow;
+  background-color: oklch(0.707 0.165 254.624);
 }
 .red-marker {
   width: 12px;

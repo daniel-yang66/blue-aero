@@ -71,7 +71,7 @@ export default function WorldTimes({ wind, as, status }) {
             name: name,
             tz: tz,
             rules: rules,
-            temp: temp["value"],
+            temp: temp ? temp["value"] : "--",
             city: city,
             units: units,
           };

@@ -284,7 +284,7 @@ export default function Map({ airports, wind, text, asig, status }) {
         pin.className = "green-marker";
       }
       if (airp.rules === "MVFR") {
-        pin.className = "yellow-marker";
+        pin.className = "blue-marker";
       }
       if (airp.rules === "IFR") {
         pin.className = "red-marker";
@@ -302,8 +302,7 @@ export default function Map({ airports, wind, text, asig, status }) {
   }, [airports]);
 
   useEffect(() => {
-    if (!map.current) return;
-    let windLayer, radarLayer;
+    let radarLayer;
 
     if (radar === "on") {
       if (map.current.getLayer("radar")) {
@@ -316,6 +315,11 @@ export default function Map({ airports, wind, text, asig, status }) {
       if (!map.current.getLayer("radar")) return;
       map.current.setLayoutProperty("radar", "visibility", "none");
     }
+  }, [radar]);
+
+  useEffect(() => {
+    let windLayer;
+
     if (alt === "sfc") {
       if (map.current.getLayer("wind")) {
         map.current.setLayoutProperty("wind", "visibility", "visible");
@@ -332,7 +336,7 @@ export default function Map({ airports, wind, text, asig, status }) {
       if (!map.current.getLayer("wind")) return;
       map.current.setLayoutProperty("wind", "visibility", "none");
     }
-  }, [radar, alt]);
+  }, [alt]);
 
   return (
     <div className="grid items-center justify-items-center">
@@ -424,7 +428,7 @@ export default function Map({ airports, wind, text, asig, status }) {
       </div>
       <div
         ref={mapContainer}
-        className="rounded-lg mt-[8vh] w-[90vw] md:w-[80vw] h-[30vh]"
+        className="rounded-lg mt-[8vh] w-[90vw] md:w-[80vw] h-[36vh]"
       />
     </div>
   );

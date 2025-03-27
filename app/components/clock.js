@@ -65,7 +65,7 @@ export default function Clock({ timezone, airport, city, lat, lon }) {
   }, [timezone]);
 
   return (
-    <div className="grid gap-1 h-[130px] justify-items-center items-center mt-2">
+    <div className="grid gap-1 h-[128px] justify-items-center items-center md:mt-12">
       <div className="clock">
         {ticks.map((tick) => {
           return tick;

@@ -37,7 +37,7 @@ export default function Forecast({
         zone: "UTC",
       }).ts;
       const hourDiff = Math.floor((Date.now() - reportTime) / 60000 / 60);
-      const minDiff = Math.round(
+      const minDiff = Math.floor(
         (Date.now() - reportTime) / 60000 -
           Math.floor((Date.now() - reportTime) / 60000 / 60) * 60
       );
