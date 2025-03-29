@@ -181,28 +181,9 @@
   margin-top: -20px;
   margin-bottom: 20px;
 }
-
-.green-marker {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgb(10, 163, 10);
-}
 .yellow-marker {
+  border-radius: 50%;
   width: 12px;
   height: 12px;
-  border-radius: 50%;
   background-color: yellow;
-}
-.red-marker {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: red;
-}
-.purple-marker {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: purple;
 }

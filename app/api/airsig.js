@@ -1,3 +1,4 @@
+"use server";
 export default async function AirSig() {
   const airData =
     await fetch(`https://aviationweather.gov/api/data/gairmet?format=json

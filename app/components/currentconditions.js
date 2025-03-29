@@ -26,7 +26,6 @@ export default function CurrentConditions({ airportCode, stored }) {
   const [ceiling, setCeiling] = useState("--ft");
   const [coords, setCoords] = useState([]);
   const [sunTimes, setSunTimes] = useState([]);
-  const [faveStatus, setFaveStatus] = useState(false);
   const [trigger, setTrigger] = useState(false);
   const lastUpdate = useRef(Date.now());
 
@@ -50,31 +49,6 @@ export default function CurrentConditions({ airportCode, stored }) {
       }
     }
   }, [airportCode]);
-
-  function HandleFaves() {
-    if (!airportCode) return;
-    const faveAirports = localStorage.getItem("blueaero-airports")
-      ? JSON.parse(localStorage.getItem("blueaero-airports"))
-      : [];
-
-    if (!faveAirports.includes(airportCode)) {
-      localStorage.setItem(
-        "blueaero-airports",
-        JSON.stringify([...faveAirports, airportCode])
-      );
-      setFaveStatus(true);
-    } else {
-      localStorage.setItem(
-        "blueaero-airports",
-        JSON.stringify(
-          faveAirports.filter((airp) => {
-            return airp !== airportCode;
-          })
-        )
-      );
-      setFaveStatus(false);
-    }
-  }
 
   const timeConversion = function (tz) {
     const timeData = DateTime.now().setZone(tz);
@@ -410,13 +384,13 @@ export default function CurrentConditions({ airportCode, stored }) {
             </p>
           </div>
 
-          <div className="absolute w-[40%] top-[3%] md:top-[75%] left-[30%] flex gap-2 justify-content-center">
+          <div className="absolute w-[40%] top-[3%] md:top-[75%] left-[30%] md:left-[33%] flex gap-2 justify-content-center">
             <button
               onClick={() => {
                 setOpenCloud(false);
                 setOpenTaf(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
             >
               Forecast
             </button>
@@ -425,30 +399,11 @@ export default function CurrentConditions({ airportCode, stored }) {
                 setOpenTaf(false);
                 setOpenCloud(true);
               }}
-              className="w-[45%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
             >
               Clouds
             </button>
           </div>
-
-          {weather ? (
-            <button
-              onClick={() => {
-                HandleFaves();
-              }}
-              className={clsx(
-                "absolute top-[86%] h-[20px] md:h-[20px] bg-none text-sm md:text-md font-semibold grid justify-items-center items-end rounded-xl mr-1",
-                {
-                  "text-yellow-300": faveStatus,
-                  "text-green-400": !faveStatus,
-                }
-              )}
-            >
-              {faveStatus ? "Remove from Map" : "Add to Map"}
-            </button>
-          ) : (
-            <></>
-          )}
           <div className="absolute bottom-1 right-2 md:right-4 grid items-center justify-items-center">
             <p className="text-sm md:text-lg font-semibold">
               T/D Spr:{" "}
