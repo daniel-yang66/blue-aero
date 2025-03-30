@@ -19,7 +19,7 @@ export default function WorldTimes({ airport }) {
     const asData = await AirSig();
 
     let dataObj = {};
-    dataObj.name = airportInfo["info"]["name"];
+    dataObj.name = `${airportInfo["info"]["icao"]}/${airportInfo["info"]["iata"]}`;
     dataObj.lat = airportInfo["info"]["latitude"];
     dataObj.lon = airportInfo["info"]["longitude"];
 
@@ -28,7 +28,22 @@ export default function WorldTimes({ airport }) {
         latitude: airportInfo["info"]["latitude"],
         longitude: airportInfo["info"]["longitude"],
       },
-      2000
+      5000
+    );
+
+    const boundingCoordsWide = getBoundsOfDistance(
+      {
+        latitude: airportInfo["info"]["latitude"],
+        longitude: airportInfo["info"]["longitude"],
+      },
+      43600
+    );
+
+    const wideRadiusObsData = await Obstacles(
+      boundingCoordsWide[0].latitude,
+      boundingCoordsWide[0].longitude,
+      boundingCoordsWide[1].latitude,
+      boundingCoordsWide[1].longitude
     );
 
     const obsData = await Obstacles(
@@ -40,7 +55,7 @@ export default function WorldTimes({ airport }) {
 
     setData(dataObj);
     setAs(asData);
-    setObs(obsData);
+    setObs([obsData, wideRadiusObsData]);
   }
 
   useEffect(() => {
@@ -62,7 +77,12 @@ export default function WorldTimes({ airport }) {
   return (
     <Suspense fallback={<Loading />}>
       <div className="rounded-md h-[35vh] md:h-[35vh] w-[95%] md:w-[80%]">
-        <Map airport={data} asig={as} obs={obs} />
+        <Map
+          airport={data}
+          asig={as}
+          obs={obs ? obs[0] : null}
+          obsWideRadius={obs ? obs[1] : null}
+        />
       </div>
     </Suspense>
   );

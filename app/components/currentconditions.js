@@ -241,7 +241,7 @@ export default function CurrentConditions({ airportCode, stored }) {
   if (!loading) {
     return (
       <>
-        <div className="w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
+        <div className="w-[96vw] md:w-[65vw] h-[90%] bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
           <div className="absolute top-1 left-2 md:left-4 grid items-center gap-1 md:gap-0">
             <div className="flex items-center gap-2 mb-[5px]">
               <img src="/icon.png" width={25} height={25} alt="plane" />
