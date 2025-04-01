@@ -30,7 +30,10 @@ export default function Map({ airport, asig, obs, obsWideRadius }) {
       style: maptilersdk.MapStyle.DATAVIZ.DARK,
       center: [center.lng, center.lat],
       zoom: zoom,
+      pitchWithRotate: true,
       navigationControl: false,
+      terrainControl: true,
+      terrainExaggeration: 2,
     });
   }, [center.lng, center.lat, zoom]);
 
@@ -262,7 +265,11 @@ export default function Map({ airport, asig, obs, obsWideRadius }) {
         .addTo(map.current);
       markers.current = [...markers.current, marker1];
     });
-    map.current.flyTo({ center: [airport.lon, airport.lat], zoom: 12 });
+    map.current.flyTo({
+      center: [airport.lon, airport.lat],
+      zoom: 12,
+      pitch: 60,
+    });
   }, [airport, obs]);
 
   useEffect(() => {

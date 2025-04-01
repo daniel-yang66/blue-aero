@@ -14,9 +14,13 @@ export default function WorldTimes({ airport }) {
   const [trigger, setTrigger] = useState(false);
   const lastUpdate = useRef(Date.now());
 
+  async function fetchAirSig() {
+    const asData = await AirSig();
+    setAs(asData);
+  }
+
   async function fetchInfo() {
     const airportInfo = await AirportWeather(airport);
-    const asData = await AirSig();
 
     let dataObj = {};
     dataObj.name = `${airportInfo["info"]["icao"]}/${airportInfo["info"]["iata"]}`;
@@ -54,11 +58,11 @@ export default function WorldTimes({ airport }) {
     );
 
     setData(dataObj);
-    setAs(asData);
     setObs([obsData, wideRadiusObsData]);
   }
 
   useEffect(() => {
+    fetchAirSig();
     if (!airport) return;
     fetchInfo();
   }, [airport]);

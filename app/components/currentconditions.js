@@ -105,14 +105,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             data["wind_gust"],
           ])
         );
-        if (sessionStorage.getItem(`${airportCode}-runways`)) {
-          sessionStorage.removeItem(`${airportCode}-runways`);
-        }
 
-        sessionStorage.setItem(
-          `${airportCode}-runways`,
-          JSON.stringify(data["info"]["runways"])
-        );
         if (sessionStorage.getItem(`${airportCode}-unit`)) {
           sessionStorage.removeItem(`${airportCode}-unit`);
         }
@@ -242,14 +235,29 @@ export default function CurrentConditions({ airportCode, stored }) {
     return (
       <>
         <div className="w-[96vw] md:w-[65vw] h-[90%] bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
+          <div className="absolute h-8 w-[40%] top-[85%] left-[30%] md:left-[35%] flex gap-2 justify-content-center">
+            <button
+              onClick={() => {
+                setOpenCloud(false);
+                setOpenTaf(true);
+              }}
+              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+            >
+              Forecast
+            </button>
+            <button
+              onClick={() => {
+                setOpenTaf(false);
+                setOpenCloud(true);
+              }}
+              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+            >
+              Clouds
+            </button>
+          </div>
           <div className="absolute top-1 left-2 md:left-4 grid items-center gap-1 md:gap-0">
             <div className="flex items-center gap-2 mb-[5px]">
               <img src="/icon.png" width={25} height={25} alt="plane" />
-
-              <h1 className="hidden md:flex md:font-bold text-sm md:text-lg">
-                {weather ? ` ${weather["info"]["name"]} -` : "----"}
-              </h1>
-
               <h1 className="grid font-bold text-sm md:text-lg">
                 {weather
                   ? `${
@@ -258,6 +266,9 @@ export default function CurrentConditions({ airportCode, stored }) {
                         : weather["info"]["icao"]
                     }`
                   : "----"}
+              </h1>
+              <h1 className="flex font-bold text-sm md:text-lg">
+                {weather ? `| ${weather["info"]["city"]}` : "----"}
               </h1>
             </div>
             <p className="font-semibold text-xs md:text-md">{timeSince}</p>
@@ -384,26 +395,6 @@ export default function CurrentConditions({ airportCode, stored }) {
             </p>
           </div>
 
-          <div className="absolute w-[40%] top-[3%] md:top-[75%] left-[30%] md:left-[33%] flex gap-2 justify-content-center">
-            <button
-              onClick={() => {
-                setOpenCloud(false);
-                setOpenTaf(true);
-              }}
-              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
-            >
-              Forecast
-            </button>
-            <button
-              onClick={() => {
-                setOpenTaf(false);
-                setOpenCloud(true);
-              }}
-              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
-            >
-              Clouds
-            </button>
-          </div>
           <div className="absolute bottom-1 right-2 md:right-4 grid items-center justify-items-center">
             <p className="text-sm md:text-lg font-semibold">
               T/D Spr:{" "}
