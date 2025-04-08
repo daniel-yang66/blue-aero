@@ -1,15 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Atis from "../api/atis";
 import clsx from "clsx";
 import LoadingForecast from "./loadingForecast";
 export default function AtisInfo({ airport, onSetOpen, open }) {
   const [atis, setAtis] = useState(null);
   const [loading, setLoading] = useState(false);
+  const counter = useRef(0);
 
   async function getAtis() {
-    setLoading(true);
     try {
+      setLoading(true);
+      counter.current = 0;
       let atisInfo = await Atis(airport);
       if (atisInfo.length > 1) {
         let atisList = [];
@@ -20,6 +22,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
       } else {
         setAtis([atisInfo[0].datis.split(".")]);
       }
+      counter.current += 1;
       setLoading(false);
     } catch {
       alert("Failed to fetch ATIS");
@@ -28,9 +31,9 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
   }
 
   useEffect(() => {
-    if (!airport) return;
+    if (!airport || counter.current >= 1 || !open) return;
     getAtis(airport);
-  }, [airport]);
+  }, [airport, open]);
 
   if (loading === true) {
     return <LoadingForecast />;
@@ -81,7 +84,21 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
     );
   } else {
     return (
-      <div className="w-[96vw] md:w-[65vw] h-[90%] bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
+      <div
+        className={clsx(
+          "grid justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
+          {
+            grid: open,
+            hidden: !open,
+          }
+        )}
+      >
+        <div
+          onClick={() => onSetOpen(false)}
+          className="text-red-500 text-lg font-bold absolute top-1 right-2 hover:cursor-pointer"
+        >
+          X
+        </div>
         ATIS Unavailable
       </div>
     );
