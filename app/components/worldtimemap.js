@@ -396,7 +396,7 @@ export default function Map({ airports, wind, text, asig, status }) {
           onChange={(e) => setAlt(e.target.value)}
           className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
         >
-          <option value={"off"}>Wind Off</option>
+          <option value={"off"}>Wind</option>
           <option value={"sfc"}>SFC (Global)</option>
           <option value={1}>FL30 (Cont. US)</option>
           <option value={2}>FL60 (Cont. US)</option>
@@ -412,7 +412,7 @@ export default function Map({ airports, wind, text, asig, status }) {
           onChange={(e) => setAsOpen(e.target.value)}
           className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
         >
-          <option value={"off"}>Air/Sig (Off)</option>
+          <option value={"off"}>Air/Sig</option>
           <option value={"TANGO"}>Tango (US)</option>
           <option value={"SIERRA"}>Sierra (US)</option>
           <option value={"ZULU"}>Zulu (US)</option>
@@ -422,7 +422,7 @@ export default function Map({ airports, wind, text, asig, status }) {
           onChange={(e) => setRadar(e.target.value)}
           className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
         >
-          <option value={"off"}>Radar Off</option>
+          <option value={"off"}>Radar</option>
           <option value={"on"}>Radar On</option>
         </select>
       </div>
