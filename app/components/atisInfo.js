@@ -11,7 +11,11 @@ export default function AtisInfo({ airport }) {
     try {
       let atisInfo = await Atis(airport);
       if (atisInfo.length > 1) {
-        setAtis([atisInfo[0].datis.split("."), atisInfo[1].datis.split(".")]);
+        let atisList = [];
+        atisInfo.forEach((item) => {
+          atisList.push(item.datis.split("."));
+        });
+        setAtis(atisList);
       } else {
         setAtis([atisInfo[0].datis.split(".")]);
       }
@@ -40,35 +44,23 @@ export default function AtisInfo({ airport }) {
         </div>
         <div className="overflow-auto grid gap-2">
           <div>
-            {atis[0] ? (
-              atis[0].map((sentence, i) => {
+            {atis ? (
+              atis.map((chunk, i) => {
                 return (
-                  <p
-                    key={i}
-                    className={`${
-                      i === 0 ? "text-green-400" : `text-blue-300`
-                    } font-semibold text-sm`}
-                  >
-                    {sentence}
-                  </p>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </div>
-          <div>
-            {atis[1] ? (
-              atis[1].map((sentence, i) => {
-                return (
-                  <p
-                    key={i}
-                    className={`${
-                      i === 0 ? "text-green-400" : `text-blue-300`
-                    } font-semibold text-sm`}
-                  >
-                    {sentence}
-                  </p>
+                  <div key={i} className="mb-2 grid">
+                    {chunk.map((sentence, i) => {
+                      return (
+                        <p
+                          key={i}
+                          className={`${
+                            i === 0 ? "text-green-400" : `text-blue-300`
+                          } font-semibold text-sm`}
+                        >
+                          {sentence}
+                        </p>
+                      );
+                    })}
+                  </div>
                 );
               })
             ) : (

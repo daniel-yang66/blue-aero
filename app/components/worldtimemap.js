@@ -236,24 +236,18 @@ export default function Map({ airport, asig, obs, obsWideRadius }) {
       .addTo(map.current);
     markers.current = [...markers.current, marker1];
 
-    let maxHeight = 0;
-    obsWideRadius.forEach((obstacle) => {
-      if (obstacle.height > maxHeight) {
-        maxHeight = obstacle.height;
-      }
-    });
-    setMsa(maxHeight + 300);
-
     obs.forEach((obstacle) => {
       const popup = new maptilersdk.Popup({
         closeButton: false,
         closeOnMove: false,
-      }).setHTML(`<div>${obstacle.name} | ${obstacle.height}m</div>`);
+      }).setHTML(
+        `<div>${obstacle.name} | ${Math.round(obstacle.height * 3.28)}ft</div>`
+      );
 
       const pin = document.createElement("div");
-      if (obstacle.height >= 60) {
+      if (obstacle.height >= 100) {
         pin.className = "red-marker";
-      } else if (obstacle.height < 60 && obstacle.height >= 30) {
+      } else if (obstacle.height < 100 && obstacle.height >= 30) {
         pin.className = "yellow-marker";
       } else {
         pin.className = "green-marker";
@@ -355,21 +349,20 @@ export default function Map({ airport, asig, obs, obsWideRadius }) {
               <option value="SATELLITE">SATELLITE</option>
               <option value="HYBRID">HYBRID</option>
             </select>
-            <p className="text-blue-300 font-semibold text-sm">MSA: {msa}m</p>
           </div>
           {airport ? (
             <div className="grid items-center justify-items-start text-slate-300 font-semibold text-sm">
               <div className="flex gap-1 items-center">
                 <div className="red-marker"></div>
-                <p>{">60m AGL"}</p>
+                <p>{">300ft AGL"}</p>
               </div>
               <div className="flex gap-1 items-center">
                 <div className="yellow-marker"></div>
-                <p>{"30-60m AGL"}</p>
+                <p>{"100-300ft AGL"}</p>
               </div>
               <div className="flex gap-1 items-center">
                 <div className="green-marker"></div>
-                <p>{"<30m AGL"}</p>
+                <p>{"<100ft AGL"}</p>
               </div>
             </div>
           ) : (

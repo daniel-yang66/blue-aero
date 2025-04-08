@@ -201,3 +201,38 @@
 
   border-bottom: 10px solid green;
 }
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: white solid 2px;
+  position: relative;
+
+  z-index: 20;
+}
+
+.line {
+  display: grid;
+  justify-items: center;
+  position: absolute;
+  width: 2px; /* Line thickness */
+  height: 50%; /* Full height of the circle */
+  background-color: lightblue; /* Line color */
+  top: 0;
+  left: 50%;
+  transform-origin: 50% 100%; /* Pivot around the center of the circle */
+}
+
+/* Each line is rotated to form 120-degree intervals */
+.line:nth-child(1) {
+  transform: rotate(0deg);
+}
+
+.line:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.line:nth-child(3) {
+  transform: rotate(240deg);
+}

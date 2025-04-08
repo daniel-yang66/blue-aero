@@ -33,12 +33,6 @@ export default function CurrentConditions({ airportCode, stored }) {
   const pathName = usePathname();
   const searchParams = useSearchParams();
 
-  function HandleStore() {
-    const params = new URLSearchParams(searchParams);
-    params.set("stored", stored === "1" ? "2" : "1");
-    replace(`${pathName}?${params.toString()}`);
-  }
-
   useEffect(() => {
     if (localStorage.getItem("blueaero-airports")) {
       const faveList = JSON.parse(localStorage.getItem("blueaero-airports"));
@@ -93,41 +87,6 @@ export default function CurrentConditions({ airportCode, stored }) {
         else if (data["flight_rules"] === "IFR") setFlightColor("red");
         else if (data["flight_rules"] === "LIFR") setFlightColor("purple");
 
-        if (sessionStorage.getItem(`${airportCode}-wind`)) {
-          sessionStorage.removeItem(`${airportCode}-wind`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-wind`,
-          JSON.stringify([
-            data["wind_speed"],
-            data["wind_direction"],
-            data["wind_gust"],
-          ])
-        );
-
-        if (sessionStorage.getItem(`${airportCode}-unit`)) {
-          sessionStorage.removeItem(`${airportCode}-unit`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-unit`,
-          JSON.stringify(data["units"]["wind_speed"])
-        );
-
-        if (sessionStorage.getItem(`${airportCode}-alt`)) {
-          sessionStorage.removeItem(`${airportCode}-alt`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-alt`,
-          JSON.stringify([
-            `${data["density_altitude"]}${data["units"]["altitude"]}`,
-            `${data["pressure_altitude"]}${data["units"]["altitude"]}`,
-          ])
-        );
-
-        HandleStore();
 
         const tz = tz_lookup(lat, lon);
         setTimezone(tz);
