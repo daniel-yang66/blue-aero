@@ -116,7 +116,7 @@ export default function WorldTimes({ airport }) {
           obsWideRadius={obs ? obs[1] : null}
         />
         {msa ? (
-          <div className="grid justify-items-center gap-1 absolute top-[65%] right-[10%]">
+          <div className="grid justify-items-center gap-1 absolute top-[65%] right-[2%] md:right-[10%]">
             <div className="circle">
               <div className="line">
                 <p className="text-sm text-neutral-300 -mt-6 font-semibold">
