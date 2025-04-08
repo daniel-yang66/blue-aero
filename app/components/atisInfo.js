@@ -41,7 +41,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
     return (
       <div
         className={clsx(
-          "grid justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
+          "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid justify-items-center z-[10] overflow-auto text-neutral-300 overflow-auto",
           {
             grid: open,
             hidden: !open,
@@ -50,7 +50,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
       >
         <div
           onClick={() => onSetOpen(false)}
-          className="text-red-500 text-lg font-bold absolute top-1 right-2 hover:cursor-pointer"
+          className="text-red-500 text-lg font-bold absolute top-1 right-8 hover:cursor-pointer"
         >
           X
         </div>
@@ -86,7 +86,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
     return (
       <div
         className={clsx(
-          "grid justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
+          "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid justify-items-center z-[10] overflow-auto text-neutral-300 overflow-auto",
           {
             grid: open,
             hidden: !open,

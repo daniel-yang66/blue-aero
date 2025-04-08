@@ -189,7 +189,7 @@ export default function Forecast({
     return (
       <div
         className={clsx(
-          "grid-rows-[30px_auto] justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
+          "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid grid-rows-[30px_auto]  justify-items-center z-[10] overflow-auto text-neutral-300 overflow-auto font-semibold",
           {
             grid: open,
             hidden: !open,

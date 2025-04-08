@@ -8,7 +8,7 @@ export default function Clouds({ weather, onSetOpen, open }) {
   return (
     <div
       className={clsx(
-        "justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[30vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 font-semibold overflow-auto",
+        "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid items-center justify-items-center z-10 overflow-auto text-neutral-300 overflow-auto font-semibold ",
         {
           grid: open,
           hidden: !open,
@@ -21,65 +21,69 @@ export default function Clouds({ weather, onSetOpen, open }) {
       >
         X
       </div>
-      {cloudData.map((layer, i) => {
-        let cloudImg;
-        if (layer["type"] === "FEW") {
-          cloudImg = (
-            <div className="flex gap-8 items-center justify-content-center">
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
+      {cloudData.length !== 0 ? (
+        cloudData.map((layer, i) => {
+          let cloudImg;
+          if (layer["type"] === "FEW") {
+            cloudImg = (
+              <div className="flex gap-8 items-center justify-content-center">
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+              </div>
+            );
+          }
+          if (layer["type"] === "SCT") {
+            cloudImg = (
+              <div className="flex gap-6 items-center justify-content-center">
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+              </div>
+            );
+          }
+          if (layer["type"] === "BKN") {
+            cloudImg = (
+              <div className="flex gap-2 items-center justify-content-center">
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+              </div>
+            );
+          }
+          if (layer["type"] === "OVC" || layer["type"] === "VV") {
+            cloudImg = (
+              <div className="flex items-center justify-content-center">
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={25} height={25} alt="cloud" />
+              </div>
+            );
+          }
+          return (
+            <div
+              key={i}
+              className="flex gap-4 items-center text-sm md:text-md text-neutral-300"
+            >
+              <p>
+                {layer["type"]} -{" "}
+                {(layer["altitude"] * 100).toLocaleString() + "ft"}
+              </p>
+              {cloudImg}
             </div>
           );
-        }
-        if (layer["type"] === "SCT") {
-          cloudImg = (
-            <div className="flex gap-6 items-center justify-content-center">
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-            </div>
-          );
-        }
-        if (layer["type"] === "BKN") {
-          cloudImg = (
-            <div className="flex gap-2 items-center justify-content-center">
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-            </div>
-          );
-        }
-        if (layer["type"] === "OVC" || layer["type"] === "VV") {
-          cloudImg = (
-            <div className="flex items-center justify-content-center">
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-              <img src="cbase.png" width={25} height={25} alt="cloud" />
-            </div>
-          );
-        }
-        return (
-          <div
-            key={i}
-            className="flex gap-4 items-center text-sm md:text-md text-neutral-300"
-          >
-            <p>
-              {layer["type"]} -{" "}
-              {(layer["altitude"] * 100).toLocaleString() + "ft"}
-            </p>
-            {cloudImg}
-          </div>
-        );
-      })}
+        })
+      ) : (
+        <p>No Clouds</p>
+      )}
     </div>
   );
 }
