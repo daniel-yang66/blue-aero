@@ -5,10 +5,10 @@ import Loading from "./loading";
 import AirSig from "../api/airsig";
 import Obstacles from "../api/obstacles";
 import { getBoundsOfDistance, getGreatCircleBearing } from "geolib";
-import Map from "./worldtimemap";
+import Map from "./map";
 import "../globals.css";
 
-export default function WorldTimes({ airport }) {
+export default function Info({ airport }) {
   const [data, setData] = useState(null);
   const [as, setAs] = useState(null);
   const [obs, setObs] = useState(null);
@@ -75,11 +75,11 @@ export default function WorldTimes({ airport }) {
         { latitude: obs.lat, longitude: obs.lon }
       );
       if (relativeBearing >= 0 && relativeBearing <= 120) {
-        q1.push(obs.height * 3.28);
+        q1.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
       } else if (relativeBearing > 120 && relativeBearing <= 240) {
-        q2.push(obs.height * 3.28);
+        q2.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
       } else if (relativeBearing > 240 && relativeBearing < 360) {
-        q3.push(obs.height * 3.28);
+        q3.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
       }
     });
     setMsa([
@@ -146,7 +146,7 @@ export default function WorldTimes({ airport }) {
                 {Math.round(msa[2])}
               </p>
             </div>
-            <p className="text-blue-300 font-semibold">MSA Compass</p>
+            <p className="text-blue-300 font-semibold">MSA</p>
           </div>
         ) : (
           <></>

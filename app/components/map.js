@@ -7,7 +7,7 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
 
-export default function Map({ airport, asig, obs, obsWideRadius }) {
+export default function Map({ airport, asig, obs }) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");
@@ -241,7 +241,9 @@ export default function Map({ airport, asig, obs, obsWideRadius }) {
         closeButton: false,
         closeOnMove: false,
       }).setHTML(
-        `<div>${obstacle.name} | ${Math.round(obstacle.height * 3.28)}ft</div>`
+        `<div>${obstacle.name} | ${Math.round(
+          obstacle.height ? obs.height * 3.28 : obstacle.elev * 3.28
+        )}ft</div>`
       );
 
       const pin = document.createElement("div");

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Loading from "./components/loading";
-import WorldTimes from "./components/worldtime";
+import WorldTimes from "./components/mapInfo";
 import Display from "./components/display";
 
 export default async function Home({ searchParams }) {
