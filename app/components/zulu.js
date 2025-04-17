@@ -18,5 +18,5 @@ export default function Zulu() {
     const interval = setInterval(() => getZulu());
     return () => clearInterval(interval);
   }, []);
-  return <p className="text-md font-semibold text-neutral-300">GMT: {time}</p>;
+  return <p className="text-md font-bold text-zinc-300">GMT: {time}</p>;
 }

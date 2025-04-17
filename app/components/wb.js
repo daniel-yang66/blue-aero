@@ -92,20 +92,20 @@ export default function WB({ status }) {
       <div className="flex gap-4 items-end">
         <div className="grid gap-4 items-center justify-items-end">
           <p className="font-semibold text-blue-400">Empty Wt</p>
-          <p className="font-semibold text-neutral-300">+Front seats</p>
-          <p className="font-semibold text-neutral-300">+Rear seats</p>
-          <p className="font-semibold text-neutral-300">+Bag area 1</p>
-          <p className="font-semibold text-neutral-300">+Bag area 2</p>
-          <p className="font-semibold text-neutral-300">+Other 1</p>
-          <p className="font-semibold text-neutral-300">+Other 2</p>
+          <p className="font-semibold text-zinc-300">+Front seats</p>
+          <p className="font-semibold text-zinc-300">+Rear seats</p>
+          <p className="font-semibold text-zinc-300">+Bag area 1</p>
+          <p className="font-semibold text-zinc-300">+Bag area 2</p>
+          <p className="font-semibold text-zinc-300">+Other 1</p>
+          <p className="font-semibold text-zinc-300">+Other 2</p>
 
           <p className="font-semibold text-blue-400">ZFW</p>
-          <p className="font-semibold text-neutral-300">+Fuel 1</p>
-          <p className="font-semibold text-neutral-300">+Fuel 2</p>
+          <p className="font-semibold text-zinc-300">+Fuel 1</p>
+          <p className="font-semibold text-zinc-300">+Fuel 2</p>
           <p className="font-semibold text-blue-400">Ramp Wt</p>
-          <p className="font-semibold text-neutral-300">-Taxi</p>
+          <p className="font-semibold text-zinc-300">-Taxi</p>
           <p className="font-semibold text-blue-400">TOW</p>
-          <p className="font-semibold text-neutral-300">-Fuel Burn</p>
+          <p className="font-semibold text-zinc-300">-Fuel Burn</p>
           <p className="font-semibold text-blue-400">Landing Wt</p>
         </div>
         <div className="grid gap-4">
@@ -125,7 +125,7 @@ export default function WB({ status }) {
                     setEmptywt(0);
                   }
                 }}
-                className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+                className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
               />
             </div>
             <div className="grid gap-2 items-center">
@@ -142,7 +142,7 @@ export default function WB({ status }) {
                     setEmptyWtArm(0);
                   }
                 }}
-                className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+                className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
               />
             </div>
             <div className="grid gap-2 items-center">
@@ -165,7 +165,7 @@ export default function WB({ status }) {
                   setFront(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -177,7 +177,7 @@ export default function WB({ status }) {
                   setFrontArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(front * frontArm)}
@@ -193,7 +193,7 @@ export default function WB({ status }) {
                   setRear(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -204,7 +204,7 @@ export default function WB({ status }) {
                   setRearArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(rear * rearArm)}
@@ -220,7 +220,7 @@ export default function WB({ status }) {
                   setBag(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -231,7 +231,7 @@ export default function WB({ status }) {
                   setBagArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(bag * bagArm)}
@@ -247,7 +247,7 @@ export default function WB({ status }) {
                   setBag2(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -258,7 +258,7 @@ export default function WB({ status }) {
                   setBagArm2(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(bag2 * bagArm2)}
@@ -274,7 +274,7 @@ export default function WB({ status }) {
                   setOther(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -285,7 +285,7 @@ export default function WB({ status }) {
                   setOtherArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(other * otherArm)}
@@ -301,7 +301,7 @@ export default function WB({ status }) {
                   setOther2(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -312,7 +312,7 @@ export default function WB({ status }) {
                   setOtherArm2(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(other2 * otherArm2)}
@@ -362,7 +362,7 @@ export default function WB({ status }) {
                   setFuel(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -373,7 +373,7 @@ export default function WB({ status }) {
                   setFuelArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(fuel * fuelArm)}
@@ -389,7 +389,7 @@ export default function WB({ status }) {
                   setFuel2(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -400,7 +400,7 @@ export default function WB({ status }) {
                   setFuelArm2(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(fuel2 * fuelArm2)}
@@ -485,7 +485,7 @@ export default function WB({ status }) {
                   setStart(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -496,7 +496,7 @@ export default function WB({ status }) {
                   setStartArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(start * startArm)}
@@ -583,7 +583,7 @@ export default function WB({ status }) {
                   setBurn(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <input
               inputMode="numeric"
@@ -594,7 +594,7 @@ export default function WB({ status }) {
                   setBurnArm(0);
                 }
               }}
-              className="p-2 w-[20vw] h-6 rounded-lg bg-neutral-300 font-semibold text-neutral-900"
+              className="p-2 w-[20vw] h-6 rounded-lg bg-zinc-300 font-semibold text-zinc-900"
             />
             <p className="w-[15vw] h-6 font-semibold text-green-400">
               {Math.round(burn * burnArm)}

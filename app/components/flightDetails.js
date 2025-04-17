@@ -139,7 +139,7 @@ export default function Details({ dep, arr, img, cty }) {
       <div className="grid items-center justify-items-center h-[84vh] overflow-auto p-4 gap-2 relative">
         <div className="flex gap-2">
           <select
-            className="rounded-lg w-[110px] h-[25px] bg-neutral-300 text-neutral-800 font-semibold"
+            className="rounded-lg w-[110px] h-[25px] bg-zinc-300 text-zinc-800 font-semibold"
             onChange={(e) => {
               setType(e.target.value);
               setFilter("All");
@@ -153,7 +153,7 @@ export default function Details({ dep, arr, img, cty }) {
             onChange={(e) => {
               setFilter(e.target.value);
             }}
-            className="rounded-lg w-[110px] h-[25px] bg-neutral-300 text-neutral-800 font-semibold"
+            className="rounded-lg w-[110px] h-[25px] bg-zinc-300 text-zinc-800 font-semibold"
           >
             {type === "dep"
               ? depList.map((opt, i) => {
@@ -185,7 +185,7 @@ export default function Details({ dep, arr, img, cty }) {
             onClick={() => {
               setZone(zone === "loc" ? "gmt" : "loc");
             }}
-            className=" grid items-center justify-items-center rounded-lg w-[110px] h-[25px] bg-blue-300 text-neutral-800 font-semibold hover:cursor-pointer"
+            className=" grid items-center justify-items-center rounded-lg w-[110px] h-[25px] bg-blue-300 text-zinc-800 font-semibold hover:cursor-pointer"
           >
             {zone === "loc" ? "To GMT" : "To Local"}
           </div>
@@ -199,7 +199,7 @@ export default function Details({ dep, arr, img, cty }) {
           View Stats
         </p>
 
-        <div className="grid justify-items-center relative w-[98vw] md:w-[60vw] h-[70vh] bg-neutral-900 rounded-lg overflow-auto gap-4">
+        <div className="grid justify-items-center relative w-[98vw] md:w-[60vw] h-[70vh] bg-zinc-900 rounded-lg overflow-auto gap-4">
           {flights
             .sort((a, b) => {
               a =
@@ -404,7 +404,7 @@ export default function Details({ dep, arr, img, cty }) {
               }
               return (
                 <div
-                  className="grid items-center justify-items-center relative text-neutral-300 h-[28vh] w-[97vw] md:w-[50vw] overflow-auto bg-neutral-800 rounded-lg p-2 font-semibold text-md"
+                  className="grid items-center justify-items-center relative text-zinc-300 h-[28vh] w-[97vw] md:w-[50vw] overflow-auto bg-zinc-800 rounded-lg p-2 font-semibold text-md"
                   key={i}
                 >
                   <div className="absolute top-2 left-2 grid gap-1 items-center">
@@ -437,13 +437,13 @@ export default function Details({ dep, arr, img, cty }) {
                   <div className="absolute top-2 right-2 grid items-center justify-items-end gap-2">
                     <div
                       className={clsx(
-                        "rounded-full w-[80px] h-[21px] text-neutral-800 font-semibold grid items-center justify-items-center text-sm",
+                        "rounded-full w-[80px] h-[21px] text-zinc-800 font-semibold grid items-center justify-items-center text-sm",
                         {
                           "bg-green-500": flight.flight.status.icon === "green",
                           "bg-yellow-500":
                             flight.flight.status.icon === "yellow",
                           "bg-red-500": flight.flight.status.icon === "red",
-                          "bg-neutral-300": !flight.flight.status.icon,
+                          "bg-zinc-300": !flight.flight.status.icon,
                         }
                       )}
                     >
@@ -472,7 +472,7 @@ export default function Details({ dep, arr, img, cty }) {
                             alt="airplane image"
                           />
                         </div>
-                        <p className=" h-[30px] text-xs text-neutral-300 overflow-auto w-[100px]">
+                        <p className=" h-[30px] text-xs text-zinc-300 overflow-auto w-[100px]">
                           &copy; {copyright}
                         </p>
                       </div>
@@ -481,7 +481,7 @@ export default function Details({ dep, arr, img, cty }) {
                     )}
                   </div>
 
-                  <div className="grid gap-1 justify-items-center items-center text-neutral-300 font-bold">
+                  <div className="grid gap-1 justify-items-center items-center text-zinc-300 font-bold">
                     <p className="text-sm md:text-md">{air}</p>
                     <p className="text-xs md:text-sm">({tz})</p>
                   </div>
@@ -527,7 +527,7 @@ export default function Details({ dep, arr, img, cty }) {
       <div className="grid justify-items-center h-[80vh] overflow-auto p-4 gap-4">
         <div className="flex gap-2">
           <select
-            className="rounded-lg w-[120px] h-[30px] bg-neutral-300 text-neutral-800 font-semibold"
+            className="rounded-lg w-[120px] h-[30px] bg-zinc-300 text-zinc-800 font-semibold"
             onChange={(e) => {
               setType(e.target.value);
               setFilter("All");
@@ -541,7 +541,7 @@ export default function Details({ dep, arr, img, cty }) {
             onChange={(e) => {
               setFilter(e.target.value);
             }}
-            className="rounded-lg w-[120px] h-[30px] bg-neutral-300 text-neutral-800 font-semibold"
+            className="rounded-lg w-[120px] h-[30px] bg-zinc-300 text-zinc-800 font-semibold"
           >
             {type === "dep"
               ? depList.map((opt, i) => {
@@ -563,12 +563,12 @@ export default function Details({ dep, arr, img, cty }) {
             onClick={() => {
               setZone(zone === "loc" ? "gmt" : "loc");
             }}
-            className=" grid items-center justify-items-center rounded-lg w-[120px] h-[30px] bg-blue-500 text-neutral-800 font-semibold hover:cursor-pointer"
+            className=" grid items-center justify-items-center rounded-lg w-[120px] h-[30px] bg-blue-500 text-zinc-800 font-semibold hover:cursor-pointer"
           >
             {zone === "loc" ? "Local Time" : "GMT"}
           </div>
         </div>
-        <p className="text-neutral-300 text-lg font-semibold">
+        <p className="text-zinc-300 text-lg font-semibold">
           No Flights Found.
         </p>
       </div>

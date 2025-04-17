@@ -38,7 +38,7 @@ export default function Runways({ airportCode, stored }) {
   }
 
   return (
-    <div className="relative h-full w-[96vw] md:w-[65vw] overflow-auto bg-neutral-700 rounded-lg grid gap-4 text-neutral-300 font-semibold justify-items-center p-2 text-sm z-[4]">
+    <div className="relative h-full w-[96vw] md:w-[65vw] overflow-auto bg-zinc-800 rounded-lg grid gap-4 text-zinc-300 font-bold justify-items-center p-2 text-sm z-[4]">
       <div className="flex gap-4">
         <p>Density Alt: {alt.length !== 0 ? alt[0] : "--ft"}</p> |
         <p>Pressure Alt: {alt.length !== 0 ? alt[1] : "--ft"}</p>
@@ -66,13 +66,13 @@ export default function Runways({ airportCode, stored }) {
                 )}
               >
                 <div className="h-10 min-w-full">
-                  <div className="h-full w-full bg-neutral-800 rounded px-1 flex justify-between items-center">
+                  <div className="h-full w-full bg-zinc-800 rounded px-1 flex justify-between items-center">
                     <div className="h-10 w-6 grid gap-1 items-center">
                       {[1, 2, 3, 4].map((line) => {
                         return (
                           <div
                             key={line}
-                            className="h-1 w-4 bg-neutral-300"
+                            className="h-1 w-4 bg-zinc-300"
                           ></div>
                         );
                       })}
@@ -87,7 +87,7 @@ export default function Runways({ airportCode, stored }) {
                         return (
                           <div
                             key={line}
-                            className="h-1 w-4 bg-neutral-100"
+                            className="h-1 w-4 bg-zinc-100"
                           ></div>
                         );
                       })}

@@ -26,7 +26,7 @@ export default function Search() {
   }
 
   const handleSearch = async (text) => {
-    setOptions([{ icao: "Searching...", name: "" }]);
+    setOptions([{ icao: "Searching...", city: "" }]);
     try {
       setOptions(await AirportData(text));
     } catch {
@@ -37,9 +37,9 @@ export default function Search() {
   const debounce = useDebouncedCallback(handleSearch, 200);
 
   return (
-    <div className="z-10 relative w-1/2 md:w-1/4 h-[61%] mr-2">
+    <div className="z-10 relative w-full h-full ml-2 md:ml- skew-x-[30deg]">
       <input
-        className="w-full h-full rounded grid justify-items-center px-2 items-center font-semibold bg-neutral-300"
+        className="w-full h-full rounded grid justify-items-center px-2 items-center font-semibold bg-zinc-300"
         placeholder="Search Airport"
         onClick={() => {
           setDropdownClose(false);
@@ -74,10 +74,10 @@ export default function Search() {
                   JSON.stringify(opt.runways)
                 );
               }}
-              className="grid items-center w-full text-md font-semibold bg-neutral-200 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-neutral-300 border-b-2 border-neutral-500 border-solid"
+              className="grid items-center w-full text-md font-semibold bg-zinc-200 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-zinc-300 border-b-2 border-zinc-500 border-solid"
             >{`${
-              opt.icao === "Searching..." ? "Searching..." : `(${opt.icao})`
-            } ${opt.name}`}</div>
+              opt.icao === "Searching..." ? "Searching..." : `${opt.icao}`
+            } ${opt.city}`}</div>
           );
         })}
       </div>

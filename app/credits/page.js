@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Icon Credits | Blue Aero",
+  title: "Icon Credits | BlueAero",
 };
 export default function Credits() {
   return (

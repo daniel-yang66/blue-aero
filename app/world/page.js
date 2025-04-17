@@ -1,15 +1,10 @@
 import WorldTimes from "../components/worldtime";
-import WindsAloft from "../api/winds";
 import AirSig from "../api/airsig";
 
-export default async function WorldTime({ searchParams }) {
-  const params = await searchParams;
-
-  const winds = await WindsAloft();
+export default async function WorldTime() {
   const asData = await AirSig();
-  const windStatus = await params.status;
 
-  return <WorldTimes wind={winds} as={asData} status={windStatus} />;
+  return <WorldTimes as={asData} />;
 }
 
 export const generateMetadata = async () => {

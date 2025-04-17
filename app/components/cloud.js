@@ -8,7 +8,7 @@ export default function Clouds({ weather, onSetOpen, open }) {
   return (
     <div
       className={clsx(
-        "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid items-center justify-items-center z-10 overflow-auto text-neutral-300 overflow-auto font-semibold ",
+        "w-[96vw] md:w-[65vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid items-center justify-items-center z-10 overflow-auto text-zinc-300 overflow-auto font-bold ",
         {
           grid: open,
           hidden: !open,
@@ -71,7 +71,7 @@ export default function Clouds({ weather, onSetOpen, open }) {
           return (
             <div
               key={i}
-              className="flex gap-4 items-center text-sm md:text-md text-neutral-300"
+              className="flex gap-4 items-center text-sm md:text-md text-zinc-300"
             >
               <p>
                 {layer["type"]} -{" "}

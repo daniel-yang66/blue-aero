@@ -16,8 +16,8 @@ export default function AllCalc() {
           className={clsx(
             "w-20 h-6 rounded-xl grid items-center p-x-2 font-semibold",
             {
-              "bg-blue-800 text-neutral-300": navShow,
-              "bg-blue-400 text-neutral-900": !navShow,
+              "bg-blue-800 text-zinc-300": navShow,
+              "bg-blue-400 text-zinc-900": !navShow,
             }
           )}
           onClick={() => {
@@ -31,8 +31,8 @@ export default function AllCalc() {
           className={clsx(
             "w-20 h-6 rounded-xl grid items-center p-x-2 font-semibold",
             {
-              "bg-blue-800 text-neutral-300": wbShow,
-              "bg-blue-400 text-neutral-900": !wbShow,
+              "bg-blue-800 text-zinc-300": wbShow,
+              "bg-blue-400 text-zinc-900": !wbShow,
             }
           )}
           onClick={() => {

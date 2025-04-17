@@ -41,7 +41,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
     return (
       <div
         className={clsx(
-          "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid justify-items-center z-[10] overflow-auto text-neutral-300 overflow-auto",
+          "w-[96vw] md:w-[65vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto",
           {
             grid: open,
             hidden: !open,
@@ -86,7 +86,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
     return (
       <div
         className={clsx(
-          "w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 absolute top-0 left-0 rounded-lg grid justify-items-center z-[10] overflow-auto text-neutral-300 overflow-auto",
+          "w-[96vw] md:w-[65vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-lg grid justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto",
           {
             grid: open,
             hidden: !open,

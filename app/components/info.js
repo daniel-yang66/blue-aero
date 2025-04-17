@@ -71,7 +71,7 @@ export default function Stats({ dep, arr, cty, status, onSetOpen }) {
   return (
     <div
       className={clsx(
-        "fixed grid-rows-[15%_60%] w-[95vw] md:w-[45vw] h-[35vh] md:h-[40vh] bg-neutral-800 text-neutral-300 font-semibold justify-items-center rounded-lg left-[2.5vw] md:left-[30vw] top-[20vh] p-2 text-lg md:text-xl border-solid border-2 border-neutral-500 overflow-auto",
+        "fixed grid-rows-[15%_60%] w-[95vw] md:w-[45vw] h-[35vh] md:h-[40vh] bg-zinc-800 text-zinc-300 font-semibold justify-items-center rounded-lg left-[2.5vw] md:left-[30vw] top-[20vh] p-2 text-lg md:text-xl border-solid border-2 border-zinc-500 overflow-auto",
         {
           grid: status === "open",
           hidden: status !== "open",
@@ -87,7 +87,7 @@ export default function Stats({ dep, arr, cty, status, onSetOpen }) {
       <div className="grid justify-items-center h-full">
         <select
           onChange={(e) => setType(e.target.value)}
-          className="rounded-lg w-[150px] h-[25px] bg-neutral-300 text-neutral-800 font-semibold"
+          className="rounded-lg w-[150px] h-[25px] bg-zinc-300 text-zinc-800 font-semibold"
         >
           <option value={"dep"}>Departures</option>
           <option value={"arr"}>Arrivals</option>

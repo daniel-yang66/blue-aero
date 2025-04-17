@@ -17,7 +17,7 @@ export default function CurrentConditions({ airportCode, stored }) {
   const [weather, setWeather] = useState(undefined);
   const [time, setTime] = useState("--:--, --- --");
   const [timezone, setTimezone] = useState(undefined);
-  const [flightColor, setFlightColor] = useState("slate");
+  const [flightColor, setFlightColor] = useState("zinc");
   const [icon, setIcon] = useState("");
   const [phenom, setPhenom] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,7 +104,7 @@ export default function CurrentConditions({ airportCode, stored }) {
         setTime("--:--, --- --");
         setTimeSince("-- min old");
         setTimezone(undefined);
-        setFlightColor("slate");
+        setFlightColor("zinc");
         setPhenom([]);
         setCeiling("--ft");
       }
@@ -269,7 +269,7 @@ export default function CurrentConditions({ airportCode, stored }) {
   if (!loading) {
     return (
       <>
-        <div className="w-[96vw] md:w-[65vw] h-full bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300 relative">
+        <div className="w-[96vw] md:w-[65vw] h-full bg-zinc-800 p-2 relative rounded-md grid justify-items-center z-[5] overflow-auto text-zinc-300 relative">
           <div className="absolute top-1 left-2 md:left-4 grid items-center gap-1 md:gap-0">
             <div className="flex items-center gap-1 mb-[5px]">
               <img src="/icon.png" width={25} height={25} alt="plane" />
@@ -287,8 +287,8 @@ export default function CurrentConditions({ airportCode, stored }) {
                 {weather ? `| ${weather["info"]["city"]}` : "----"}
               </h1>
             </div>
-            <p className="font-semibold text-xs md:text-md">{timeSince}</p>
-            <p className="font-semibold text-xs md:text-md">
+            <p className="font-bold text-xs md:text-[15px]">{timeSince}</p>
+            <p className="font-bold text-xs md:text-[15px]">
               {time} | Elev:{" "}
               {weather ? weather["info"]["elevation_ft"] + "ft" : "--ft"} | Alt:{" "}
               {weather
@@ -301,49 +301,49 @@ export default function CurrentConditions({ airportCode, stored }) {
                   : "----"
                 : "----"}
             </p>
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-1">
               <div className="flex gap-1 items-center justify-content-center">
                 <img src="/sunrise.png" width={27} height={27} alt="sunrise" />
-                <p className="text-xs md:text-md text-neutral-300 font-semibold">
+                <p className="text-xs md:text-[15px] text-zinc-300 font-bold">
                   {sunTimes[0]}
                 </p>
               </div>
               <div className="flex gap-1 items-center justify-content-center">
                 <img src="/sunset.png" width={27} height={27} alt="sunset" />
-                <p className="text-xs md:text-md text-neutral-300 font-semibold">
+                <p className="text-xs md:text-[15px] text-zinc-300 font-bold">
                   {sunTimes[1]}
                 </p>
               </div>
             </div>
 
-            <p className="text-sm md:text-md font-semibold text-yellow-400">
+            <p className="text-sm md:text-md font-bold text-yellow-400">
               {phenom.join(", ")}
             </p>
           </div>
           <div className="absolute top-0 right-0 grid gap-2 items-center">
             <div
               className={clsx(
-                `w-16 md:w-20 h-[20px] grid items-center justify-items-center font-semibold rounded-bl-xl text-sm md:text-md text-neutral-800`,
+                `w-16 md:w-20 h-[24px] grid items-center justify-items-center font-bold rounded-bl-xl text-sm md:text-md text-zinc-800`,
                 {
                   "bg-green-400": flightColor === "green",
                   "bg-blue-400": flightColor === "blue",
                   "bg-red-400": flightColor === "red",
                   "bg-purple-400": flightColor === "purple",
-                  "bg-slate-400": flightColor === "slate",
+                  "bg-zinc-400": flightColor === "zinc",
                 }
               )}
             >
               {weather ? weather["flight_rules"] : "---"}
             </div>
           </div>
-          <div className="absolute w-[100px] top-[15%] right-[0.5%] grid gap-2 justify-content-center">
+          <div className="absolute w-[100px] top-[13%] md:top-[20%] right-[0.5%] grid gap-2 justify-content-center">
             <button
               onClick={() => {
                 setOpenCloud(false);
                 setOpenTaf(false);
                 setOpenAtis(true);
               }}
-              className="w-full h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-full h-[20px] md:h-[24px] bg-zinc-400 text-sm md:text-md font-bold grid justify-items-center items-center text-zinc-800 rounded-md mr-1 p-x-2"
             >
               ATIS
             </button>
@@ -353,7 +353,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 setOpenAtis(false);
                 setOpenTaf(true);
               }}
-              className="w-full h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-full h-[20px] md:h-[24px] bg-zinc-400 text-sm md:text-md font-bold grid justify-items-center items-center text-zinc-800 rounded-md mr-1 p-x-2"
             >
               Forecast
             </button>
@@ -363,7 +363,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 setOpenAtis(false);
                 setOpenCloud(true);
               }}
-              className="w-full h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-full h-[20px] md:h-[24px] bg-zinc-400 text-sm md:text-md font-bold grid justify-items-center items-center text-zinc-800 rounded-md mr-1 p-x-2"
             >
               Clouds
             </button>
@@ -379,7 +379,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             ) : (
               <></>
             )}
-            <h4 className="text-md md:text-lg font-semibold">{`${
+            <h4 className="text-[18px] md:text-[23px] font-bold">{`${
               weather
                 ? weather["temperature"]
                   ? weather["temperature"]["value"]
@@ -388,7 +388,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             }\xB0${weather ? weather["units"]["temperature"] : "C"}`}</h4>
           </div>
           <div className="flex items-center justify-content-center gap-2 md:gap-4 mt-10 md:mt-0">
-            <p className="font-semibold text-md md:text-lg">
+            <p className="font-bold text-md md:text-lg">
               {weather
                 ? weather["wind_direction"]
                   ? weather["wind_direction"]["repr"] !== "VRB"
@@ -399,7 +399,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             </p>
 
             <div
-              className={`w-16 h-16 md:h-20 md:w-20 grid items-center justify-items-center relative rounded-full border-slate-100 border-solid border-2 md:border-4`}
+              className={`w-20 h-20 md:h-24 md:w-24 grid items-center justify-items-center relative rounded-full border-zinc-400 border-solid border-4`}
               style={{
                 transform: `rotate(${
                   weather
@@ -414,8 +414,8 @@ export default function CurrentConditions({ airportCode, stored }) {
             >
               <img
                 src={"/wind.png"}
-                height={40}
-                width={40}
+                height={44}
+                width={44}
                 alt="wind"
                 style={{
                   transform: `rotate(${
@@ -431,13 +431,13 @@ export default function CurrentConditions({ airportCode, stored }) {
               />
               <div className="arrow"></div>
             </div>
-            <p className="font-semibold text-md md:text-lg">
+            <p className="font-bold text-md md:text-lg">
               {weather
                 ? weather["wind_speed"]
                   ? !weather["wind_gust"]
                     ? weather["wind_speed"]["value"] +
                       weather["units"]["wind_speed"]
-                    : `${weather["wind_speed"]["value"]} G ${weather["wind_gust"]["value"]}${weather["units"]["wind_speed"]}`
+                    : `${weather["wind_speed"]["value"]}/${weather["wind_gust"]["value"]}${weather["units"]["wind_speed"]}`
                   : "--kt"
                 : "--kt"}
             </p>
@@ -449,7 +449,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                 HandleFaves();
               }}
               className={clsx(
-                "absolute top-[86%] h-[20px] md:h-[20px] bg-none text-sm md:text-md font-semibold grid justify-items-center items-end rounded-xl mr-1",
+                "absolute top-[86%] h-[20px] md:h-[20px] bg-none text-md md:text-lg font-bold grid justify-items-center items-end rounded-xl mr-1",
                 {
                   "text-yellow-300": faveStatus,
                   "text-green-400": !faveStatus,
@@ -462,7 +462,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             <></>
           )}
           <div className="absolute bottom-1 right-2 md:right-4 grid items-center justify-items-center">
-            <p className="text-sm md:text-lg font-semibold">
+            <p className="text-sm md:text-lg font-bold">
               T/D Spr:{" "}
               {weather
                 ? weather["temperature"]
@@ -472,10 +472,10 @@ export default function CurrentConditions({ airportCode, stored }) {
                   : "--\xB0C"
                 : `--\xB0C`}
             </p>
-            <p className="text-sm md:text-lg font-semibold">
+            <p className="text-sm md:text-lg font-bold">
               Ceiling: {ceiling}
             </p>
-            <p className="text-sm md:text-lg font-semibold">
+            <p className="text-sm md:text-lg font-bold">
               Visibility:{" "}
               {weather
                 ? weather["visibility"]

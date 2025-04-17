@@ -8,7 +8,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <div className="w-screen h-[85vh] grid grid-rows-[30px_auto] justify-items-center relative">
-      <p className="font-bold text-neutral-300 text-xl mt-[0.5vh]">
+      <p className="font-bold text-zinc-300 text-xl mt-[0.5vh]">
         {airportCode} Flight Outlook (6H)
       </p>
 

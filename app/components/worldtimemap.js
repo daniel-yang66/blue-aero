@@ -6,9 +6,8 @@ import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
-export default function Map({ airports, wind, text, asig, status }) {
+export default function Map({ airports, asig}) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");
@@ -16,24 +15,10 @@ export default function Map({ airports, wind, text, asig, status }) {
   const map = useRef(null);
   const center = { lng: -114, lat: 33 };
   const markers = useRef([]);
-  const windMarkers = useRef([]);
   const asLayers = useRef([]);
   const asMarkers = useRef([]);
-  const [openText, setOpenText] = useState(false);
   const zoom = 1.2;
   maptilersdk.config.apiKey = process.env.NEXT_PUBLIC_MAP_TOKEN;
-
-  const { replace } = useRouter();
-  const pathName = usePathname();
-  const searchParams = useSearchParams();
-
-  function HandleClick() {
-    const params = new URLSearchParams(searchParams);
-    params.set("status", status === "1" ? "6" : "1");
-    replace(`${pathName}?${params.toString()}`);
-  }
-
-  useEffect(() => {}, [status]);
 
   useEffect(() => {
     if (map.current) return;
@@ -52,57 +37,6 @@ export default function Map({ airports, wind, text, asig, status }) {
     });
     markers.current = [];
   }, [airports]);
-
-  useEffect(() => {
-    windMarkers.current.forEach((marker) => {
-      marker.remove();
-    });
-    windMarkers.current = [];
-
-    wind.forEach((item) => {
-      const pin = document.createElement("div");
-      pin.className = "arrow-wind";
-      const pinNoWind = document.createElement("div");
-      pinNoWind.className = "no-wind";
-      if (
-        alt !== "off" &&
-        item[alt - (9 - (item.length - 3))] &&
-        alt - (9 - (item.length - 3)) > 0
-      ) {
-        let windDir, windVel;
-        if (
-          +item[alt - (9 - (item.length - 3))][0] > 3 &&
-          +item[alt - (9 - (item.length - 3))].slice(0, 2) !== 99
-        ) {
-          windDir = +item[alt - (9 - (item.length - 3))].slice(0, 2) - 50;
-          windVel = 100 + +item[alt - (9 - (item.length - 3))].slice(2, 4);
-        } else if (+item[alt - (9 - (item.length - 3))].slice(2, 4) === 0) {
-          windDir = 0;
-          windVel = 0;
-        } else {
-          windDir = +item[alt - (9 - (item.length - 3))].slice(0, 2);
-          windVel = +item[alt - (9 - (item.length - 3))].slice(2, 4);
-        }
-        const popup = new maptilersdk.Popup({
-          closeButton: false,
-          closeOnMove: false,
-        }).setHTML(`<div>${windDir * 10}\xB0 | ${windVel}kt</div>`);
-        const marker1 =
-          windDir !== 0
-            ? new maptilersdk.Marker({ element: pin })
-                .setLngLat([item[item.length - 1], item[item.length - 2]])
-                .setRotation(windDir * 10 + 90)
-                .addTo(map.current)
-                .setPopup(popup)
-            : new maptilersdk.Marker({ element: pinNoWind })
-                .setLngLat([item[item.length - 1], item[item.length - 2]])
-                .setRotation(windDir * 10 + 90)
-                .addTo(map.current)
-                .setPopup(popup);
-        windMarkers.current = [...windMarkers.current, marker1];
-      }
-    });
-  }, [wind, alt, status]);
 
   useEffect(() => {
     asMarkers.current.forEach((marker) => {
@@ -339,78 +273,25 @@ export default function Map({ airports, wind, text, asig, status }) {
   }, [alt]);
 
   return (
-    <div className="grid items-center justify-items-center">
-      {openText ? (
-        <div className="z-10 w-[90vw] md:w-[70vw] h-[45vh] left-[5vw] md:left-[15vw] overflow-auto absolute grid items-center justify-items-center text-yellow-400 bg-neutral-700 text-sm md:text-md">
-          <p
-            onClick={() => setOpenText(false)}
-            className="text-red-500 text-lg absolute top-2 right-2 font-bold"
-          >
-            X
-          </p>
-          <div className="grid gap-4 overflow-auto h-[90%] w-[85%]">
-            {text.map((line, i) => {
-              let newLine = [];
-              let num;
-              line.split(" ").forEach((str) => {
-                if (str.length === 0) {
-                  num += 1;
-                } else return;
-              });
-              if (line.slice(0, 2) !== "FT") {
-                line.split(" ").forEach((str, i) => {
-                  if (str.length === 0 && i < num + 1) {
-                    newLine.push(str);
-                  } else {
-                    newLine.push(str + " ");
-                  }
-                });
-              } else {
-                line.split(" ").forEach((str) => {
-                  newLine.push(str + " ");
-                });
-              }
-              return (
-                <p style={{ whiteSpace: "pre-wrap" }} key={i}>
-                  {newLine.join(" ")}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
-      <div className="flex gap-[10%] absolute top-[13%] left-[5%] md:left-[15%] w-[90%] md:w-[70%] justify-content-center">
-        <button
-          className="bg-blue-400 w-[33%] h-[25px] grid items-center p-x-2 text-neutral-900 rounded-lg"
-          onClick={() => {
-            HandleClick();
-            setOpenText(true);
-          }}
-        >
-          W&T Raw
-        </button>
+    <div className="grid items-center justify-items-centerw-full h-full">
+      
+      <div
+        ref={mapContainer}
+        className="rounded-lg mt-[2vh] w-full h-full"
+      />
+      <div className="grid gap-2 absolute top-[16%] md:top-[12%] left-[1%] w-[60%] md:w-[30%]">
 
         <select
           onChange={(e) => setAlt(e.target.value)}
-          className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[33%] h-[25px]"
         >
           <option value={"off"}>Wind</option>
           <option value={"sfc"}>SFC (Global)</option>
-          <option value={1}>FL30 (Cont. US)</option>
-          <option value={2}>FL60 (Cont. US)</option>
-          <option value={3}>FL90 (Cont. US)</option>
-          <option value={4}>FL120 (Cont. US)</option>
-          <option value={5}>FL180 (Cont. US)</option>
-          <option value={6}>FL240 (Cont. US)</option>
-          <option value={7}>FL300 (Cont. US)</option>
-          <option value={8}>FL340 (Cont. US)</option>
-          <option value={9}>FL390 (Cont. US)</option>
+         
         </select>
         <select
           onChange={(e) => setAsOpen(e.target.value)}
-          className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[33%] h-[25px]"
         >
           <option value={"off"}>Air/Sig</option>
           <option value={"TANGO"}>Tango (US)</option>
@@ -420,16 +301,13 @@ export default function Map({ airports, wind, text, asig, status }) {
         </select>
         <select
           onChange={(e) => setRadar(e.target.value)}
-          className="bg-neutral-300 text-neutral-800 rounded-lg w-[33%] h-[25px]"
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[33%] h-[25px]"
         >
           <option value={"off"}>Radar</option>
           <option value={"on"}>Radar On</option>
         </select>
       </div>
-      <div
-        ref={mapContainer}
-        className="rounded-lg mt-[8vh] w-[90vw] md:w-[80vw] h-[36vh]"
-      />
     </div>
+    
   );
 }
