@@ -279,7 +279,7 @@ export default function Map({ airports, asig}) {
         ref={mapContainer}
         className="rounded-lg mt-[2vh] w-full h-full"
       />
-      <div className="grid gap-2 absolute top-[16%] md:top-[12%] left-[1%] w-[60%] md:w-[30%]">
+      <div className="grid gap-2 absolute top-[16%] left-[1%] w-[60%] md:w-[30%]">
 
         <select
           onChange={(e) => setAlt(e.target.value)}
