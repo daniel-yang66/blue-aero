@@ -63,7 +63,7 @@ export default function WorldTimes({ as}) {
 
   return (
     <Suspense fallback={<Loading />}>
-        <div className="rounded-md h-[70vh] md:h-[98vh] w-full">
+        <div className="rounded-md h-[70vh] md:h-[80vh] w-full">
           <WorldView
             airports={data}
             asig={as}
