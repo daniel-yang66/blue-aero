@@ -28,20 +28,11 @@
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 28px solid orange;
+  border-top: 28px solid oklch(70.7% 0.165 254.624);
   border-radius: 12px;
   top: -16%;
   left: 50%;
   transform: translateX(-50%) rotate(0deg);
-}
-.arrow-rwy {
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-
-  border-bottom: 7px solid transparent;
-  border-right: 25px solid orange;
-  border-radius: 6px;
 }
 
 .arrow-wind {

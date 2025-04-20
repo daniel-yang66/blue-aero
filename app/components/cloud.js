@@ -27,44 +27,44 @@ export default function Clouds({ weather, onSetOpen, open }) {
           if (layer["type"] === "FEW") {
             cloudImg = (
               <div className="flex gap-8 items-center justify-content-center">
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
               </div>
             );
           }
           if (layer["type"] === "SCT") {
             cloudImg = (
               <div className="flex gap-6 items-center justify-content-center">
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
               </div>
             );
           }
           if (layer["type"] === "BKN") {
             cloudImg = (
               <div className="flex gap-2 items-center justify-content-center">
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
               </div>
             );
           }
           if (layer["type"] === "OVC" || layer["type"] === "VV") {
             cloudImg = (
               <div className="flex items-center justify-content-center">
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
-                <img src="cbase.png" width={25} height={25} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
+                <img src="cbase.png" width={30} height={30} alt="cloud" />
               </div>
             );
           }
