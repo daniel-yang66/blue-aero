@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "Icon Credits | Blue Aero",
+  title: "Icon Credits | BlueAero",
 };
 export default function Credits() {
   return (
-    <div className="grid justify-items-center items-center w-4/5 h-[80vh] text-xl text-neutral-300 overflow-auto">
+    <div className="grid justify-items-center items-center w-4/5 h-[80vh] text-xl text-zinc-300 overflow-auto">
       <a
         href="https://www.flaticon.com/free-icons/airport"
         title="airport icons"

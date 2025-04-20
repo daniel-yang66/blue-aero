@@ -8,10 +8,12 @@ import { getBoundsOfDistance, getGreatCircleBearing } from "geolib";
 import Map from "./map";
 import "../globals.css";
 
-export default function Info({ airport }) {
+export default function Info({ airport, route }) {
   const [data, setData] = useState(null);
   const [as, setAs] = useState(null);
   const [obs, setObs] = useState(null);
+  const [arrData, setArrData] = useState(null);
+  const [arrObs, setArrObs] = useState([]);
   const [trigger, setTrigger] = useState(false);
   const lastUpdate = useRef(Date.now());
   const [msa, setMsa] = useState(null);
@@ -21,8 +23,8 @@ export default function Info({ airport }) {
     setAs(asData);
   }
 
-  async function fetchInfo() {
-    const airportInfo = await AirportWeather(airport);
+  async function fetchInfo(aerodrome, type) {
+    const airportInfo = await AirportWeather(aerodrome);
 
     let dataObj = {};
     dataObj.name = `${airportInfo["info"]["icao"]}/${airportInfo["info"]["iata"]}`;
@@ -59,41 +61,53 @@ export default function Info({ airport }) {
       boundingCoords[1].longitude
     );
 
-    setData(dataObj);
-    setObs([obsData, wideRadiusObsData]);
+    if (type === "dep" || type === "single") {
+      setData(dataObj);
+      setObs([obsData, wideRadiusObsData]);
+    } else if (type === "arr") {
+      setArrData(dataObj);
+      setArrObs([obsData]);
+    }
 
-    let q1 = [];
-    let q2 = [];
-    let q3 = [];
+    // let q1 = [];
+    // let q2 = [];
+    // let q3 = [];
 
-    wideRadiusObsData.forEach((obs) => {
-      const relativeBearing = getGreatCircleBearing(
-        {
-          latitude: airportInfo["info"]["latitude"],
-          longitude: airportInfo["info"]["longitude"],
-        },
-        { latitude: obs.lat, longitude: obs.lon }
-      );
-      if (relativeBearing >= 0 && relativeBearing <= 120) {
-        q1.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
-      } else if (relativeBearing > 120 && relativeBearing <= 240) {
-        q2.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
-      } else if (relativeBearing > 240 && relativeBearing < 360) {
-        q3.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
-      }
-    });
-    setMsa([
-      Math.max(...q1) + 1000,
-      Math.max(...q2) + 1000,
-      Math.max(...q3) + 1000,
-    ]);
+    // wideRadiusObsData.forEach((obs) => {
+    //   const relativeBearing = getGreatCircleBearing(
+    //     {
+    //       latitude: airportInfo["info"]["latitude"],
+    //       longitude: airportInfo["info"]["longitude"],
+    //     },
+    //     { latitude: obs.lat, longitude: obs.lon }
+    //   );
+    //   if (relativeBearing >= 0 && relativeBearing <= 120) {
+    //     q1.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+    //   } else if (relativeBearing > 120 && relativeBearing <= 240) {
+    //     q2.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+    //   } else if (relativeBearing > 240 && relativeBearing < 360) {
+    //     q3.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+    //   }
+    // });
+    // setMsa([
+    //   Math.max(...q1) + 1000,
+    //   Math.max(...q2) + 1000,
+    //   Math.max(...q3) + 1000,
+    // ]);
   }
 
   useEffect(() => {
     fetchAirSig();
-    if (!airport) return;
-    fetchInfo();
-  }, [airport]);
+    if (!airport && !route) return;
+    if (route) {
+      fetchInfo(route[0], "dep");
+      fetchInfo(route[1], "arr");
+    } else {
+      fetchInfo(airport, "single");
+      setArrData(null);
+      setArrObs([]);
+    }
+  }, [airport, route]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -114,43 +128,45 @@ export default function Info({ airport }) {
           asig={as}
           obs={obs ? obs[0] : null}
           obsWideRadius={obs ? obs[1] : null}
+          arrAirport={arrData}
+          arrObs={arrObs}
         />
-        {msa ? (
+        {/* {msa ? (
           <div className="grid justify-items-center gap-1 absolute top-[65%] right-[2%] md:right-[10%]">
             <div className="circle">
               <div className="line">
-                <p className="text-sm text-neutral-300 -mt-6 font-semibold">
+                <p className="text-sm text-zinc-300 -mt-6 font-bold">
                   {"0\xB0"}
                 </p>
               </div>
               <div className="line">
                 {" "}
-                <p className="text-sm text-neutral-300 -mt-6 -ml-2 font-semibold">
+                <p className="text-sm text-zinc-300 -mt-6 -ml-2 font-bold">
                   {"120\xB0"}
                 </p>
               </div>
               <div className="line">
                 {" "}
-                <p className="text-sm text-neutral-300 font-semibold -mt-6 -ml-2">
+                <p className="text-sm text-zinc-300 font-bold -mt-6 -ml-2">
                   {"240\xB0"}
                 </p>
               </div>
 
-              <p className="font-semibold text-neutral-300 absolute top-4 right-1 rotate-[45deg] text-sm">
+              <p className="font-bold text-zinc-300 absolute top-4 right-1 rotate-[45deg] text-sm">
                 {Math.round(msa[0])}
               </p>
-              <p className="font-semibold text-neutral-300 absolute bottom-2 left-6 text-sm">
+              <p className="font-bold text-zinc-300 absolute bottom-2 left-6 text-sm">
                 {Math.round(msa[1])}
               </p>
-              <p className="font-semibold text-neutral-300 absolute top-4 left-1 -rotate-[45deg] text-sm">
+              <p className="font-bold text-zinc-300 absolute top-4 left-1 -rotate-[45deg] text-sm">
                 {Math.round(msa[2])}
               </p>
             </div>
-            <p className="text-blue-300 font-semibold">MSA</p>
+            <p className="text-blue-300 font-bold">MSA</p>
           </div>
         ) : (
           <></>
-        )}
+        )} */}
       </div>
     </Suspense>
   );

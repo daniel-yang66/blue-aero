@@ -3,62 +3,33 @@
 import CurrentConditions from "./currentconditions";
 import { useState } from "react";
 import Performance from "./performance";
-import AtisInfo from "./atisInfo";
 
-export default function Display({ airportCode, stored }) {
+export default function Display({ airportCode, route }) {
   const [display, setDisplay] = useState("weather");
 
   if (display === "weather") {
     return (
-      <div className="mb-2">
-        <CurrentConditions airportCode={airportCode} stored={stored} />
+      <div className="mb-4">
+        {!route ? (
+          <CurrentConditions airportCode={airportCode} type="single" />
+        ) : (
+          <div className="h-full grid gap-2 md:flex md:gap-[4vw]">
+            <CurrentConditions airportCode={route[0]} type="route" />
+            <CurrentConditions airportCode={route[1]} type="route" />
+          </div>
+        )}
 
-        <div className="flex gap-2 mt-2 justify-self-center h-[8%]">
+        <div className="flex gap-2 justify-self-center h-[8%]">
           <button
             onClick={() => setDisplay("weather")}
-            className={`grid items-center justify-items-center w-20 h-full flex gap-2 font-semibold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-neutral-800 bg-green-400`}
+            className={`grid items-center justify-items-center w-20 h-8 h-full flex gap-2 font-bold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-zinc-800 bg-green-400`}
           >
             Weather
           </button>
 
           <button
-            onClick={() => setDisplay("atis")}
-            className={`grid justify-items-center items-center w-20 h-full flex gap-2 font-semibold text-sm md:text-md text-neutral-800 mt-[0.5vh] bg-blue-400 rounded-md bg-blue-400`}
-          >
-            ATIS
-          </button>
-          <button
             onClick={() => setDisplay("performance")}
-            className={`grid justify-items-center items-center w-24 h-full flex gap-2 font-semibold text-sm md:text-md text-neutral-800 mt-[0.5vh] bg-blue-400 rounded-md bg-blue-400`}
-          >
-            Peformance
-          </button>
-        </div>
-      </div>
-    );
-  }
-  if (display === "atis") {
-    return (
-      <div className="mb-2">
-        <AtisInfo airport={airportCode} />
-
-        <div className="flex gap-2 mt-2 justify-self-center h-[8%]">
-          <button
-            onClick={() => setDisplay("weather")}
-            className={`grid items-center justify-items-center w-20 h-full flex gap-2 font-semibold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-neutral-800 bg-blue-400`}
-          >
-            Weather
-          </button>
-
-          <button
-            onClick={() => setDisplay("atis")}
-            className={`grid justify-items-center items-center w-20 h-full flex gap-2 font-semibold text-sm md:text-md text-neutral-800 mt-[0.5vh] bg-blue-400 rounded-md bg-green-400`}
-          >
-            ATIS
-          </button>
-          <button
-            onClick={() => setDisplay("performance")}
-            className={`grid justify-items-center items-center w-24 h-full flex gap-2 font-semibold text-sm md:text-md text-neutral-800 mt-[0.5vh] bg-blue-400 rounded-md bg-blue-400`}
+            className={`grid justify-items-center items-center w-24 h-8 h-full flex gap-2 font-bold text-sm md:text-md text-zinc-800 mt-[0.5vh] bg-zinc-400 rounded-md bg-zinc-400`}
           >
             Peformance
           </button>
@@ -67,26 +38,20 @@ export default function Display({ airportCode, stored }) {
     );
   } else if (display === "performance") {
     return (
-      <div className="mb-2">
+      <div className="mb-4">
         <Performance />
 
-        <div className="flex gap-2 mt-2 justify-self-center h-[8%]">
+        <div className="flex gap-2 justify-self-center h-[8%]">
           <button
             onClick={() => setDisplay("weather")}
-            className={`grid items-center justify-items-center w-20 h-full flex gap-2 font-semibold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-neutral-800 bg-blue-400`}
+            className={`grid items-center justify-items-center w-20 h-8 h-full flex gap-2 font-bold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-zinc-800 bg-zinc-400`}
           >
             Weather
           </button>
 
           <button
-            onClick={() => setDisplay("atis")}
-            className={`grid justify-items-center items-center w-20 h-full flex gap-2 font-semibold text-sm md:text-md text-neutral-800 mt-[0.5vh] bg-blue-400 rounded-md bg-blue-400`}
-          >
-            ATIS
-          </button>
-          <button
             onClick={() => setDisplay("performance")}
-            className={`grid justify-items-center items-center w-24 h-full flex gap-2 font-semibold text-sm md:text-md text-neutral-800 mt-[0.5vh] bg-blue-400 rounded-md bg-green-400`}
+            className={`grid justify-items-center items-center w-24 h-8 h-full flex gap-2 font-bold text-sm md:text-md text-zinc-800 mt-[0.5vh] bg-zinc-400 rounded-md bg-green-400`}
           >
             Peformance
           </button>

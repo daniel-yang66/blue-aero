@@ -1,14 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Atis from "../api/atis";
-import Loading from "./loading";
-export default function AtisInfo({ airport }) {
+import clsx from "clsx";
+import LoadingForecast from "./loadingForecast";
+export default function AtisInfo({ airport, onSetOpen, open }) {
   const [atis, setAtis] = useState(null);
   const [loading, setLoading] = useState(false);
+  const counter = useRef(0);
 
   async function getAtis() {
-    setLoading(true);
     try {
+      setLoading(true);
+      counter.current = 0;
       let atisInfo = await Atis(airport);
       if (atisInfo.length > 1) {
         let atisList = [];
@@ -19,30 +22,38 @@ export default function AtisInfo({ airport }) {
       } else {
         setAtis([atisInfo[0].datis.split(".")]);
       }
+      counter.current += 1;
       setLoading(false);
     } catch {
-      alert("Failed to fetch ATIS");
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    if (!airport) return;
+    if (!airport || counter.current >= 1 || !open) return;
     getAtis(airport);
-  }, [airport]);
+  }, [airport, open]);
 
   if (loading === true) {
-    return <Loading />;
+    return <LoadingForecast />;
   } else if (atis) {
     return (
-      <div className="w-[96vw] md:w-[65vw] h-[90%] bg-neutral-800 p-2 relative rounded-lg grid z-[5]">
-        <div className="flex items-center gap-2 mb-[5px] text-neutral-300">
-          <img src="/icon.png" width={25} height={25} alt="plane" />
-          <h1 className="grid font-bold text-sm md:text-lg">
-            {airport ? `${airport} ATIS` : "----"}
-          </h1>
+      <div
+        className={clsx(
+          `w-[96vw] ${type === 'route' ? 'md:w-[45vw]' : 'md:w-[65vw]'} h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto`,
+          {
+            grid: open,
+            hidden: !open,
+          }
+        )}
+      >
+        <div
+          onClick={() => onSetOpen(false)}
+          className="text-red-500 text-lg font-bold absolute top-1 right-8 hover:cursor-pointer"
+        >
+          X
         </div>
-        <div className="overflow-auto grid gap-2">
+        <div className="overflow-auto grid">
           <div>
             {atis ? (
               atis.map((chunk, i) => {
@@ -53,8 +64,8 @@ export default function AtisInfo({ airport }) {
                         <p
                           key={i}
                           className={`${
-                            i === 0 ? "text-green-400" : `text-blue-300`
-                          } font-semibold text-sm`}
+                            i === 0 ? "text-green-400" : `text-blue-300 mb-2`
+                          } font-semibold text-sm mb-2`}
                         >
                           {sentence}
                         </p>
@@ -72,7 +83,21 @@ export default function AtisInfo({ airport }) {
     );
   } else {
     return (
-      <div className="w-[96vw] md:w-[65vw] h-[90%] bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
+      <div
+        className={clsx(
+          "w-[96vw] md:w-[65vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-lg grid justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto",
+          {
+            grid: open,
+            hidden: !open,
+          }
+        )}
+      >
+        <div
+          onClick={() => onSetOpen(false)}
+          className="text-red-500 text-lg font-bold absolute top-1 right-2 hover:cursor-pointer"
+        >
+          X
+        </div>
         ATIS Unavailable
       </div>
     );

@@ -6,11 +6,11 @@ import Zulu from "./components/zulu";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="w-screen p-0 m-0 font-sans bg-neutral-900 relative grid justify-items-center">
+      <body className="w-screen p-0 m-0 font-sans bg-zinc-900 relative grid justify-items-center">
         <Nav />
         <Zulu />
         {children}
-        <footer className="absolute left-4 top-[97vh] text-neutral-300 font-semibold text-sm">
+        <footer className="absolute left-4 top-[97vh] text-zinc-300 font-semibold text-sm">
           {" "}
           &copy;{" "}
           <a

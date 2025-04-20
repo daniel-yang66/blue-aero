@@ -31,13 +31,13 @@ export default function Forecast({
 
       let forecast = text ? await AirportForecast(text) : undefined;
       let cleaned = [];
-      let color = "slate";
+      let color = "zinc";
 
       const reportTime = DateTime.fromISO(forecast["time"]["dt"], {
         zone: "UTC",
       }).ts;
       const hourDiff = Math.floor((Date.now() - reportTime) / 60000 / 60);
-      const minDiff = Math.round(
+      const minDiff = Math.floor(
         (Date.now() - reportTime) / 60000 -
           Math.floor((Date.now() - reportTime) / 60000 / 60) * 60
       );
@@ -189,7 +189,7 @@ export default function Forecast({
     return (
       <div
         className={clsx(
-          "grid-rows-[30px_auto] justify-items-center fixed w-[90vw] top-[9.5vh] md:w-[60vw] h-[77vh] left-[5vw] md:left-[20vw] bg-neutral-700 z-10 rounded-lg p-4 gap-2 font-semibold",
+          "w-[96vw] md:w-[60vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid grid-rows-[30px_auto]  justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto font-semibold",
           {
             grid: open,
             hidden: !open,
@@ -210,14 +210,14 @@ export default function Forecast({
         <div className="flex gap-2 items-center justify-content-center md:mt-0">
           <select
             onChange={(e) => setZone(e.target.value)}
-            className="rounded-lg w-[130px] h-[25px] bg-neutral-300 text-md  text-neutral-800"
+            className="rounded-lg w-[130px] h-[25px] bg-zinc-300 text-md  text-zinc-800"
           >
             <option value={"loc"}>Airport Time</option>
             <option value={"gmt"}>GMT</option>
           </select>
           <select
             onChange={(e) => setType(e.target.value)}
-            className="rounded-lg w-[130px] h-[25px] bg-neutral-300 text-md  text-neutral-800"
+            className="rounded-lg w-[130px] h-[25px] bg-zinc-300 text-md  text-zinc-800"
           >
             <option value={"taf"}>TAF</option>
             <option value={"hourly"}>Hourly</option>
@@ -247,7 +247,7 @@ export default function Forecast({
                 return (
                   <div
                     key={i}
-                    className="grid items-center justify-items-center relative text-neutral-300 h-[20vh] w-[85vw] md:w-[50vw] overflow-auto bg-neutral-900 rounded-lg p-2 mt-4 md:mt-0"
+                    className="grid items-center justify-items-center relative text-zinc-300 h-[20vh] w-[85%] md:w-[50vw] overflow-auto bg-zinc-900 rounded-lg p-2 mt-4 md:mt-0"
                   >
                     <div className="absolute top-2 left-2 grid gap-1 items-center text-sm md:text-md">
                       <div className="flex w-full gap-1">
@@ -269,13 +269,13 @@ export default function Forecast({
                     )}
                     <p
                       className={clsx(
-                        "absolute top-0 right-0 w-14 h-6 text-sm md:text-md grid items-center justify-items-center rounded-bl-xl text-neutral-800 text-sm md:text-md",
+                        "absolute top-0 right-0 w-14 h-6 text-sm md:text-md grid items-center justify-items-center rounded-bl-xl text-zinc-800 text-sm md:text-md",
                         {
                           "bg-green-400": info["col"] === "green",
                           "bg-blue-400": info["col"] === "blue",
                           "bg-red-400": info["col"] === "red",
                           "bg-purple-400": info["col"] === "purple",
-                          "bg-slate-400": info["col"] === "slate",
+                          "bg-zinc-400": info["col"] === "zinc",
                         }
                       )}
                     >
@@ -291,7 +291,7 @@ export default function Forecast({
                         }
                       )}
                     >
-                      <p className=" text-sm md:text-md text-neutral-300">
+                      <p className=" text-sm md:text-md text-zinc-300">
                         {`${
                           info["wd"] !== "VRB" && info["wd"] !== "N/A"
                             ? info["wd"] + "\xB0"
@@ -300,7 +300,7 @@ export default function Forecast({
                       </p>
 
                       <div
-                        className={`w-16 h-16 grid items-center justify-items-center relative rounded-full border-slate-100 border-solid border-2`}
+                        className={`w-20 h-20 grid items-center justify-items-center relative rounded-full border-zinc-400 border-solid border-4`}
                         style={{
                           transform: `rotate(${
                             info["wd"] !== "N/A" ? info["wd"] : 0
@@ -320,14 +320,14 @@ export default function Forecast({
                         />
                         <div className="arrow"></div>
                       </div>
-                      <p className=" text-sm md:text-md text-neutral-300">
+                      <p className=" text-sm md:text-md text-zinc-300">
                         {`${
                           info["wg"] === 0 && info["ws"] !== "N/A"
                             ? info["ws"] + info["wsUnit"]
                             : info["ws"]
-                        } ${
+                        }${
                           info["wg"] !== 0
-                            ? `G ${info["wg"]}${info["wsUnit"]}`
+                            ? `/${info["wg"]}${info["wsUnit"]}`
                             : ""
                         }`}
                       </p>
@@ -373,9 +373,9 @@ export default function Forecast({
                 return (
                   <div
                     key={i}
-                    className="text-xs md:text-sm grid gap-2 items-center justify-items-center relative text-neutral-300 h-[20vh] md:h-[24.5vh] w-[85vw] md:w-[40vw] overflow-auto bg-neutral-900 rounded-lg p-2"
+                    className="text-xs md:text-sm grid gap-2 items-center justify-items-center relative text-zinc-300 h-[16.5vh] w-[85vw] md:w-[40vw] overflow-auto bg-zinc-900 rounded-lg p-2"
                   >
-                    <p className="font-bold">{timeFormated}</p>
+                    <p className="font-bol absolute top-1 left-1">{timeFormated}</p>
                     <div className="flex gap-1">
                       <img
                         src={`${data.values.weatherCode}${dayStatus}.png`}
@@ -419,7 +419,7 @@ export default function Forecast({
                               data.values.windGust &&
                               Math.round(data.values.windGust * 0.869) !==
                                 Math.round(data.values.windSpeed * 0.869),
-                            "text-neutral-300 -ml-2":
+                            "text-zinc-300 -ml-2":
                               !data.values.windGust ||
                               Math.round(data.values.windGust * 0.869) ===
                                 Math.round(data.values.windSpeed * 0.869),

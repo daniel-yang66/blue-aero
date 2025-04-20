@@ -10,9 +10,9 @@ import Loading from "./loading";
 import AirportWeather from "../api/airportWeather";
 import Forecast from "./forecast";
 import Clouds from "./cloud";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import AtisInfo from "./atisInfo";
 
-export default function CurrentConditions({ airportCode, stored }) {
+export default function CurrentConditions({ airportCode, type }) {
   const [weather, setWeather] = useState(undefined);
   const [time, setTime] = useState("--:--, --- --");
   const [timezone, setTimezone] = useState(undefined);
@@ -21,6 +21,7 @@ export default function CurrentConditions({ airportCode, stored }) {
   const [phenom, setPhenom] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openTaf, setOpenTaf] = useState(false);
+  const [openAtis, setOpenAtis] = useState(false);
   const [openCloud, setOpenCloud] = useState(false);
   const [timeSince, setTimeSince] = useState("-- min old");
   const [ceiling, setCeiling] = useState("--ft");
@@ -28,21 +29,6 @@ export default function CurrentConditions({ airportCode, stored }) {
   const [sunTimes, setSunTimes] = useState([]);
   const [trigger, setTrigger] = useState(false);
   const lastUpdate = useRef(Date.now());
-
-  const { replace } = useRouter();
-  const pathName = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (localStorage.getItem("blueaero-airports")) {
-      const faveList = JSON.parse(localStorage.getItem("blueaero-airports"));
-      if (faveList.includes(airportCode)) {
-        setFaveStatus(true);
-      } else {
-        setFaveStatus(false);
-      }
-    }
-  }, [airportCode]);
 
   const timeConversion = function (tz) {
     const timeData = DateTime.now().setZone(tz);
@@ -86,7 +72,6 @@ export default function CurrentConditions({ airportCode, stored }) {
         else if (data["flight_rules"] === "MVFR") setFlightColor("blue");
         else if (data["flight_rules"] === "IFR") setFlightColor("red");
         else if (data["flight_rules"] === "LIFR") setFlightColor("purple");
-
 
         const tz = tz_lookup(lat, lon);
         setTimezone(tz);
@@ -193,23 +178,39 @@ export default function CurrentConditions({ airportCode, stored }) {
   if (!loading) {
     return (
       <>
-        <div className="w-[96vw] md:w-[65vw] h-[90%] bg-neutral-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-neutral-300">
-          <div className="absolute h-8 w-[40%] top-[85%] left-[30%] md:left-[35%] flex gap-2 justify-content-center">
+        <div
+          className={`w-[96vw] ${
+            type === "route" ? "md:w-[45vw]" : "md:w-[65vw]"
+          } h-[90%] bg-zinc-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-zinc-300`}
+        >
+          <div className="absolute w-[80px] top-[12%] md:top-[17%] right-[0.5%] grid gap-2 justify-content-center">
             <button
               onClick={() => {
                 setOpenCloud(false);
+                setOpenTaf(false);
+                setOpenAtis(true);
+              }}
+              className="w-full h-[18px] md:h-[20px] bg-zinc-400 text-sm md:text-md font-bold grid justify-items-center items-center text-zinc-800 rounded-md mr-1 p-x-2"
+            >
+              ATIS
+            </button>
+            <button
+              onClick={() => {
+                setOpenCloud(false);
+                setOpenAtis(false);
                 setOpenTaf(true);
               }}
-              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-full h-[18px] md:h-[20px] bg-zinc-400 text-sm md:text-md font-bold grid justify-items-center items-center text-zinc-800 rounded-md mr-1 p-x-2"
             >
               Forecast
             </button>
             <button
               onClick={() => {
                 setOpenTaf(false);
+                setOpenAtis(false);
                 setOpenCloud(true);
               }}
-              className="w-[45%] md:w-[36%] h-[20px] md:h-[24px] bg-blue-400 text-sm md:text-md font-semibold grid justify-items-center items-center text-neutral-800 rounded-md mr-1 p-x-2"
+              className="w-full h-[18px] md:h-[20px] bg-zinc-400 text-sm md:text-md font-bold grid justify-items-center items-center text-zinc-800 rounded-md mr-1 p-x-2"
             >
               Clouds
             </button>
@@ -230,8 +231,8 @@ export default function CurrentConditions({ airportCode, stored }) {
                 {weather ? `| ${weather["info"]["city"]}` : "----"}
               </h1>
             </div>
-            <p className="font-semibold text-xs md:text-md">{timeSince}</p>
-            <p className="font-semibold text-xs md:text-md">
+            <p className="font-bold text-xs md:text-[13px]">{timeSince}</p>
+            <p className="font-bold text-xs md:text-[13px]">
               {time} | Elev:{" "}
               {weather ? weather["info"]["elevation_ft"] + "ft" : "--ft"} | Alt:{" "}
               {weather
@@ -247,26 +248,26 @@ export default function CurrentConditions({ airportCode, stored }) {
             <div className="flex gap-2">
               <div className="flex gap-1 items-center justify-content-center">
                 <img src="/sunrise.png" width={27} height={27} alt="sunrise" />
-                <p className="text-xs md:text-md text-neutral-300 font-semibold">
+                <p className="text-xs md:text-[13px] text-zinc-300 font-bold">
                   {sunTimes[0]}
                 </p>
               </div>
               <div className="flex gap-1 items-center justify-content-center">
                 <img src="/sunset.png" width={27} height={27} alt="sunset" />
-                <p className="text-xs md:text-md text-neutral-300 font-semibold">
+                <p className="text-xs md:text-[13px] text-zinc-300 font-bold">
                   {sunTimes[1]}
                 </p>
               </div>
             </div>
 
-            <p className="text-sm md:text-md font-semibold text-yellow-400">
+            <p className="text-sm md:text-md font-bold text-yellow-400">
               {phenom.join(", ")}
             </p>
           </div>
           <div className="absolute top-0 right-0 grid gap-2 items-center">
             <div
               className={clsx(
-                `w-16 md:w-20 h-[20px] grid items-center justify-items-center font-semibold rounded-bl-xl text-sm md:text-md text-neutral-800`,
+                `w-16 md:w-20 h-[20px] grid items-center justify-items-center font-bold rounded-bl-xl text-sm md:text-md text-zinc-800`,
                 {
                   "bg-green-400": flightColor === "green",
                   "bg-blue-400": flightColor === "blue",
@@ -283,14 +284,14 @@ export default function CurrentConditions({ airportCode, stored }) {
             {icon ? (
               <img
                 src={`/${icon}.png`}
-                width={68}
-                height={68}
+                width={60}
+                height={60}
                 alt="weather icon"
               />
             ) : (
               <></>
             )}
-            <h4 className="text-md md:text-lg font-semibold">{`${
+            <h4 className="text-md font-bold">{`${
               weather
                 ? weather["temperature"]
                   ? weather["temperature"]["value"]
@@ -298,8 +299,8 @@ export default function CurrentConditions({ airportCode, stored }) {
                 : "--"
             }\xB0${weather ? weather["units"]["temperature"] : "C"}`}</h4>
           </div>
-          <div className="flex items-center justify-content-center gap-2 md:gap-4 mt-10 md:mt-0">
-            <p className="font-semibold text-md md:text-lg">
+          <div className="flex items-center justify-content-center gap-2 md:gap-4 mt-[13vh] h-[20%]">
+            <p className="font-bold text-md md:text-lg">
               {weather
                 ? weather["wind_direction"]
                   ? weather["wind_direction"]["repr"] !== "VRB"
@@ -310,7 +311,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             </p>
 
             <div
-              className={`w-16 h-16 md:h-20 md:w-20 grid items-center justify-items-center relative rounded-full border-slate-100 border-solid border-2 md:border-4`}
+              className={`w-20 h-20 grid items-center justify-items-center relative rounded-full border-zinc-400 border-solid border-4`}
               style={{
                 transform: `rotate(${
                   weather
@@ -342,20 +343,20 @@ export default function CurrentConditions({ airportCode, stored }) {
               />
               <div className="arrow"></div>
             </div>
-            <p className="font-semibold text-md md:text-lg">
+            <p className="font-bold text-md md:text-lg">
               {weather
                 ? weather["wind_speed"]
                   ? !weather["wind_gust"]
                     ? weather["wind_speed"]["value"] +
                       weather["units"]["wind_speed"]
-                    : `${weather["wind_speed"]["value"]} G ${weather["wind_gust"]["value"]}${weather["units"]["wind_speed"]}`
+                    : `${weather["wind_speed"]["value"]}/${weather["wind_gust"]["value"]}${weather["units"]["wind_speed"]}`
                   : "--kt"
                 : "--kt"}
             </p>
           </div>
 
-          <div className="absolute bottom-1 right-2 md:right-4 grid items-center justify-items-center">
-            <p className="text-sm md:text-lg font-semibold">
+          <div className="absolute bottom-1 right-[3px] md:right-4 grid items-center justify-items-end text-sm md:text-[16px]">
+            <p className="font-bold">
               T/D Spr:{" "}
               {weather
                 ? weather["temperature"]
@@ -365,10 +366,8 @@ export default function CurrentConditions({ airportCode, stored }) {
                   : "--\xB0C"
                 : `--\xB0C`}
             </p>
-            <p className="text-sm md:text-lg font-semibold">
-              Ceiling: {ceiling}
-            </p>
-            <p className="text-sm md:text-lg font-semibold">
+            <p className="font-bold">Ceiling: {ceiling}</p>
+            <p className="font-bold">
               Visibility:{" "}
               {weather
                 ? weather["visibility"]
@@ -393,6 +392,12 @@ export default function CurrentConditions({ airportCode, stored }) {
             sun={sunTimes}
           />
           <Clouds weather={weather} onSetOpen={setOpenCloud} open={openCloud} />
+          <AtisInfo
+            airport={airportCode}
+            onSetOpen={setOpenAtis}
+            open={openAtis}
+            type={type}
+          />
         </div>
       </>
     );

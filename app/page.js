@@ -1,21 +1,24 @@
 import { Suspense } from "react";
 import Loading from "./components/loading";
-import WorldTimes from "./components/mapInfo";
 import Display from "./components/display";
+import Info from "./components/mapInfo";
 
 export default async function Home({ searchParams }) {
   const params = await searchParams;
   const airportCode = await params.airportCode;
-  const stored = await params.stored;
+  const route = await params.route;
 
   return (
     <div className=" mt-[1vh] max-h-[80vh] w-full grid grid-rows-[30vh_1fr] md:grid-rows-[33vh_auto] gap-[1vh] justify-items-center">
       <Suspense fallback={<Loading />}>
-        <Display airportCode={airportCode} stored={stored} />
+        <Display
+          airportCode={airportCode}
+          route={route ? route.split(",") : null}
+        />
       </Suspense>
 
       <Suspense fallback={<Loading />}>
-        <WorldTimes airport={airportCode} />;
+        <Info airport={airportCode} route={route ? route.split(",") : null} />;
       </Suspense>
     </div>
   );

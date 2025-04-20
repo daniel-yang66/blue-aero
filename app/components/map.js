@@ -7,12 +7,11 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
 
-export default function Map({ airport, asig, obs }) {
+export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");
-  const [style, setStyle] = useState("DATAVIZ.DARK");
-  const [msa, setMsa] = useState("--");
+  const [style, setStyle] = useState("HYBRID");
   const mapContainer = useRef(null);
   const map = useRef(null);
   const center = { lng: -114, lat: 33 };
@@ -21,6 +20,46 @@ export default function Map({ airport, asig, obs }) {
   const asMarkers = useRef([]);
   const zoom = 1.2;
   maptilersdk.config.apiKey = process.env.NEXT_PUBLIC_MAP_TOKEN;
+
+  function AddRoute(mapInstance, coords) {
+    if (mapInstance.current.getLayer("route")) {
+      mapInstance.current.removeLayer("route");
+    }
+    if (mapInstance.current.getSource("route")) {
+      mapInstance.current.removeSource("route");
+    }
+    mapInstance.current.addSource("route", {
+      type: "geojson",
+      lineMetrics: true,
+      data: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              coordinates: coords,
+              type: "LineString",
+            },
+          },
+        ],
+      },
+    });
+
+    mapInstance.current.addLayer({
+      type: "line",
+      source: "route",
+      id: "route",
+      paint: {
+        "line-color": "green",
+        "line-width": 6,
+      },
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+      },
+    });
+  }
 
   useEffect(() => {
     if (map.current) return;
@@ -43,19 +82,23 @@ export default function Map({ airport, asig, obs }) {
     newStyle.length === 2
       ? map.current.setStyle(maptilersdk.MapStyle[newStyle[0]][newStyle[1]])
       : map.current.setStyle(maptilersdk.MapStyle[newStyle[0]]);
-  }, [style]);
 
-  useEffect(() => {
-    markers.current.forEach((mark) => {
-      mark.remove();
+    if (!arrAirport) return;
+    map.current.once("sourcedata", (e) => {
+      if (e.isSourceLoaded) {
+        AddRoute(map, [
+          [airport.lon, airport.lat],
+          [arrAirport.lon, arrAirport.lat],
+        ]);
+      }
     });
-    markers.current = [];
-  }, [airport]);
+  }, [style]);
 
   useEffect(() => {
     asMarkers.current.forEach((marker) => {
       marker.remove();
     });
+    asMarkers.current = [];
     if (asLayers.current.length > 0) {
       asLayers.current.forEach((layer) => {
         if (map.current.getLayer(layer)) map.current.removeLayer(layer);
@@ -222,6 +265,10 @@ export default function Map({ airport, asig, obs }) {
 
   useEffect(() => {
     if (!airport) return;
+    markers.current.forEach((mark) => {
+      mark.remove();
+    });
+    markers.current = [];
     const popup = new maptilersdk.Popup({
       closeButton: false,
       closeOnMove: false,
@@ -234,15 +281,35 @@ export default function Map({ airport, asig, obs }) {
       .setLngLat([airport.lon, airport.lat])
       .setPopup(popup)
       .addTo(map.current);
-    markers.current = [...markers.current, marker1];
 
-    obs.forEach((obstacle) => {
+    let marker2;
+    if (arrAirport) {
+      const pin = document.createElement("div");
+      pin.className = "marker";
+      const popup2 = new maptilersdk.Popup({
+        closeButton: false,
+        closeOnMove: false,
+      }).setHTML(`<div>${arrAirport.name}</div>`);
+
+      marker2 = new maptilersdk.Marker({ element: pin })
+        .setLngLat([arrAirport.lon, arrAirport.lat])
+        .setPopup(popup2)
+        .addTo(map.current);
+    }
+    markers.current = marker2
+      ? [...markers.current, marker1, marker2]
+      : [...markers.current, marker1];
+
+    const obstaclesList =
+      arrObs.length !== 0 ? [...obs, ...arrObs[0]] : [...obs];
+
+    obstaclesList.forEach((obstacle) => {
       const popup = new maptilersdk.Popup({
         closeButton: false,
         closeOnMove: false,
       }).setHTML(
         `<div>${obstacle.name} | ${Math.round(
-          obstacle.height ? obs.height * 3.28 : obstacle.elev * 3.28
+          obstacle.height ? obstacle.height * 3.28 : obstacle.elev * 3.28
         )}ft</div>`
       );
 
@@ -261,12 +328,28 @@ export default function Map({ airport, asig, obs }) {
         .addTo(map.current);
       markers.current = [...markers.current, marker1];
     });
+
     map.current.flyTo({
       center: [airport.lon, airport.lat],
-      zoom: 12,
-      pitch: 60,
+      zoom: 10.5,
+      pitch: 40,
     });
-  }, [airport, obs]);
+  }, [airport, arrAirport]);
+
+  useEffect(() => {
+    if (map.current.getLayer("route")) {
+      map.current.removeLayer("route");
+    }
+    if (map.current.getSource("route")) {
+      map.current.removeSource("route");
+    }
+    if (!airport || !arrAirport) return;
+
+    AddRoute(map, [
+      [airport.lon, airport.lat],
+      [arrAirport.lon, arrAirport.lat],
+    ]);
+  }, [airport, arrAirport]);
 
   useEffect(() => {
     if (!map.current) return;
@@ -308,18 +391,18 @@ export default function Map({ airport, asig, obs }) {
   }, [alt]);
 
   return (
-    <div className="grid items-center justify-items-center">
-      <div className="flex gap-[10%] w-[90%] md:w-[70%] justify-content-center mt-4">
+    <div className="grid items-center justify-items-center mt-2">
+      <div className="flex gap-[10%] w-[90%] md:w-[60%] justify-content-center mt-4 font-semibold">
         <select
           onChange={(e) => setAlt(e.target.value)}
-          className="bg-neutral-300 text-neutral-800 rounded-lg w-[25%] h-[25px]"
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[25%] h-[25px]"
         >
           <option value={"off"}>Wind</option>
           <option value={"sfc"}>SFC (Global)</option>
         </select>
         <select
           onChange={(e) => setAsOpen(e.target.value)}
-          className="bg-neutral-300 text-neutral-800 rounded-lg w-[25%] h-[25px]"
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[25%] h-[25px]"
         >
           <option value={"off"}>Air/Sig</option>
           <option value={"TANGO"}>Tango (US)</option>
@@ -329,7 +412,7 @@ export default function Map({ airport, asig, obs }) {
         </select>
         <select
           onChange={(e) => setRadar(e.target.value)}
-          className="bg-neutral-300 text-neutral-800 rounded-lg w-[25%] h-[25px]"
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[25%] h-[25px]"
         >
           <option value={"off"}>Radar</option>
           <option value={"on"}>Radar On</option>
@@ -344,12 +427,12 @@ export default function Map({ airport, asig, obs }) {
           <div className="flex gap-2">
             <select
               onChange={(e) => setStyle(e.target.value)}
-              className="text-sm text-neutral-800 font-semibold w-24 h-6 bg-neutral-300 rounded-lg grid items-center justify-items-center"
+              className="text-sm text-zinc-800 font-semibold w-24 h-6 bg-zinc-300 rounded-lg grid items-center justify-items-center"
             >
+              <option value="HYBRID">HYBRID</option>
               <option value="DATAVIZ.DARK">DARK</option>
               <option value="DATAVIZ">LIGHT</option>
               <option value="SATELLITE">SATELLITE</option>
-              <option value="HYBRID">HYBRID</option>
             </select>
           </div>
           {airport ? (
