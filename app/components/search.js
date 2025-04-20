@@ -26,7 +26,7 @@ export default function Search() {
   }
 
   const handleSearch = async (text) => {
-    setOptions([{ icao: "Searching...", city: "" }]);
+    setOptions([{ icao: "Searching...", name: "" }]);
     try {
       setOptions(await AirportData(text));
     } catch {
@@ -77,7 +77,7 @@ export default function Search() {
               className="grid items-center w-full text-md font-semibold bg-zinc-200 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-zinc-300 border-b-2 border-zinc-500 border-solid"
             >{`${
               opt.icao === "Searching..." ? "Searching..." : `${opt.icao}`
-            } ${opt.city}`}</div>
+            } ${opt.name}`}</div>
           );
         })}
       </div>
