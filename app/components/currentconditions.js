@@ -6,11 +6,11 @@ import { DateTime } from "luxon";
 import tz_lookup from "tz-lookup";
 import clsx from "clsx";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
-import Loading from "./loading";
 import AirportWeather from "../api/airportWeather";
 import Forecast from "./forecast";
 import Clouds from "./cloud";
 import AtisInfo from "./atisInfo";
+import Loading from "./loading";
 
 export default function CurrentConditions({ airportCode, type }) {
   const [weather, setWeather] = useState(undefined);
@@ -390,8 +390,14 @@ export default function CurrentConditions({ airportCode, type }) {
             open={openTaf}
             onSetOpen={setOpenTaf}
             sun={sunTimes}
+            type={type}
           />
-          <Clouds weather={weather} onSetOpen={setOpenCloud} open={openCloud} />
+          <Clouds
+            weather={weather}
+            onSetOpen={setOpenCloud}
+            open={openCloud}
+            type={type}
+          />
           <AtisInfo
             airport={airportCode}
             onSetOpen={setOpenAtis}

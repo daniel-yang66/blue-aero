@@ -15,13 +15,14 @@ export default function Forecast({
   open,
   onSetOpen,
   sun,
+  type,
 }) {
   const [data, setData] = useState([]);
   const [hourlyData, setHourlyData] = useState([]);
   const [loading, setLoading] = useState(false);
   const counter = useRef(0);
   const [zone, setZone] = useState("loc");
-  const [type, setType] = useState("taf");
+  const [typeForecast, setType] = useState("taf");
   const [diff, setDiff] = useState("");
 
   async function getForecast(text, coordinates) {
@@ -41,9 +42,7 @@ export default function Forecast({
         (Date.now() - reportTime) / 60000 -
           Math.floor((Date.now() - reportTime) / 60000 / 60) * 60
       );
-      const diff = `TAF ${
-        hourDiff !== 0 ? `${hourDiff}h` : ""
-      } ${minDiff}min old`;
+      const diff = `${hourDiff !== 0 ? `${hourDiff}h` : ""} ${minDiff}min old`;
 
       if (forecast) {
         const wsUnit = forecast["units"]["wind_speed"];
@@ -189,7 +188,9 @@ export default function Forecast({
     return (
       <div
         className={clsx(
-          "w-[96vw] md:w-[60vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid grid-rows-[30px_auto]  justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto font-semibold",
+          `w-[96vw] ${
+            type === "route" ? "md:w-[45vw]" : "md:w-[65vw]"
+          } h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid grid-rows-[30px_auto]  justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto font-semibold`,
           {
             grid: open,
             hidden: !open,
@@ -202,7 +203,7 @@ export default function Forecast({
         >
           X
         </div>
-        {type === "taf" ? (
+        {typeForecast === "taf" ? (
           <p className="text-sm md:text-md absolute top-2 left-2">{diff}</p>
         ) : (
           <></>
@@ -223,8 +224,8 @@ export default function Forecast({
             <option value={"hourly"}>Hourly</option>
           </select>
         </div>
-        <div className="overflow-auto grid gap-2 p-2">
-          {type === "taf"
+        <div className="overflow-auto grid gap-2 p-2 w-[90%]">
+          {typeForecast === "taf"
             ? data.map((info, i) => {
                 let startNew = DateTime.fromISO(info["start"], {
                   zone: zone !== "gmt" ? timezone : "UTC",
@@ -247,7 +248,7 @@ export default function Forecast({
                 return (
                   <div
                     key={i}
-                    className="grid items-center justify-items-center relative text-zinc-300 h-[20vh] w-[85%] md:w-[50vw] overflow-auto bg-zinc-900 rounded-lg p-2 mt-4 md:mt-0"
+                    className="grid items-center justify-items-center relative text-zinc-300 h-[20vh] w-full overflow-auto bg-zinc-900 rounded-lg p-2 mt-4 md:mt-0"
                   >
                     <div className="absolute top-2 left-2 grid gap-1 items-center text-sm md:text-md">
                       <div className="flex w-full gap-1">
@@ -373,9 +374,11 @@ export default function Forecast({
                 return (
                   <div
                     key={i}
-                    className="text-xs md:text-sm grid gap-2 items-center justify-items-center relative text-zinc-300 h-[16.5vh] w-[85vw] md:w-[40vw] overflow-auto bg-zinc-900 rounded-lg p-2"
+                    className="text-xs md:text-sm grid gap-2 items-center justify-items-center relative text-zinc-300 h-[16.5vh] w-full overflow-auto bg-zinc-900 rounded-lg p-2"
                   >
-                    <p className="font-bol absolute top-1 left-1">{timeFormated}</p>
+                    <p className="font-bol absolute top-1 left-1">
+                      {timeFormated}
+                    </p>
                     <div className="flex gap-1">
                       <img
                         src={`${data.values.weatherCode}${dayStatus}.png`}
@@ -478,6 +481,6 @@ export default function Forecast({
       </div>
     );
   } else {
-    return <LoadingForecast />;
+    return <LoadingForecast type={type} />;
   }
 }

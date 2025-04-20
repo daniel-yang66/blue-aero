@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import Atis from "../api/atis";
 import clsx from "clsx";
 import LoadingForecast from "./loadingForecast";
-export default function AtisInfo({ airport, onSetOpen, open }) {
+export default function AtisInfo({ airport, onSetOpen, open, type }) {
   const [atis, setAtis] = useState(null);
   const [loading, setLoading] = useState(false);
   const counter = useRef(0);
@@ -35,12 +35,14 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
   }, [airport, open]);
 
   if (loading === true) {
-    return <LoadingForecast />;
+    return <LoadingForecast type={type} />;
   } else if (atis) {
     return (
       <div
         className={clsx(
-          `w-[96vw] ${type === 'route' ? 'md:w-[45vw]' : 'md:w-[65vw]'} h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto`,
+          `w-[96vw] ${
+            type === "route" ? "md:w-[45vw]" : "md:w-[65vw]"
+          } h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid justify-items-center z-[10] overflow-auto text-zinc-300 overflow-auto`,
           {
             grid: open,
             hidden: !open,

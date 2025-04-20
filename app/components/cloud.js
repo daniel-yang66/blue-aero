@@ -1,6 +1,6 @@
 "use client";
 import clsx from "clsx";
-export default function Clouds({ weather, onSetOpen, open }) {
+export default function Clouds({ weather, onSetOpen, open, type }) {
   const cloudData = weather
     ? weather["clouds"].sort((a, b) => b.altitude - a.altitude)
     : [];
@@ -8,7 +8,9 @@ export default function Clouds({ weather, onSetOpen, open }) {
   return (
     <div
       className={clsx(
-        "w-[96vw] md:w-[60vw] h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid items-center justify-items-center z-10 overflow-auto text-zinc-300 overflow-auto font-bold ",
+        `w-[96vw] ${
+          type === "route" ? "md:w-[45vw]" : "md:w-[65vw]"
+        } h-full bg-zinc-800 p-2 absolute top-0 left-0 rounded-md grid items-center justify-items-center z-10 overflow-auto text-zinc-300 overflow-auto font-bold `,
         {
           grid: open,
           hidden: !open,
