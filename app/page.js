@@ -9,7 +9,7 @@ export default async function Home({ searchParams }) {
   const route = await params.route;
 
   return (
-    <div className=" mt-[1vh] max-h-[80vh] w-full grid grid-rows-[30vh_1fr] md:grid-rows-[33vh_auto] gap-[1vh] justify-items-center">
+    <div className="mt-[1vh] max-h-[82vh] md:max-h-[95vh] w-full grid grid-rows-[50vh_40vh] md:grid-rows-[33vh_auto] gap-[1vh] justify-items-center overflow-auto">
       <Suspense fallback={<Loading />}>
         <Display
           airportCode={airportCode}

@@ -181,7 +181,7 @@ export default function CurrentConditions({ airportCode, type }) {
         <div
           className={`w-[96vw] ${
             type === "route" ? "md:w-[45vw]" : "md:w-[65vw]"
-          } h-[90%] bg-zinc-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-zinc-300`}
+          } h-[86%] bg-zinc-800 p-2 relative rounded-lg grid justify-items-center z-[5] overflow-auto text-zinc-300`}
         >
           <div className="absolute w-[80px] top-[12%] md:top-[17%] right-[0.5%] grid gap-2 justify-content-center">
             <button

@@ -7,11 +7,22 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
 
-export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
+export default function Map({
+  airport,
+  asig,
+  obs,
+  arrObs,
+  arrAirport,
+  depBounding,
+  arrBounding,
+  depMsa,
+  arrMsa,
+}) {
+  const [area, setArea] = useState("off");
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");
-  const [style, setStyle] = useState("HYBRID");
+  const [msaOpen, setMsaOpen] = useState(false);
   const mapContainer = useRef(null);
   const map = useRef(null);
   const center = { lng: -114, lat: 33 };
@@ -60,13 +71,92 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
       },
     });
   }
+  function AddBox(mapInstance, coords, type) {
+    if (type === "dep") {
+      if (mapInstance.current.getLayer("box")) {
+        mapInstance.current.removeLayer("box");
+      }
+      if (mapInstance.current.getSource("box")) {
+        mapInstance.current.removeSource("box");
+      }
+    } else {
+      if (mapInstance.current.getLayer("box2")) {
+        mapInstance.current.removeLayer("box2");
+      }
+      if (mapInstance.current.getSource("box2")) {
+        mapInstance.current.removeSource("box2");
+      }
+    }
+
+    if (area === "off") return;
+
+    let newCoords = [];
+
+    coords.forEach((pair) => {
+      let extract = [];
+      extract.push(pair.longitude);
+      extract.push(pair.latitude);
+      newCoords.push(extract);
+    });
+    newCoords = [
+      [
+        [newCoords[0][0], newCoords[0][1]], // SW
+        [newCoords[1][0], newCoords[0][1]], // SE
+        [newCoords[1][0], newCoords[1][1]], // NE
+        [newCoords[0][0], newCoords[1][1]], // NW
+        [newCoords[0][0], newCoords[0][1]], // back to SW
+      ],
+    ];
+
+    type === "dep"
+      ? mapInstance.current.addSource("box", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: newCoords,
+            },
+          },
+        })
+      : mapInstance.current.addSource("box2", {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: newCoords,
+            },
+          },
+        });
+    type === "dep"
+      ? mapInstance.current.addLayer({
+          id: "box",
+          type: "fill",
+          source: "box", // reference the data source
+          layout: {},
+          paint: {
+            "fill-color": "#0080ff", // blue color fill
+            "fill-opacity": 0.4,
+          },
+        })
+      : mapInstance.current.addLayer({
+          id: "box2",
+          type: "fill",
+          source: "box2", // reference the data source
+          layout: {},
+          paint: {
+            "fill-color": "#0080ff", // blue color fill
+            "fill-opacity": 0.4,
+          },
+        });
+  }
 
   useEffect(() => {
     if (map.current) return;
-
     map.current = new maptilersdk.Map({
       container: mapContainer.current,
-      style: maptilersdk.MapStyle.DATAVIZ.DARK,
+      style: maptilersdk.MapStyle.HYBRID,
       center: [center.lng, center.lat],
       zoom: zoom,
       pitchWithRotate: true,
@@ -75,24 +165,6 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
       terrainExaggeration: 2,
     });
   }, [center.lng, center.lat, zoom]);
-
-  useEffect(() => {
-    let newStyle;
-    newStyle = style.split(".");
-    newStyle.length === 2
-      ? map.current.setStyle(maptilersdk.MapStyle[newStyle[0]][newStyle[1]])
-      : map.current.setStyle(maptilersdk.MapStyle[newStyle[0]]);
-
-    if (!arrAirport) return;
-    map.current.once("sourcedata", (e) => {
-      if (e.isSourceLoaded) {
-        AddRoute(map, [
-          [airport.lon, airport.lat],
-          [arrAirport.lon, arrAirport.lat],
-        ]);
-      }
-    });
-  }, [style]);
 
   useEffect(() => {
     asMarkers.current.forEach((marker) => {
@@ -264,6 +336,11 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
   }, [asig, asOpen]);
 
   useEffect(() => {
+    depBounding.length > 0 ? AddBox(map, depBounding, "dep") : "";
+    arrBounding.length > 0 ? AddBox(map, arrBounding, "arr") : "";
+  }, [depBounding, arrBounding, area]);
+
+  useEffect(() => {
     if (!airport) return;
     markers.current.forEach((mark) => {
       mark.remove();
@@ -314,11 +391,20 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
       );
 
       const pin = document.createElement("div");
-      if (obstacle.height >= 100) {
+      if (
+        obstacle.height >= 100 ||
+        (!obstacle.height && obstacle.elev >= 100)
+      ) {
         pin.className = "red-marker";
-      } else if (obstacle.height < 100 && obstacle.height >= 30) {
+      } else if (
+        (obstacle.height < 100 && obstacle.height >= 30) ||
+        (!obstacle.height && obstacle.elev < 100 && obstacle.elev >= 30)
+      ) {
         pin.className = "yellow-marker";
-      } else {
+      } else if (
+        obstacle.height < 30 ||
+        (!obstacle.height && obstacle.elev < 30)
+      ) {
         pin.className = "green-marker";
       }
 
@@ -392,7 +478,7 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
 
   return (
     <div className="grid items-center justify-items-center mt-2">
-      <div className="flex gap-[10%] w-[90%] md:w-[60%] justify-content-center mt-4 font-semibold">
+      <div className="flex gap-4 w-[95%] md:w-[70%] justify-content-center mt-4 font-semibold">
         <select
           onChange={(e) => setAlt(e.target.value)}
           className="bg-zinc-300 text-zinc-800 rounded-lg w-[25%] h-[25px]"
@@ -417,26 +503,22 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
           <option value={"off"}>Radar</option>
           <option value={"on"}>Radar On</option>
         </select>
+        <select
+          onChange={(e) => setArea(e.target.value)}
+          className="bg-zinc-300 text-zinc-800 rounded-lg w-[25%] h-[25px]"
+        >
+          <option value={"off"}>25nm Area</option>
+          <option value={"on"}>25nm On</option>
+        </select>
       </div>
       <div className="relative">
         <div
           ref={mapContainer}
           className="rounded-lg w-[96vw] md:w-[65vw] h-[36vh] mt-2"
         />
-        <div className="grid absolute top-4 left-1 gap-2 ">
-          <div className="flex gap-2">
-            <select
-              onChange={(e) => setStyle(e.target.value)}
-              className="text-sm text-zinc-800 font-semibold w-24 h-6 bg-zinc-300 rounded-lg grid items-center justify-items-center"
-            >
-              <option value="HYBRID">HYBRID</option>
-              <option value="DATAVIZ.DARK">DARK</option>
-              <option value="DATAVIZ">LIGHT</option>
-              <option value="SATELLITE">SATELLITE</option>
-            </select>
-          </div>
+        <div className="grid absolute top-4 left-1 gap-2">
           {airport ? (
-            <div className="grid items-center justify-items-start text-slate-300 font-semibold text-sm">
+            <div className="grid items-center bg-zinc-800 justify-items-start text-slate-300 font-semibold text-sm rounded-lg p-2 w-[130px]">
               <div className="flex gap-1 items-center">
                 <div className="red-marker"></div>
                 <p>{">300ft AGL"}</p>
@@ -452,6 +534,87 @@ export default function Map({ airport, asig, obs, arrObs, arrAirport }) {
             </div>
           ) : (
             <></>
+          )}
+          {depMsa && msaOpen ? (
+            <div className="relative font-semibold bg-zinc-800 rounded-lg h-[150px] p-2 flex gap-6 items-center justify-center z-[50]">
+              <div
+                onClick={() => setMsaOpen(false)}
+                className="text-sm absolute top-1 left-[40%] w-[50px] h-6 bg-yellow-400 text-zinc-800 grid items-center justify-items-center rounded-xl"
+              >
+                Hide
+              </div>
+              <div className="grid justify-items-center gap-2">
+                <div className="circle">
+                  <div className="line">
+                    <p className="text-sm text-zinc-300 -mt-6 font-bold">
+                      {"0\xB0"}
+                    </p>
+                  </div>
+                  <div className="line">
+                    {" "}
+                    <p className="text-sm text-zinc-300 -mt-6 -ml-2 font-bold">
+                      {"120\xB0"}
+                    </p>
+                  </div>
+                  <div className="line">
+                    {" "}
+                    <p className="text-sm text-zinc-300 font-bold -mt-6 -ml-2">
+                      {"240\xB0"}
+                    </p>
+                  </div>
+
+                  <p className="font-bold text-zinc-300 absolute top-4 right-1 rotate-[45deg] text-sm">
+                    {Math.round(depMsa ? depMsa[0] : 0)}
+                  </p>
+                  <p className="font-bold text-zinc-300 absolute bottom-2 left-6 text-sm">
+                    {Math.round(depMsa ? depMsa[1] : 0)}
+                  </p>
+                  <p className="font-bold text-zinc-300 absolute top-4 left-1 -rotate-[45deg] text-sm">
+                    {Math.round(depMsa ? depMsa[2] : 0)}
+                  </p>
+                </div>
+                <p className="text-blue-300 font-bold text-sm">25nm Dep MSA</p>
+              </div>
+              <div className="grid justify-items-center gap-2">
+                <div className="circle">
+                  <div className="line">
+                    <p className="text-sm text-zinc-300 -mt-6 font-bold">
+                      {"0\xB0"}
+                    </p>
+                  </div>
+                  <div className="line">
+                    {" "}
+                    <p className="text-sm text-zinc-300 -mt-6 -ml-2 font-bold">
+                      {"120\xB0"}
+                    </p>
+                  </div>
+                  <div className="line">
+                    {" "}
+                    <p className="text-sm text-zinc-300 font-bold -mt-6 -ml-2">
+                      {"240\xB0"}
+                    </p>
+                  </div>
+
+                  <p className="font-bold text-zinc-300 absolute top-4 right-1 rotate-[45deg] text-sm">
+                    {Math.round(arrMsa ? arrMsa[0] : 0)}
+                  </p>
+                  <p className="font-bold text-zinc-300 absolute bottom-2 left-6 text-sm">
+                    {Math.round(arrMsa ? arrMsa[1] : 0)}
+                  </p>
+                  <p className="font-bold text-zinc-300 absolute top-4 left-1 -rotate-[45deg] text-sm">
+                    {Math.round(arrMsa ? arrMsa[2] : 0)}
+                  </p>
+                </div>
+                <p className="text-blue-300 font-bold text-sm">25nm Arr MSA</p>
+              </div>
+            </div>
+          ) : (
+            <div
+              onClick={() => setMsaOpen(true)}
+              className="text-sm font-semibold w-[60px] h-6 bg-orange-400 text-zinc-800 grid items-center justify-items-center rounded-xl"
+            >
+              MSA
+            </div>
           )}
         </div>
       </div>

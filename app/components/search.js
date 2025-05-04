@@ -174,7 +174,7 @@ export default function Search() {
                 : "relative items-center w-full text-md font-semibold bg-blue-400 hover:cursor-pointer text-center hover:bg-blue-800 hover:text-slate-300 border-b-2 border-slate-500 border-solid mt-2"
             }
           >
-            {"Single Single Airport"}
+            {"Search Single Airport"}
           </div>
 
           {options.map((opt, i) => {

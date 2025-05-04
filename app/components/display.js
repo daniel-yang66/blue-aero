@@ -22,14 +22,14 @@ export default function Display({ airportCode, route }) {
         <div className="flex gap-2 justify-self-center h-[8%]">
           <button
             onClick={() => setDisplay("weather")}
-            className={`grid items-center justify-items-center w-20 h-8 h-full flex gap-2 font-bold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-zinc-800 bg-green-400`}
+            className={`grid items-center justify-items-center w-20 h-6 flex gap-2 font-bold text-sm md:text-md items-center  rounded-md text-zinc-800 bg-green-400`}
           >
             Weather
           </button>
 
           <button
             onClick={() => setDisplay("performance")}
-            className={`grid justify-items-center items-center w-24 h-8 h-full flex gap-2 font-bold text-sm md:text-md text-zinc-800 mt-[0.5vh] bg-zinc-400 rounded-md bg-zinc-400`}
+            className={`grid justify-items-center items-center w-24 h-6 flex gap-2 font-bold text-sm md:text-md text-zinc-800 bg-zinc-400 rounded-md bg-zinc-400`}
           >
             Peformance
           </button>
@@ -44,14 +44,14 @@ export default function Display({ airportCode, route }) {
         <div className="flex gap-2 justify-self-center h-[8%]">
           <button
             onClick={() => setDisplay("weather")}
-            className={`grid items-center justify-items-center w-20 h-8 h-full flex gap-2 font-bold text-sm md:text-md items-center mt-[0.5vh]  rounded-md text-zinc-800 bg-zinc-400`}
+            className={`grid items-center justify-items-center w-20 h-6 flex gap-2 font-bold text-sm md:text-md items-center mt-[1vh]  rounded-md text-zinc-800 bg-zinc-400`}
           >
             Weather
           </button>
 
           <button
             onClick={() => setDisplay("performance")}
-            className={`grid justify-items-center items-center w-24 h-8 h-full flex gap-2 font-bold text-sm md:text-md text-zinc-800 mt-[0.5vh] bg-zinc-400 rounded-md bg-green-400`}
+            className={`grid justify-items-center items-center w-24 h-6 flex gap-2 font-bold text-sm md:text-md text-zinc-800 mt-[1vh] rounded-md bg-green-400`}
           >
             Peformance
           </button>

@@ -14,9 +14,11 @@ export default function Info({ airport, route }) {
   const [obs, setObs] = useState(null);
   const [arrData, setArrData] = useState(null);
   const [arrObs, setArrObs] = useState([]);
-  const [trigger, setTrigger] = useState(false);
   const lastUpdate = useRef(Date.now());
-  const [msa, setMsa] = useState(null);
+  const [depMsa, setDepMsa] = useState(null);
+  const [arrMsa, setArrMsa] = useState(null);
+  const [depBounding, setDepBounding] = useState([]);
+  const [arrBounding, setArrBounding] = useState([]);
 
   async function fetchAirSig() {
     const asData = await AirSig();
@@ -64,36 +66,60 @@ export default function Info({ airport, route }) {
     if (type === "dep" || type === "single") {
       setData(dataObj);
       setObs([obsData, wideRadiusObsData]);
+      setDepBounding(boundingCoordsWide);
+      let q1 = [];
+      let q2 = [];
+      let q3 = [];
+      wideRadiusObsData.forEach((obs) => {
+        const relativeBearing = getGreatCircleBearing(
+          {
+            latitude: airportInfo["info"]["latitude"],
+            longitude: airportInfo["info"]["longitude"],
+          },
+          { latitude: obs.lat, longitude: obs.lon }
+        );
+        if (relativeBearing >= 0 && relativeBearing <= 120) {
+          q1.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+        } else if (relativeBearing > 120 && relativeBearing <= 240) {
+          q2.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+        } else if (relativeBearing > 240 && relativeBearing < 360) {
+          q3.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+        }
+      });
+      setDepMsa([
+        Math.max(...q1) + 1000,
+        Math.max(...q2) + 1000,
+        Math.max(...q3) + 1000,
+      ]);
     } else if (type === "arr") {
       setArrData(dataObj);
       setArrObs([obsData]);
+      setArrBounding(boundingCoordsWide);
+      let q1 = [];
+      let q2 = [];
+      let q3 = [];
+      wideRadiusObsData.forEach((obs) => {
+        const relativeBearing = getGreatCircleBearing(
+          {
+            latitude: airportInfo["info"]["latitude"],
+            longitude: airportInfo["info"]["longitude"],
+          },
+          { latitude: obs.lat, longitude: obs.lon }
+        );
+        if (relativeBearing >= 0 && relativeBearing <= 120) {
+          q1.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+        } else if (relativeBearing > 120 && relativeBearing <= 240) {
+          q2.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+        } else if (relativeBearing > 240 && relativeBearing < 360) {
+          q3.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
+        }
+      });
+      setArrMsa([
+        Math.max(...q1) + 1000,
+        Math.max(...q2) + 1000,
+        Math.max(...q3) + 1000,
+      ]);
     }
-
-    // let q1 = [];
-    // let q2 = [];
-    // let q3 = [];
-
-    // wideRadiusObsData.forEach((obs) => {
-    //   const relativeBearing = getGreatCircleBearing(
-    //     {
-    //       latitude: airportInfo["info"]["latitude"],
-    //       longitude: airportInfo["info"]["longitude"],
-    //     },
-    //     { latitude: obs.lat, longitude: obs.lon }
-    //   );
-    //   if (relativeBearing >= 0 && relativeBearing <= 120) {
-    //     q1.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
-    //   } else if (relativeBearing > 120 && relativeBearing <= 240) {
-    //     q2.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
-    //   } else if (relativeBearing > 240 && relativeBearing < 360) {
-    //     q3.push(obs.height ? obs.height * 3.28 : obs.elev * 3.28);
-    //   }
-    // });
-    // setMsa([
-    //   Math.max(...q1) + 1000,
-    //   Math.max(...q2) + 1000,
-    //   Math.max(...q3) + 1000,
-    // ]);
   }
 
   useEffect(() => {
@@ -130,43 +156,11 @@ export default function Info({ airport, route }) {
           obsWideRadius={obs ? obs[1] : null}
           arrAirport={arrData}
           arrObs={arrObs}
+          depBounding={depBounding}
+          arrBounding={arrBounding}
+          depMsa={depMsa}
+          arrMsa={arrMsa}
         />
-        {/* {msa ? (
-          <div className="grid justify-items-center gap-1 absolute top-[65%] right-[2%] md:right-[10%]">
-            <div className="circle">
-              <div className="line">
-                <p className="text-sm text-zinc-300 -mt-6 font-bold">
-                  {"0\xB0"}
-                </p>
-              </div>
-              <div className="line">
-                {" "}
-                <p className="text-sm text-zinc-300 -mt-6 -ml-2 font-bold">
-                  {"120\xB0"}
-                </p>
-              </div>
-              <div className="line">
-                {" "}
-                <p className="text-sm text-zinc-300 font-bold -mt-6 -ml-2">
-                  {"240\xB0"}
-                </p>
-              </div>
-
-              <p className="font-bold text-zinc-300 absolute top-4 right-1 rotate-[45deg] text-sm">
-                {Math.round(msa[0])}
-              </p>
-              <p className="font-bold text-zinc-300 absolute bottom-2 left-6 text-sm">
-                {Math.round(msa[1])}
-              </p>
-              <p className="font-bold text-zinc-300 absolute top-4 left-1 -rotate-[45deg] text-sm">
-                {Math.round(msa[2])}
-              </p>
-            </div>
-            <p className="text-blue-300 font-bold">MSA</p>
-          </div>
-        ) : (
-          <></>
-        )} */}
       </div>
     </Suspense>
   );
