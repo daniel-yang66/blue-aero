@@ -274,7 +274,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             <div className="flex items-center gap-1 mb-[5px]">
               <img src="/icon.png" width={25} height={25} alt="plane" />
 
-              <h1 className="grid font-bold text-sm md:text-lg ml-1">
+              <h1 className="grid font-bold text-sm md:text-xl ml-1">
                 {weather
                   ? `${
                       weather["info"]["iata"]
@@ -283,12 +283,12 @@ export default function CurrentConditions({ airportCode, stored }) {
                     }`
                   : "----"}
               </h1>
-              <h1 className="font-bold text-sm md:text-lg">
+              <h1 className="font-bold text-sm md:text-xl">
                 {weather ? `| ${weather["info"]["city"]}` : "----"}
               </h1>
             </div>
-            <p className="font-bold text-xs md:text-[15px]">{timeSince}</p>
-            <p className="font-bold text-xs md:text-[15px]">
+            <p className="font-semibold text-xs md:text-[15px]">{timeSince}</p>
+            <p className="font-semibold text-xs md:text-[15px]">
               {time} | Elev:{" "}
               {weather ? weather["info"]["elevation_ft"] + "ft" : "--ft"} | Alt:{" "}
               {weather
@@ -301,7 +301,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                   : "----"
                 : "----"}
             </p>
-            <div className="flex gap-2 mt-1">
+            <div className="flex gap-2 mt-1 font-semibold">
               <div className="flex gap-1 items-center justify-content-center">
                 <img src="/sunrise.png" width={27} height={27} alt="sunrise" />
                 <p className="text-xs md:text-[15px] text-zinc-300 font-bold">
@@ -316,7 +316,7 @@ export default function CurrentConditions({ airportCode, stored }) {
               </div>
             </div>
 
-            <p className="text-sm md:text-md font-bold text-yellow-400">
+            <p className="text-sm md:text-md font-semibold text-yellow-400">
               {phenom.join(", ")}
             </p>
           </div>
@@ -472,9 +472,7 @@ export default function CurrentConditions({ airportCode, stored }) {
                   : "--\xB0C"
                 : `--\xB0C`}
             </p>
-            <p className="text-sm md:text-lg font-bold">
-              Ceiling: {ceiling}
-            </p>
+            <p className="text-sm md:text-lg font-bold">Ceiling: {ceiling}</p>
             <p className="text-sm md:text-lg font-bold">
               Visibility:{" "}
               {weather
