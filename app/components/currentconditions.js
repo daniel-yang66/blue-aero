@@ -95,157 +95,157 @@ export default function CurrentConditions({ airportCode, stored }) {
   };
 
   async function getWeather(text) {
-    try {
-      setLoading(true);
+    // try {
+    setLoading(true);
 
-      if (!text) {
-        setLoading(false);
-        setIcon("");
-        setTime("--:--, --- --");
-        setTimeSince("-- min old");
-        setTimezone(undefined);
-        setFlightColor("zinc");
-        setPhenom([]);
-        setCeiling("--ft");
-      }
-
-      const data = text ? await AirportWeather(text) : undefined;
-      let conditions = [];
-      if (data) {
-        const lat = data["info"]["latitude"];
-        const lon = data["info"]["longitude"];
-        setCoords([lon, lat]);
-
-        if (data["flight_rules"] === "VFR") setFlightColor("green");
-        else if (data["flight_rules"] === "MVFR") setFlightColor("blue");
-        else if (data["flight_rules"] === "IFR") setFlightColor("red");
-        else if (data["flight_rules"] === "LIFR") setFlightColor("purple");
-
-        if (sessionStorage.getItem(`${airportCode}-wind`)) {
-          sessionStorage.removeItem(`${airportCode}-wind`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-wind`,
-          JSON.stringify([
-            data["wind_speed"],
-            data["wind_direction"],
-            data["wind_gust"],
-          ]),
-        );
-        if (sessionStorage.getItem(`${airportCode}-runways`)) {
-          sessionStorage.removeItem(`${airportCode}-runways`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-runways`,
-          JSON.stringify(data["info"]["runways"]),
-        );
-        if (sessionStorage.getItem(`${airportCode}-unit`)) {
-          sessionStorage.removeItem(`${airportCode}-unit`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-unit`,
-          JSON.stringify(data["units"]["wind_speed"]),
-        );
-
-        if (sessionStorage.getItem(`${airportCode}-alt`)) {
-          sessionStorage.removeItem(`${airportCode}-alt`);
-        }
-
-        sessionStorage.setItem(
-          `${airportCode}-alt`,
-          JSON.stringify([
-            `${data["density_altitude"]}${data["units"]["altitude"]}`,
-            `${data["pressure_altitude"]}${data["units"]["altitude"]}`,
-          ]),
-        );
-
-        HandleStore();
-
-        const tz = tz_lookup(lat, lon);
-        setTimezone(tz);
-
-        let sunrise = getSunrise(lat, lon);
-        let sunset = getSunset(lat, lon);
-
-        sunrise = DateTime.fromJSDate(sunrise, { zone: tz });
-        sunset = DateTime.fromJSDate(sunset, { zone: tz });
-
-        sunrise = `${String(sunrise.hour).padStart(2, "0")}:${String(
-          sunrise.minute,
-        ).padStart(2, "0")}`;
-        sunset = `${String(sunset.hour).padStart(2, "0")}:${String(
-          sunset.minute,
-        ).padStart(2, "0")}`;
-
-        const currentTime = `${String(DateTime.now().setZone(tz).hour).padStart(
-          2,
-          "0",
-        )}:${String(DateTime.now().setZone(tz).minute).padStart(2, "0")}`;
-
-        setSunTimes([sunrise, sunset]);
-
-        let night = true;
-        if (currentTime > sunrise && currentTime < sunset) night = false;
-
-        data["wx_codes"].forEach((code) => {
-          conditions.push(code["value"]);
-        });
-        setPhenom(conditions);
-
-        data["clouds"].forEach((cloud) => {
-          if (
-            (cloud["type"] === "BKN" ||
-              cloud["type"] === "FEW" ||
-              cloud["type"] === "SCT") &&
-            !night
-          ) {
-            setIcon("part-day");
-          } else if (
-            (cloud["type"] === "BKN" ||
-              cloud["type"] === "FEW" ||
-              cloud["type"] === "SCT") &&
-            night
-          ) {
-            setIcon("part-night");
-          } else if (cloud["type"] === "OVC" || cloud["type"] === "VV") {
-            setIcon("cloud");
-          } else if (!night) {
-            setIcon("clear-day");
-          } else if (night) {
-            setIcon("clear-night");
-          }
-        });
-        if (data["clouds"].length === 0) {
-          if (!night) {
-            setIcon("clear-day");
-          } else if (night) {
-            setIcon("clear-night");
-          }
-        }
-        setCeiling("None");
-
-        data["clouds"].some((cloud) => {
-          if (
-            cloud["type"] === "BKN" ||
-            cloud["type"] === "OVC" ||
-            cloud["type"] === "VV"
-          ) {
-            setCeiling(
-              Number(`${cloud["altitude"]}00`).toLocaleString() +
-                data["units"]["altitude"],
-            );
-            return true;
-          }
-        });
-      }
-      setWeather(data);
+    if (!text) {
       setLoading(false);
-    } catch {
-      alert("An error occurred.");
+      setIcon("");
+      setTime("--:--, --- --");
+      setTimeSince("-- min old");
+      setTimezone(undefined);
+      setFlightColor("zinc");
+      setPhenom([]);
+      setCeiling("--ft");
     }
+
+    const data = text ? await AirportWeather(text) : undefined;
+    let conditions = [];
+    if (data) {
+      const lat = data["info"]["latitude"];
+      const lon = data["info"]["longitude"];
+      setCoords([lon, lat]);
+
+      if (data["flight_rules"] === "VFR") setFlightColor("green");
+      else if (data["flight_rules"] === "MVFR") setFlightColor("blue");
+      else if (data["flight_rules"] === "IFR") setFlightColor("red");
+      else if (data["flight_rules"] === "LIFR") setFlightColor("purple");
+
+      if (sessionStorage.getItem(`${airportCode}-wind`)) {
+        sessionStorage.removeItem(`${airportCode}-wind`);
+      }
+
+      sessionStorage.setItem(
+        `${airportCode}-wind`,
+        JSON.stringify([
+          data["wind_speed"],
+          data["wind_direction"],
+          data["wind_gust"],
+        ]),
+      );
+      if (sessionStorage.getItem(`${airportCode}-runways`)) {
+        sessionStorage.removeItem(`${airportCode}-runways`);
+      }
+
+      sessionStorage.setItem(
+        `${airportCode}-runways`,
+        JSON.stringify(data["info"]["runways"]),
+      );
+      if (sessionStorage.getItem(`${airportCode}-unit`)) {
+        sessionStorage.removeItem(`${airportCode}-unit`);
+      }
+
+      sessionStorage.setItem(
+        `${airportCode}-unit`,
+        JSON.stringify(data["units"]["wind_speed"]),
+      );
+
+      if (sessionStorage.getItem(`${airportCode}-alt`)) {
+        sessionStorage.removeItem(`${airportCode}-alt`);
+      }
+
+      sessionStorage.setItem(
+        `${airportCode}-alt`,
+        JSON.stringify([
+          `${data["density_altitude"]}${data["units"]["altitude"]}`,
+          `${data["pressure_altitude"]}${data["units"]["altitude"]}`,
+        ]),
+      );
+
+      HandleStore();
+
+      const tz = tz_lookup(lat, lon);
+      setTimezone(tz);
+
+      let sunrise = getSunrise(lat, lon);
+      let sunset = getSunset(lat, lon);
+
+      sunrise = DateTime.fromJSDate(sunrise, { zone: tz });
+      sunset = DateTime.fromJSDate(sunset, { zone: tz });
+
+      sunrise = `${String(sunrise.hour).padStart(2, "0")}:${String(
+        sunrise.minute,
+      ).padStart(2, "0")}`;
+      sunset = `${String(sunset.hour).padStart(2, "0")}:${String(
+        sunset.minute,
+      ).padStart(2, "0")}`;
+
+      const currentTime = `${String(DateTime.now().setZone(tz).hour).padStart(
+        2,
+        "0",
+      )}:${String(DateTime.now().setZone(tz).minute).padStart(2, "0")}`;
+
+      setSunTimes([sunrise, sunset]);
+
+      let night = true;
+      if (currentTime > sunrise && currentTime < sunset) night = false;
+
+      data["wx_codes"].forEach((code) => {
+        conditions.push(code["value"]);
+      });
+      setPhenom(conditions);
+
+      data["clouds"].forEach((cloud) => {
+        if (
+          (cloud["type"] === "BKN" ||
+            cloud["type"] === "FEW" ||
+            cloud["type"] === "SCT") &&
+          !night
+        ) {
+          setIcon("part-day");
+        } else if (
+          (cloud["type"] === "BKN" ||
+            cloud["type"] === "FEW" ||
+            cloud["type"] === "SCT") &&
+          night
+        ) {
+          setIcon("part-night");
+        } else if (cloud["type"] === "OVC" || cloud["type"] === "VV") {
+          setIcon("cloud");
+        } else if (!night) {
+          setIcon("clear-day");
+        } else if (night) {
+          setIcon("clear-night");
+        }
+      });
+      if (data["clouds"].length === 0) {
+        if (!night) {
+          setIcon("clear-day");
+        } else if (night) {
+          setIcon("clear-night");
+        }
+      }
+      setCeiling("None");
+
+      data["clouds"].some((cloud) => {
+        if (
+          cloud["type"] === "BKN" ||
+          cloud["type"] === "OVC" ||
+          cloud["type"] === "VV"
+        ) {
+          setCeiling(
+            Number(`${cloud["altitude"]}00`).toLocaleString() +
+              data["units"]["altitude"],
+          );
+          return true;
+        }
+      });
+    }
+    setWeather(data);
+    setLoading(false);
+    // } catch {
+    //   alert("An error occurred.");
+    // }
   }
 
   useEffect(() => {
