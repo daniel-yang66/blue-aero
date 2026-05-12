@@ -45,7 +45,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
           {
             grid: open,
             hidden: !open,
-          }
+          },
         )}
       >
         <div
@@ -90,7 +90,7 @@ export default function AtisInfo({ airport, onSetOpen, open }) {
           {
             grid: open,
             hidden: !open,
-          }
+          },
         )}
       >
         <div
