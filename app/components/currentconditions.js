@@ -107,6 +107,7 @@ export default function CurrentConditions({ airportCode, stored }) {
         setFlightColor("zinc");
         setPhenom([]);
         setCeiling("--ft");
+        return;
       }
 
       const data = text ? await AirportWeather(text) : undefined;
@@ -242,7 +243,6 @@ export default function CurrentConditions({ airportCode, stored }) {
         });
       }
       setWeather(data);
-      setLoading(false);
     } catch {
       alert("An error occurred.");
     } finally {
@@ -252,7 +252,7 @@ export default function CurrentConditions({ airportCode, stored }) {
 
   useEffect(() => {
     getWeather(airportCode);
-  }, [airportCode, trigger, timezone]);
+  }, [airportCode, trigger]);
 
   useEffect(() => {
     const interval = setInterval(() => {
