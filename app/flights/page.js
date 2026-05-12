@@ -1,0 +1,31 @@
+import Flights from "../components/flights";
+import { Suspense } from "react";
+import Loading from "../components/loading";
+
+export default async function Home({ searchParams }) {
+  const params = await searchParams;
+  const airportCode = await params.airportCode;
+
+  return (
+    <div className="w-screen h-[85vh] grid grid-rows-[30px_auto] justify-items-center relative">
+      <p className="font-bold text-zinc-300 text-xl mt-[0.5vh]">
+        {airportCode.split("/")[0]} Flight Outlook (6H)
+      </p>
+
+      <Suspense fallback={<Loading />}>
+        <Flights air={airportCode.split("/")[0]} />
+      </Suspense>
+    </div>
+  );
+}
+
+export const generateMetadata = async ({ searchParams }) => {
+  const { airportCode } = await searchParams;
+  const title = airportCode
+    ? `${airportCode.split("/")[0]} Flights | BlueAero`
+    : "BlueAero";
+
+  return {
+    title: title,
+  };
+};

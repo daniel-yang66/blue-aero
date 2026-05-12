@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+.arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 28px solid oklch(70.7% 0.165 254.624);
+  border-radius: 12px;
+  top: -16%;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.dashed-border {
+  border-image: repeating-linear-gradient(
+      60deg,
+      lightgrey 0%,
+      lightgrey 20px,
+      transparent 0px,
+      transparent 24px
+    )
+    1;
+  width: 80%;
+  border-bottom: dashed lightgrey 2px;
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.marker {
+  background-image: url("/icon.png");
+  background-size: cover;
+  width: 38px;
+  height: 38px;
+}
+.asig {
+  height: 16px;
+  width: 16px;
+  background-color: orange;
+}
+.popup {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+#map-container {
+  height: 100%;
+  width: 100%;
+  background-color: lightgrey;
+}
+
+.info-text {
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.green-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgb(10, 163, 10);
+}
+.blue-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: oklch(0.707 0.165 254.624);
+}
+.red-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: red;
+}
+.purple-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: purple;
+}
