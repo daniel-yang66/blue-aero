@@ -96,7 +96,7 @@ export default function CurrentConditions({ airportCode, stored }) {
 
   async function getWeather(text) {
     // try {
-    setLoading(true);
+    // setLoading(true);
 
     if (!text) {
       setLoading(false);
@@ -242,7 +242,7 @@ export default function CurrentConditions({ airportCode, stored }) {
       });
     }
     setWeather(data);
-    setLoading(false);
+    // setLoading(false);
     // } catch {
     //   alert("An error occurred.");
     // }
