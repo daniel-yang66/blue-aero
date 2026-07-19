@@ -226,7 +226,7 @@ export default function CurrentConditions({ airportCode, stored }) {
             setIcon("clear-night");
           }
         }
-        setCeiling("None");
+        setCeiling("--");
 
         data["clouds"].some((cloud) => {
           if (
@@ -235,8 +235,9 @@ export default function CurrentConditions({ airportCode, stored }) {
             cloud["type"] === "VV"
           ) {
             setCeiling(
-              Math.round(cloud["altitude"] * 100).toLocaleString() +
-                data["units"]["altitude"],
+              cloud["altitude"]
+                ? Math.round(cloud["altitude"] * 100).toLocaleString()
+                : "--" + data["units"]["altitude"],
             );
 
             return true;
