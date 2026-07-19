@@ -235,9 +235,10 @@ export default function CurrentConditions({ airportCode, stored }) {
             cloud["type"] === "VV"
           ) {
             setCeiling(
-              Number(`${cloud["altitude"]}00`).toLocaleString() +
+              Math.round(cloud["altitude"] * 100).toLocaleString() +
                 data["units"]["altitude"],
             );
+
             return true;
           }
         });

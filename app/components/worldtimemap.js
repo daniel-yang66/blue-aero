@@ -7,7 +7,7 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import * as maptilerweather from "@maptiler/weather";
 import { DateTime } from "luxon";
 
-export default function Map({ airports, asig}) {
+export default function Map({ airports, asig }) {
   const [radar, setRadar] = useState("off");
   const [alt, setAlt] = useState("off");
   const [asOpen, setAsOpen] = useState("off");
@@ -50,6 +50,7 @@ export default function Map({ airports, asig}) {
       });
     }
     if (!map.current || asOpen === "off") return;
+    console.log(asig);
 
     const filtered =
       asOpen !== "sig"
@@ -117,13 +118,13 @@ export default function Map({ airports, asig}) {
         <p>From  ${
           DateTime.fromSeconds(item.issueTime, { zone: "UTC" }).hour
         }:${String(
-              DateTime.fromSeconds(item.issueTime, { zone: "UTC" }).minute
-            ).padStart(2, "0")}Z to ${
-              DateTime.fromSeconds(item.expireTime, { zone: "UTC" }).hour
-            }:${String(
-              DateTime.fromSeconds(item.expireTime, { zone: "UTC" }).minute
-            ).padStart(2, "0")}Z</p>
-        </div>`
+          DateTime.fromSeconds(item.issueTime, { zone: "UTC" }).minute,
+        ).padStart(2, "0")}Z to ${
+          DateTime.fromSeconds(item.expireTime, { zone: "UTC" }).hour
+        }:${String(
+          DateTime.fromSeconds(item.expireTime, { zone: "UTC" }).minute,
+        ).padStart(2, "0")}Z</p>
+        </div>`,
           );
 
           const asmarker = new maptilersdk.Marker({ element: pin })
@@ -187,13 +188,13 @@ export default function Map({ airports, asig}) {
         </p><p> From  ${
           DateTime.fromSeconds(item.validTimeFrom, { zone: "UTC" }).hour
         }:${String(
-              DateTime.fromSeconds(item.validTimeFrom, { zone: "UTC" }).minute
-            ).padStart(2, "0")}Z to ${
-              DateTime.fromSeconds(item.validTimeTo, { zone: "UTC" }).hour
-            }:${String(
-              DateTime.fromSeconds(item.validTimeTo, { zone: "UTC" }).minute
-            ).padStart(2, "0")}Z</p>
-        </div>`
+          DateTime.fromSeconds(item.validTimeFrom, { zone: "UTC" }).minute,
+        ).padStart(2, "0")}Z to ${
+          DateTime.fromSeconds(item.validTimeTo, { zone: "UTC" }).hour
+        }:${String(
+          DateTime.fromSeconds(item.validTimeTo, { zone: "UTC" }).minute,
+        ).padStart(2, "0")}Z</p>
+        </div>`,
           );
 
           const asmarker = new maptilersdk.Marker({ element: pin })
@@ -262,7 +263,7 @@ export default function Map({ airports, asig}) {
         map.current.setPaintProperty(
           "Water",
           "fill-color",
-          "rgba(0, 0, 0, 0.4)"
+          "rgba(0, 0, 0, 0.4)",
         );
         map.current.addLayer(windLayer, "Water");
       }
@@ -274,20 +275,14 @@ export default function Map({ airports, asig}) {
 
   return (
     <div className="grid items-center justify-items-centerw-full h-full">
-      
-      <div
-        ref={mapContainer}
-        className="rounded-lg mt-[2vh] w-full h-full"
-      />
+      <div ref={mapContainer} className="rounded-lg mt-[2vh] w-full h-full" />
       <div className="grid gap-2 absolute top-[16%] left-[1%] w-[60%] md:w-[30%]">
-
         <select
           onChange={(e) => setAlt(e.target.value)}
           className="bg-zinc-300 text-zinc-800 rounded-lg w-[33%] h-[25px]"
         >
           <option value={"off"}>Wind</option>
           <option value={"sfc"}>SFC (Global)</option>
-         
         </select>
         <select
           onChange={(e) => setAsOpen(e.target.value)}
@@ -308,6 +303,5 @@ export default function Map({ airports, asig}) {
         </select>
       </div>
     </div>
-    
   );
 }
